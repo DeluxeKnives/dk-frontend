@@ -15,7 +15,7 @@ import Counter from '../../components/Counter';
 import Services from '../../components/Services';
 import Gallery from '../../components/Gallery';
 import Testimonials from '../../components/Testimonials';
-import Blog from '../../components/Blog';
+import Blog from '../../components/Available';
 import Footer from '../../components/Footer';
 import PageNav from '../../components/PageNav';
 import Decoration from '../../components/Parallax/Decoration';
@@ -74,7 +74,7 @@ function Landing(props) {
     <React.Fragment>
       <Head>
         <title>
-          { brand.unisex.name }
+          {brand.unisex.name}
         </title>
       </Head>
       <CssBaseline />
@@ -90,35 +90,19 @@ function Landing(props) {
             onToggleDir={onToggleDir}
           />
         </section>
-        <section id="about">
-          <About />
-          <Timeline />
-          <Counter />
-        </section>
-        <div className={classes.greyBg}>
-          <div className={classes.parallaxWrap}>
+        <div className={classes.parallaxWrap}>
+          <div className={classes.bottomDeco}>
             <Decoration />
-            <section id="services">
-              <Services />
-            </section>
-            <section id="my-work" className={clsx(classes.spaceTopShort, classes.spaceBottomShort)}>
-              <Gallery />
-            </section>
           </div>
-          <section id="testimonials">
+          <section id="blog" className={classes.spaceTop}>
+            <Blog />
+          </section>
+          <section id="testimonials" className={classes.spaceTop}>
             <Testimonials />
           </section>
-          <div className={classes.parallaxWrap}>
-            <div className={classes.bottomDeco}>
-              <Decoration />
-            </div>
-            <section id="blog" className={classes.spaceTopShort}>
-              <Blog />
-            </section>
-            <section id="contact" className={classes.spaceTop}>
-              <Footer />
-            </section>
-          </div>
+          <section id="contact" className={classes.spaceTop}>
+            <Footer />
+          </section>
         </div>
         <Hidden mdDown>
           <Notification />

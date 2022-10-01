@@ -46,7 +46,7 @@ const blogData = [
   },
 ];
 
-function Blog() {
+function Available() {
   const slider = useRef(null);
   const { t } = useTranslation('common');
 
@@ -87,21 +87,23 @@ function Blog() {
     }
   }, []);
 
+  const sectionTitle =
+    <div className={classes.floatingTitle}>
+      <Title>
+        {t('available.title')}
+        &nbsp;
+        <strong>
+          {t('available.titlebold')}
+        </strong>
+      </Title>
+      <Button variant="outlined" color="primary" className={classes.tostore} component="a">
+        {t('available.button')}
+      </Button>
+    </div>;
+
   return (
     <div className={classes.root}>
-      <div className={classes.floatingTitle}>
-        <Title>
-          {t('unisex-landing.blog_title')}
-          &nbsp;
-          <strong>
-            {t('unisex-landing.blog_titlebold')}
-          </strong>
-        </Title>
-        <Typography gutterBottom className={text.paragraph}>
-          {t('unisex-landing.blog_desc')}
-        </Typography>
-        <Button className={classes.link} color="primary" href="#">luxi-theme.blog.com</Button>
-      </div>
+      {!isDesktop && sectionTitle}
       <div className={classes.sliderWrap}>
         <div className={classes.carousel}>
           <IconButton
@@ -113,7 +115,9 @@ function Blog() {
           <Carousel ref={slider} {...settings}>
             {isDesktop && (
               <div className={clsx(classes.item, classes.itemPropsFirst)}>
-                <div />
+                <div>
+                  {sectionTitle}
+                  </div>
               </div>
             )}
             {blogData.map((item, index) => (
@@ -143,4 +147,4 @@ function Blog() {
   );
 }
 
-export default Blog;
+export default Available;

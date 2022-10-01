@@ -94,6 +94,9 @@ const blogStyles = makeStyles(theme => ({
     [theme.breakpoints.down('md')]: {
       display: 'none'
     },
+  },
+  tostore: {
+    marginTop: '0.5rem'
   }
 }));
 
