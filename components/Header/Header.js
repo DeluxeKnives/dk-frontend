@@ -183,7 +183,9 @@ function Header(props) {
                         {brand.unisex.title}
                       </Typography>
                     </div>
-                    <Button variant="outlined" color="primary" className={classes.download} component="a">Download CV</Button>
+                    <Button variant="outlined" color="primary" className={classes.download} component="a">
+                      {t('unisex-landing.main_site')}
+                    </Button>
                     <div className={classes.socmed}>
                       <IconButton aria-label="Delete" className={classes.margin} size="small">
                         <i className={clsx('ion-logo-facebook', classes.fb)} />
@@ -197,19 +199,6 @@ function Header(props) {
                       <IconButton aria-label="Delete" className={classes.margin} size="small">
                         <i className={clsx('ion-logo-linkedin', classes.in)} />
                       </IconButton>
-                    </div>
-                    <div className={classes.contact}>
-                      <Typography className={text.paragraph}>
-                        {t('unisex-landing.footer_contact')}
-                        <br />
-                        +12 345 678 90
-                      </Typography>
-                      <Divider className={classes.divider} />
-                      <Typography className={text.paragraph}>
-                        {t('unisex-landing.footer_hello')}
-                        <br />
-                        jenadoe.skype
-                      </Typography>
                     </div>
                   </div>
                 </Grid>

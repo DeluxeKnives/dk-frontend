@@ -75,7 +75,6 @@ function Landing(props) {
       <Head>
         <title>
           { brand.unisex.name }
-          &nbsp; - Luxi Theme Profile
         </title>
       </Head>
       <CssBaseline />

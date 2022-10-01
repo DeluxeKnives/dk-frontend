@@ -1,20 +1,10 @@
 {
-	"name": "unisex-theme",
+	"name": "frontend",
 	"version": "1.0.0",
-	"description": "Iluxi ReactJs Profile and Portfolio Theme",
-	"keywords": [
-		"profile",
-		"portfolio",
-		"curriculum vitae",
-		"personal",
-		"showcase"
-	],
-	"author": "Iluxi Theme",
-	"license": "Envato",
+	"author": "Jeremy",
 	"main": "index.js",
-	"private": true,
 	"scripts": {
-		"dev": "next dev -p ${PORT:=3014}",
+		"dev": "next dev",
         "build": "next build",
         "export": "next export",
         "start": "next start -p ${PORT:=3014}",

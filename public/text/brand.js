@@ -2,12 +2,12 @@ import imgAPI from '~/public/images/imgAPI';
 
 const brand = {
   unisex: {
-    name: 'James Doe',
-    title: '3d Illustrator',
+    name: 'DeluxeKnives',
+    title: 'Real Knives',
     desc: 'Iluxi Profile - React Single Landing Page Template',
-    prefix: 'Iluxi',
-    footerText: 'Iluxi Theme 2022',
-    logoText: 'Iluxi Profile',
+    prefix: 'Deluxe',
+    footerText: 'DeluxeKnives 2022',
+    logoText: 'DeluxeKnives',
     projectName: 'Profile',
     url: 'Iluxi.ux-maestro.com/profile',
     img: '/images/unisex-logo.png',
