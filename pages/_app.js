@@ -16,6 +16,7 @@ import LoadingBar from 'react-top-loading-bar';
 import { appWithTranslation } from 'next-i18next';
 import lngDetector from '../lib/languageDetector';
 import appTheme from '../theme/appTheme';
+import { NearWalletProvider } from '../lib/NearWalletProvider';
 /* import css vendors */
 import 'react-image-lightbox/style.css';
 import '~/vendors/hamburger-menu.css';
@@ -87,6 +88,7 @@ function MyApp(props) {
   const muiTheme = createTheme(theme);
   const { Component, pageProps, router } = props; // eslint-disable-line
   const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
+
   return (
     <div>
       <Head>
@@ -106,12 +108,17 @@ function MyApp(props) {
           />
           <div id="main-wrap">
             <PageTransition timeout={300} classNames="page-fade-transition">
-              <Component
-                {...pageProps}
-                onToggleDark={toggleDarkTheme}
-                onToggleDir={toggleDirection}
-                key={router.route}
-              />
+              <NearWalletProvider
+                network={process.env.NEAR_NETWORK}
+                contractAddress={''}
+              >
+                <Component
+                  {...pageProps}
+                  onToggleDark={toggleDarkTheme}
+                  onToggleDir={toggleDirection}
+                  key={router.route}
+                />
+              </NearWalletProvider>
             </PageTransition>
           </div>
         </ThemeProvider>

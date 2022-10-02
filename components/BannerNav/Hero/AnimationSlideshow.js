@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import Carousel from 'react-slick';
 import imgAPI from '~/public/images/imgAPI';
 import useStyles from './hero-style';
+import ConnectButton from '../../ConnectButton';
 
 function AnimationSlideshow() {
   const classes = useStyles();

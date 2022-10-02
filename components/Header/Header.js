@@ -21,6 +21,7 @@ import { useText } from '~/theme/common';
 import routeLink from '~/public/text/link';
 import useStyles from './header-style';
 import Settings from '../Settings';
+import ConnectButton from '../ConnectButton';
 import navMenu from '../SideNavigation/menu';
 
 let counter = 0;
@@ -130,7 +131,10 @@ function Header(props) {
                   </AnchorLink>
                 )}
               </div>
-              <Settings toggleDark={onToggleDark} toggleDir={onToggleDir} invert={invert} />
+              {/* <Settings toggleDark={onToggleDark} toggleDir={onToggleDir} invert={invert} /> */}
+              <div style={{ width: '48px', height: '48px', margin: '0px 8px' }}>
+                <ConnectButton />
+              </div>
             </nav>
           </div>
         </Container>

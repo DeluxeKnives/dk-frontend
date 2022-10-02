@@ -17,6 +17,7 @@ import AnimationSlideshow from './Hero/AnimationSlideshow';
 import Slideshow from './Hero/Slideshow';
 import VideoHero from './Hero/Video';
 import useStyles from './banner-style';
+import ConnectButton from '../ConnectButton';
 
 function BannerNav(props) {
   const text = useText();
@@ -42,18 +43,23 @@ function BannerNav(props) {
           <div className={classes.banner}>
             <div className={classes.cover}>
               <div className={classes.figure}>
-                { bannerHero === 'image' && <div className={classes.img} style={{ backgroundImage: `url(${brand.unisex.cover})` }} /> }
-                { bannerHero === 'video' && <VideoHero /> }
-                { bannerHero === 'animation' && <Animation /> }
-                { bannerHero === 'animation-slide' && <AnimationSlideshow /> }
-                { bannerHero === 'slideshow' && <Slideshow /> }
+                {bannerHero === 'image' && <div className={classes.img} style={{ backgroundImage: `url(${brand.unisex.cover})` }} />}
+                {bannerHero === 'video' && <VideoHero />}
+                {bannerHero === 'animation' && <Animation />}
+                {bannerHero === 'animation-slide' && <AnimationSlideshow />}
+                {bannerHero === 'slideshow' && <Slideshow />}
+                <ConnectButton top />
               </div>
             </div>
-            <Hidden mdDown>
-              <div className={classes.settingIcon}>
-                <Settings toggleDark={onToggleDark} toggleDir={onToggleDir} />
-              </div>
-            </Hidden>
+            {
+              /*
+              <Hidden mdDown>
+                <div className={classes.settingIcon}>
+                  <Settings toggleDark={onToggleDark} toggleDir={onToggleDir} />
+                </div>
+              </Hidden>
+              */
+            }
             <div className={classes.text}>
               <Typography variant="h4" className={text.title2}>
                 {t('unisex-landing.banner_greeting')}
