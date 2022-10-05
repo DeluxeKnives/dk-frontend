@@ -35,7 +35,6 @@ if (typeof Storage !== 'undefined') { // eslint-disable-line
 }
 
 // GraphQL stuff
-console.log(process.env.NEAR_NETWORK);
 const httpLink = new HttpLink({
   uri: `https://interop-${process.env.NEAR_NETWORK}.hasura.app/v1/graphql
   `,

@@ -16,7 +16,7 @@ export default function ImageThumb(props) {
     title,
     link,
     size,
-    openPopup
+    onClick
   } = props;
 
   const setSize = sizePaper => {
@@ -31,7 +31,7 @@ export default function ImageThumb(props) {
   };
   return (
     <Paper className={clsx(classes.imgThumb, setSize(size))}>
-      <ButtonBase onClick={openPopup}>
+      <ButtonBase onClick={onClick}>
         <div className={classes.figure}>
           <div className={classes.img} style={{ backgroundImage: `url(${img})` }} />
         </div>

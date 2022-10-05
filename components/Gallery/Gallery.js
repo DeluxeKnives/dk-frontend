@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Lightbox from 'react-image-lightbox';
 import Container from '@material-ui/core/Container';
 import ScrollAnimation from 'react-scroll-animation-wrapper';
 import Typography from '@material-ui/core/Typography';
@@ -12,6 +11,7 @@ import ImageThumbCard from '../Cards/ImageThumb';
 import Title from '../Title';
 import useStyle from './gallery-style';
 import { useQuery, gql } from "@apollo/client";
+import Link from 'next/dist/client/link';
 
 
 
@@ -32,6 +32,7 @@ query GetStoreNfts(
      metadataId: metadata_id 
      title 
      base_uri 
+     reference_blob
    }
  }
 `;
@@ -42,10 +43,7 @@ function Gallery() {
   const [formattedData, setFormattedData] = useState([]);
   const [filter, setFilter] = useState('all');
 
-  // Image Gallery
-  const [photoIndex, setPhotoIndex] = useState(0);
-  const [open, setOpen] = useState(false);
-
+  // Query for the store
   const { loading, error, data } = useQuery(STORE_NFTS, {
     variables: {
       "condition": {
@@ -53,25 +51,22 @@ function Gallery() {
       }
     }
   });
+
   useEffect(() => {
     const nftsFormatted = [];
     console.log(data);
     try {
       for (const nft of data.mb_views_nft_metadata_unburned) {
-        let category = '', lowerTitle = nft.title.toLowerCase();
-        if(lowerTitle.includes("karambit")) category = 'karambit';
-        else if(lowerTitle.includes("bayonet")) category = 'bayonet';
-        else if(lowerTitle.includes("huntsman")) category = 'huntsman';
         nftsFormatted.push({
           img: nft.media,
           title: nft.title,
           link: `/${nft.title}`,
           size: 'long',
-          category
+          category: nft.reference_blob?.extra?.[0]?.value ?? ""
         });
       }
     }
-    catch(e) {
+    catch (e) {
       console.log("ERROR AHH", e)
     }
 
@@ -87,51 +82,11 @@ function Gallery() {
     arrows: false
   };
 
-  const filterChildren = name => {
-    setFormattedData([]);
-    setTimeout(() => {
-      if (name !== 'all') {
-        const filteredData = formattedData.filter(item => item.category === name);
-        setFormattedData(filteredData);
-        setFilter(name);
-      } else {
-        setFormattedData(formattedData);
-        setFilter('all');
-      }
-    }, 1);
-  };
-
-  function onMovePrevRequest() {
-    setPhotoIndex((photoIndex + formattedData.length - 1) % formattedData.length);
-  }
-
-  function onMoveNextRequest() {
-    setPhotoIndex((photoIndex + formattedData.length + 1) % formattedData.length);
-  }
-
-  function showPopup(index) {
-    setOpen(true);
-    setPhotoIndex(index);
-  }
-
   return (
     <div className={classes.root}>
-      {open && (
-        <Lightbox
-          mainSrc={formattedData[photoIndex].img}
-          nextSrc={formattedData[(photoIndex + 1) % formattedData.length].bg || formattedData[(photoIndex + 1) % formattedData.length].logo}
-          prevSrc={formattedData[(photoIndex + 1) % formattedData.length].logo || null}
-          onCloseRequest={() => setOpen(false)}
-          onMovePrevRequest={onMovePrevRequest}
-          onMoveNextRequest={onMoveNextRequest}
-        />
-      )}
       <Container>
         <Title>
-          {t('unisex-landing.gallery_title')}
-          <strong>
-            {t('unisex-landing.gallery_titleBold')}
-          </strong>
+          {t('shop.title')}
         </Title>
         <div className={classes.filter}>
           <Button
@@ -174,13 +129,15 @@ function Gallery() {
                   delay={200 + (100 * index)}
                   duration={0.3}
                 >
-                  <ImageThumbCard
-                    img={item.img}
-                    title={item.title}
-                    link={item.link}
-                    size={item.size}
-                    openPopup={() => showPopup(index)}
-                  />
+                  <Link href={"../item/" + item.title}>
+                    <ImageThumbCard
+                      img={item.img}
+                      title={item.title}
+                      link={item.link}
+                      size={item.size}
+                      onClick={() => {}}
+                    />
+                  </Link>
                 </ScrollAnimation>
               </div>
             ))}
@@ -189,7 +146,7 @@ function Gallery() {
         </Hidden>
         <Hidden smUp>
           <Carousel {...settings}>
-            {formattedData.map((item, index) => (
+            {formattedData.map((item, index) => (item.category == filter || filter == 'all') && (
               <div
                 className={classes.itemCarousel}
                 key={index.toString()}
@@ -199,7 +156,7 @@ function Gallery() {
                   title={item.title}
                   link={item.link}
                   size={item.size}
-                  openPopup={() => showPopup(index)}
+                  onClick={() => showPopup(index)}
                 />
               </div>
             ))}
