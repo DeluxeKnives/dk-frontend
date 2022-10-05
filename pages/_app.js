@@ -17,6 +17,8 @@ import { appWithTranslation } from 'next-i18next';
 import lngDetector from '../lib/languageDetector';
 import appTheme from '../theme/appTheme';
 import { NearWalletProvider } from '../lib/NearWalletProvider';
+import { ApolloClient, HttpLink, ApolloLink, InMemoryCache, ApolloProvider } from "@apollo/client";
+
 /* import css vendors */
 import 'react-image-lightbox/style.css';
 import '~/vendors/hamburger-menu.css';
@@ -31,6 +33,17 @@ let themeType = 'dark';
 if (typeof Storage !== 'undefined') { // eslint-disable-line
   themeType = localStorage.getItem('luxiTheme') || 'dark';
 }
+
+// GraphQL stuff
+console.log(process.env.NEAR_NETWORK);
+const httpLink = new HttpLink({
+  uri: `https://interop-${process.env.NEAR_NETWORK}.hasura.app/v1/graphql
+  `,
+});
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  link: ApolloLink.from([httpLink]),
+});
 
 function MyApp(props) {
   const [loading, setLoading] = useState(0);
@@ -108,6 +121,7 @@ function MyApp(props) {
           />
           <div id="main-wrap">
             <PageTransition timeout={300} classNames="page-fade-transition">
+            <ApolloProvider client={client}>
               <NearWalletProvider
                 network={process.env.NEAR_NETWORK}
                 contractAddress={''}
@@ -119,6 +133,7 @@ function MyApp(props) {
                   key={router.route}
                 />
               </NearWalletProvider>
+            </ApolloProvider>
             </PageTransition>
           </div>
         </ThemeProvider>

@@ -3,15 +3,39 @@
 
 import React from 'react';
 import { useTranslation } from 'next-i18next';
-import { getStaticPaths, makeStaticProps } from '../../lib/getStatic';                                
+import { getStaticPaths, makeStaticProps } from '../../lib/getStatic';
+import Head from 'next/head';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import brand from '~/public/text/brand';
+import Header from '../../components/Header';
+import BannerNav from '../../components/BannerNav';
+import Gallery from '../../components/Gallery';
 
-export default function Store() {
+export default function Store(props) {
   const { t } = useTranslation('common');
+  const { onToggleDark, onToggleDir } = props;
+
   return (
-    <div>
-      <p>This is the store page</p>
-      <p>{t('title')}</p>
-    </div>
+    <React.Fragment>
+      <Head>
+        <title>
+          {brand.unisex.name}
+        </title>
+      </Head>
+      <CssBaseline />
+      <div>
+        <Header
+          onToggleDark={onToggleDark}
+          onToggleDir={onToggleDir}
+        />
+        <section id="store-top">
+ 
+        </section>
+        <section id="store">
+          <Gallery />
+        </section>
+      </div>
+    </React.Fragment>
   );
 }
 

@@ -29,6 +29,9 @@
     "titlebold": "knives",
     "button": "See All"
   },
+  "shop": {
+    "title": "knife selection"
+  },
   "unisex-landing": {
     "header_language": "language",
     "header_theme": "Theme mode",

@@ -23,4 +23,7 @@ module.exports = withImages({
     config.node = {}
     return config;
   },
+  env: {
+    NEAR_NETWORK: "testnet"
+  }
 });

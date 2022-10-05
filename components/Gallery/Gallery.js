@@ -11,86 +11,72 @@ import imgAPI from '~/public/images/imgAPI';
 import ImageThumbCard from '../Cards/ImageThumb';
 import Title from '../Title';
 import useStyle from './gallery-style';
+import { useQuery, gql } from "@apollo/client";
 
-const portfolio = [
-  {
-    img: imgAPI.unisex[6],
-    title: 'Aenean facilisis vitae purus',
-    link: 'linkofthisitem.com',
-    size: 'short',
-    category: 'cat1'
-  },
-  {
-    img: imgAPI.unisex[7],
-    title: 'Aenean facilisis vitae purus',
-    link: 'linkofthisitem.com',
-    size: 'long',
-    category: 'cat2'
-  },
-  {
-    img: imgAPI.unisex[8],
-    title: 'Aenean facilisis vitae purus',
-    link: 'linkofthisitem.com',
-    size: 'short',
-    category: 'cat3'
-  },
-  {
-    img: imgAPI.unisex[9],
-    title: 'Aenean facilisis vitae purus',
-    link: 'linkofthisitem.com',
-    size: 'long',
-    category: 'cat1'
-  },
-  {
-    img: imgAPI.unisex[10],
-    title: 'Aenean facilisis vitae purus',
-    link: 'linkofthisitem.com',
-    size: 'short',
-    category: 'cat2'
-  },
-  {
-    img: imgAPI.unisex[11],
-    title: 'Aenean facilisis vitae purus',
-    link: 'linkofthisitem.com',
-    size: 'short',
-    category: 'cat3'
-  },
-  {
-    img: imgAPI.unisex[12],
-    title: 'Aenean facilisis vitae purus',
-    link: 'linkofthisitem.com',
-    size: 'short',
-    category: 'cat1'
-  },
-  {
-    img: imgAPI.unisex[14],
-    title: 'Aenean facilisis vitae purus',
-    link: 'linkofthisitem.com',
-    size: 'short',
-    category: 'cat2'
-  },
-  {
-    img: imgAPI.unisex[13],
-    title: 'Aenean facilisis vitae purus',
-    link: 'linkofthisitem.com',
-    size: 'long',
-    category: 'cat2'
-  },
-];
+
+
+const STORE_NFTS = gql`
+query GetStoreNfts( 
+  $offset: Int = 0 $condition: mb_views_nft_metadata_unburned_bool_exp) 
+  @cached 
+  { 
+   mb_views_nft_metadata_unburned( 
+     where: $condition
+     offset: $offset 
+     order_by: { minted_timestamp: desc } 
+   ) 
+   {       
+     listed: price 
+     media 
+     storeId: nft_contract_id 
+     metadataId: metadata_id 
+     title 
+     base_uri 
+   }
+ }
+`;
 
 function Gallery() {
   const classes = useStyle();
   const { t } = useTranslation('common');
-  const [data, setData] = useState([]);
+  const [formattedData, setFormattedData] = useState([]);
   const [filter, setFilter] = useState('all');
 
   // Image Gallery
   const [photoIndex, setPhotoIndex] = useState(0);
   const [open, setOpen] = useState(false);
 
+  const { loading, error, data } = useQuery(STORE_NFTS, {
+    variables: {
+      "condition": {
+        "nft_contract_id": { "_eq": "shopifyteststore.mintspace2.testnet" }
+      }
+    }
+  });
   useEffect(() => {
-    setData(portfolio);
-  }, []);
+    const nftsFormatted = [];
+    console.log(data);
+    try {
+      for (const nft of data.mb_views_nft_metadata_unburned) {
+        let category = '', lowerTitle = nft.title.toLowerCase();
+        if(lowerTitle.includes("karambit")) category = 'karambit';
+        else if(lowerTitle.includes("bayonet")) category = 'bayonet';
+        else if(lowerTitle.includes("huntsman")) category = 'huntsman';
+        nftsFormatted.push({
+          img: nft.media,
+          title: nft.title,
+          link: `/${nft.title}`,
+          size: 'long',
+          category
+        });
+      }
+    }
+    catch(e) {
+      console.log("ERROR AHH", e)
+    }
+
+    setFormattedData(nftsFormatted);
+  }, [data, error]);
 
   const settings = {
     dots: false,
@@ -102,25 +88,25 @@ function Gallery() {
   };
 
   const filterChildren = name => {
-    setData([]);
+    setFormattedData([]);
     setTimeout(() => {
       if (name !== 'all') {
-        const filteredData = portfolio.filter(item => item.category === name);
-        setData(filteredData);
+        const filteredData = formattedData.filter(item => item.category === name);
+        setFormattedData(filteredData);
         setFilter(name);
       } else {
-        setData(portfolio);
+        setFormattedData(formattedData);
         setFilter('all');
       }
     }, 1);
   };
 
   function onMovePrevRequest() {
-    setPhotoIndex((photoIndex + data.length - 1) % data.length);
+    setPhotoIndex((photoIndex + formattedData.length - 1) % formattedData.length);
   }
 
   function onMoveNextRequest() {
-    setPhotoIndex((photoIndex + data.length + 1) % data.length);
+    setPhotoIndex((photoIndex + formattedData.length + 1) % formattedData.length);
   }
 
   function showPopup(index) {
@@ -132,9 +118,9 @@ function Gallery() {
     <div className={classes.root}>
       {open && (
         <Lightbox
-          mainSrc={data[photoIndex].img}
-          nextSrc={data[(photoIndex + 1) % data.length].bg || data[(photoIndex + 1) % data.length].logo}
-          prevSrc={data[(photoIndex + 1) % data.length].logo || null}
+          mainSrc={formattedData[photoIndex].img}
+          nextSrc={formattedData[(photoIndex + 1) % formattedData.length].bg || formattedData[(photoIndex + 1) % formattedData.length].logo}
+          prevSrc={formattedData[(photoIndex + 1) % formattedData.length].logo || null}
           onCloseRequest={() => setOpen(false)}
           onMovePrevRequest={onMovePrevRequest}
           onMoveNextRequest={onMoveNextRequest}
@@ -149,45 +135,33 @@ function Gallery() {
         </Title>
         <div className={classes.filter}>
           <Button
-            onClick={() => filterChildren('all')}
+            onClick={() => setFilter('all')}
             className={filter === 'all' ? classes.selected : ''}
           >
             All
           </Button>
           <Button
-            onClick={() => filterChildren('cat1')}
-            className={filter === 'cat1' ? classes.selected : ''}
+            onClick={() => setFilter('karambit')}
+            className={filter === 'karambit' ? classes.selected : ''}
           >
-            Category 1
+            Karambit
           </Button>
           <Button
-            onClick={() => filterChildren('cat2')}
-            className={filter === 'cat2' ? classes.selected : ''}
+            onClick={() => setFilter('huntsman')}
+            className={filter === 'huntsman' ? classes.selected : ''}
           >
-            Category 2
+            Huntsman
           </Button>
           <Button
-            onClick={() => filterChildren('cat3')}
-            className={filter === 'cat3' ? classes.selected : ''}
+            onClick={() => setFilter('bayonet')}
+            className={filter === 'bayonet' ? classes.selected : ''}
           >
-            Category 3
-          </Button>
-          <Button
-            onClick={() => filterChildren('cat4')}
-            className={filter === 'cat4' ? classes.selected : ''}
-          >
-            Category 4
-          </Button>
-          <Button
-            onClick={() => filterChildren('cat5')}
-            className={filter === 'cat5' ? classes.selected : ''}
-          >
-            Category 5
+            M9 Bayonet
           </Button>
         </div>
         <Hidden xsDown>
           <div className={classes.massonry}>
-            {data.map((item, index) => (
+            {formattedData.map((item, index) => (item.category == filter || filter == 'all') && (
               <div
                 className={classes.item}
                 key={index.toString()}
@@ -211,11 +185,11 @@ function Gallery() {
               </div>
             ))}
           </div>
-          {data.length < 1 && <Typography variant="button" component="p" align="center">{t('unisex-landing.gallery_nodata')}</Typography>}
+          {formattedData.length < 1 && <Typography variant="button" component="p" align="center">{t('unisex-landing.gallery_nodata')}</Typography>}
         </Hidden>
         <Hidden smUp>
           <Carousel {...settings}>
-            {data.map((item, index) => (
+            {formattedData.map((item, index) => (
               <div
                 className={classes.itemCarousel}
                 key={index.toString()}
