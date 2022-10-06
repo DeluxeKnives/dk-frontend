@@ -7,6 +7,26 @@ import SimpleImage from '../../components/Cards/SimpleImage';
 import { STORE_NFTS } from '../../components/Gallery/Gallery';
 import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router'
+import { Wallet, Chain, Network } from 'mintbase'
+
+/*
+// Connect and fetch details
+async function connect() {
+  const { data: walletData, error } = await new Wallet().init({
+    networkName: Network.testnet,
+    chain: Chain.near,
+    apiKey: API_KEY,
+  })
+
+  const { wallet, isConnected } = walletData
+
+  if (isConnected) {
+    const { data: details } = await wallet.details()
+  }
+}
+*/
+
+connect()
 
 function ThingPage(props) {
   const router = useRouter();
