@@ -15,7 +15,7 @@ import Link from 'next/dist/client/link';
 
 
 
-const STORE_NFTS = gql`
+export const STORE_NFTS = gql`
 query GetStoreNfts( 
   $offset: Int = 0 $condition: mb_views_nft_metadata_unburned_bool_exp) 
   @cached 
@@ -62,7 +62,8 @@ function Gallery() {
           title: nft.title,
           link: `/${nft.title}`,
           size: 'long',
-          category: nft.reference_blob?.extra?.[0]?.value ?? ""
+          category: nft.reference_blob?.extra?.[0]?.value ?? "",
+          metadataId: nft.metadataId
         });
       }
     }
@@ -129,7 +130,7 @@ function Gallery() {
                   delay={200 + (100 * index)}
                   duration={0.3}
                 >
-                  <Link href={"../item/" + item.title}>
+                  <Link href={"../item/" + item.metadataId}>
                     <ImageThumbCard
                       img={item.img}
                       title={item.title}

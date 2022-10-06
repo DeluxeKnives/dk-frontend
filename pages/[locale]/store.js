@@ -8,7 +8,6 @@ import Head from 'next/head';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import brand from '~/public/text/brand';
 import Header from '../../components/Header';
-import BannerNav from '../../components/BannerNav';
 import Gallery from '../../components/Gallery';
 
 export default function Store(props) {
@@ -28,8 +27,8 @@ export default function Store(props) {
           onToggleDark={onToggleDark}
           onToggleDir={onToggleDir}
         />
-        <section id="store-top">
- 
+        <section id="store-top" style={{ height: "300px" }}>
+
         </section>
         <section id="store">
           <Gallery />

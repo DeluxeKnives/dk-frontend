@@ -128,6 +128,33 @@ const cardsStyles = makeStyles(theme => ({
       }
     }
   },
+  simpleImg: {
+    border: `8px solid ${theme.palette.background.paper}`,
+    width: '100%',
+    borderRadius: theme.rounded.big,
+    '& $img': {
+      display: 'block',
+      width: '100%',
+      backgroundSize: 'cover',
+      transform: 'scale(1.1)',
+      transition: 'transform 0.2s ease-out',
+    },
+    '&:hover': {
+      '& $img': {
+        transform: 'scale(1)'
+      },
+      '& $detail': {
+        opacity: 1,
+        backgroundPosition: '60% 0',
+        '&:before': {
+          bottom: 0
+        },
+        '& h6, & a': {
+          transform: 'translate(0, 20px)',
+        }
+      }
+    }
+  },
   detail: {
     position: 'absolute',
     transition: 'all 0.3s ease-out',
