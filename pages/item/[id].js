@@ -24,9 +24,10 @@ async function connect() {
     const { data: details } = await wallet.details()
   }
 }
-*/
 
 connect()
+*/
+
 
 function ThingPage(props) {
   const router = useRouter();
@@ -68,7 +69,9 @@ function ThingPage(props) {
       <Grid item md={8} sm={12}>
         <div>
           <Button disabled={formattedData?.listed == null}>Buy</Button>
-          <Button>Transfer</Button>
+          <Button component="a" href={`https://${process.env.NEAR_NETWORK}.mintbase.io/meta/${pid}`}>
+            Transfer
+          </Button>
           <p>{formattedData?.description}</p>
         </div>
       </Grid>

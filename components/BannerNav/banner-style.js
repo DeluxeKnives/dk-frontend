@@ -72,6 +72,14 @@ const bannerStyles = makeStyles(theme => ({
       marginBottom: theme.spacing()
     }
   },
+  storelogo: {
+    zIndex: 1,
+    margin: 'auto',
+    marginRight: '',
+    [theme.breakpoints.down('md')]: {
+      marginRight: 'auto'
+    }
+  },
   socmed: {
     '& button': {
       margin: theme.spacing(),

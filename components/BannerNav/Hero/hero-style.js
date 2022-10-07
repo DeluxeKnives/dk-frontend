@@ -5,15 +5,29 @@ const heroStyles = makeStyles(theme => ({
     position: 'relative',
     zIndex: 10,
     overflow: 'hidden',
-    height: 500,
     width: '120%',
     '& iframe': {
       width: '100%',
       marginTop: -60,
       marginLeft: '-10%'
     },
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('lg')]: {
       height: 650,
+      transform: "scale(1.5)",
+      marginTop: -90
+    },
+    [theme.breakpoints.only('md')]: {
+      height: 650,
+      transform: "scale(1.3)",
+      marginTop: -60,
+    },
+    [theme.breakpoints.only('sm')]: {
+      transform: "scale(1.2)",
+      marginTop: -50,
+    },
+    [theme.breakpoints.only('xs')]: {
+      transform: "scale(1.5)",
+      marginTop: -30,
     },
     background: theme.palette.common.black,
   },

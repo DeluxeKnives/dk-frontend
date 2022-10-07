@@ -87,7 +87,9 @@ function Gallery() {
     <div className={classes.root}>
       <Container>
         <Title>
-          {t('shop.title')}
+          <strong>
+            {t('shop.title')}
+          </strong>
         </Title>
         <div className={classes.filter}>
           <Button
@@ -136,7 +138,7 @@ function Gallery() {
                       title={item.title}
                       link={item.link}
                       size={item.size}
-                      onClick={() => {}}
+                      onClick={() => { }}
                     />
                   </Link>
                 </ScrollAnimation>

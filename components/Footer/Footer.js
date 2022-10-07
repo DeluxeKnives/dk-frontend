@@ -14,6 +14,7 @@ import brand from '~/public/text/brand';
 import { useText } from '~/theme/common';
 import useStyles from './footer-style';
 import ContactForm from '../Contact/Form';
+import Link from 'next/dist/client/link';
 
 function Footer() {
   const classes = useStyles();
@@ -45,7 +46,7 @@ function Footer() {
                     {brand.unisex.title}
                   </Typography>
                 </div>
-                <Button variant="outlined" color="primary" className={classes.download} component="a">Download CV</Button>
+                <Button variant="outlined" color="primary" className={classes.download} component="a" href="https://www.deluxeknives.com/">Main Site</Button>
                 <div className={classes.socmed}>
                   <IconButton aria-label="Delete" className={classes.margin} size="small">
                     <i className="ion-logo-facebook" />
@@ -59,19 +60,6 @@ function Footer() {
                   <IconButton aria-label="Delete" className={classes.margin} size="small">
                     <i className="ion-logo-linkedin" />
                   </IconButton>
-                </div>
-                <div className={classes.contact}>
-                  <Typography className={text.paragraph}>
-                    {t('unisex-landing.footer_contact')}
-                    <br />
-                    +12 345 678 90
-                  </Typography>
-                  <Divider className={classes.divider} />
-                  <Typography className={text.paragraph}>
-                    {t('unisex-landing.footer_hello')}
-                    <br />
-                    jenadoe.skype
-                  </Typography>
                 </div>
               </div>
             </ScrollAnimation>

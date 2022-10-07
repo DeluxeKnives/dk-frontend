@@ -18,6 +18,7 @@ import Slideshow from './Hero/Slideshow';
 import VideoHero from './Hero/Video';
 import useStyles from './banner-style';
 import ConnectButton from '../ConnectButton';
+import longLogo from '~/public/images/dk-logo-long.avif';
 
 function BannerNav(props) {
   const text = useText();
@@ -39,7 +40,7 @@ function BannerNav(props) {
             {ui.navigation === 'text' && <SideNavigation />}
           </Hidden>
         </Grid>
-        <Grid item lg={ui.navigation === 'icon' ? 11 : 10} xs={12}>
+        <Grid item lg={ui.navigation === 'icon' ? 10 : 8} xs={12}>
           <div className={classes.banner}>
             <div className={classes.cover}>
               <div className={classes.figure}>
@@ -51,47 +52,12 @@ function BannerNav(props) {
                 <ConnectButton top />
               </div>
             </div>
-            {
-              /*
-              <Hidden mdDown>
-                <div className={classes.settingIcon}>
-                  <Settings toggleDark={onToggleDark} toggleDir={onToggleDir} />
-                </div>
-              </Hidden>
-              */
-            }
-            <div className={classes.text}>
-              <Typography variant="h4" className={text.title2}>
-                {t('unisex-landing.banner_greeting')}
-                ,
-              </Typography>
-              <Typography variant="h2" className={text.title}>
-                {t('unisex-landing.banner_me')}
-                &nbsp;James,&nbsp;
-                {brand.unisex.title}
-              </Typography>
-              <Hidden smDown>
-                <Typography variant="h5" className={text.subtitle2}>
-                  {t('unisex-landing.banner_desc')}
-                </Typography>
-                <div className={classes.socmed}>
-                  <Button variant="outlined" className={classes.download} component="a">Download CV</Button>
-                  <IconButton aria-label="Delete" className={classes.margin} size="small">
-                    <i className="ion-logo-facebook" />
-                  </IconButton>
-                  <IconButton aria-label="Delete" className={classes.margin} size="small">
-                    <i className="ion-logo-twitter" />
-                  </IconButton>
-                  <IconButton aria-label="Delete" className={classes.margin} size="small">
-                    <i className="ion-logo-instagram" />
-                  </IconButton>
-                  <IconButton aria-label="Delete" className={classes.margin} size="small">
-                    <i className="ion-logo-linkedin" />
-                  </IconButton>
-                </div>
-              </Hidden>
+            <div className={classes.storelogo}>
+              <img src={longLogo} />
             </div>
           </div>
+        </Grid>
+        <Grid item lg={ui.navigation === 'icon' ? 1 : 2} xs={12}>
         </Grid>
       </Grid>
     </div>

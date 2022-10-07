@@ -30,7 +30,9 @@
     "button": "See All"
   },
   "shop": {
-    "title": "knife selection"
+    "title": "knife selection",
+    "intro_title": "One Meta Knife.",
+    "intro_title_bold": "One Real Knife."
   },
   "unisex-landing": {
     "header_language": "language",
