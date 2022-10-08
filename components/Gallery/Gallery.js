@@ -61,6 +61,14 @@ function Gallery() {
         nft.reference_blob?.extra?.forEach(x => {
           if(x?.trait_type == "type") category = x.value;
         });
+        const priceStr =
+          (parseInt(
+            (BigInt(nft.listed ?? 0) / BigInt(100000000000000000000000))
+              .toString()
+            ) / 10
+          )
+          .toString();
+        let price = priceStr;
 
         nftsFormatted.push({
           img: nft.media,
@@ -68,7 +76,8 @@ function Gallery() {
           link: `/${nft.title}`,
           size: 'long',
           category,
-          metadataId: nft.metadataId
+          metadataId: nft.metadataId,
+          price
         });
       }
     }
@@ -143,7 +152,8 @@ function Gallery() {
                       title={item.title}
                       link={item.link}
                       size={item.size}
-                      price="21"
+                      price={item.price} // This might be a problem. How do we know it's the correct listing price?
+                      remaining={"0"}
                       onClick={() => { }}
                     />
                   </Link>
@@ -165,7 +175,7 @@ function Gallery() {
                   title={item.title}
                   link={item.link}
                   size={item.size}
-                  price="21"
+                  price={"21"}
                   remaining={"0"}
                   onClick={() => showPopup(index)}
                 />

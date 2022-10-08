@@ -15,10 +15,7 @@ function Form() {
   const text = useText();
   const { t } = useTranslation('common');
   const [values, setValues] = useState({
-    name: '',
     email: '',
-    phone: '',
-    company: '',
     message: ''
   });
 
@@ -29,6 +26,7 @@ function Form() {
   };
 
   const handleSubmit = () => {
+    // TODO: sign up for mailing list
     setNotif(true);
   };
 
@@ -53,8 +51,8 @@ function Form() {
         <Grid container spacing={6}>
           <Grid item lg={5} xs={12}>
             <Typography className={clsx(classes.title, text.title)} variant="h3">
-              Contact&nbsp;
-              <span>Me.</span>
+              Be in the&nbsp;
+              <span>Know</span>
             </Typography>
           </Grid>
           <Grid item lg={7} xs={12}>
@@ -65,34 +63,16 @@ function Form() {
               >
                 <TextValidator
                   className={classes.input}
-                  label={t('unisex-landing.form_name')}
-                  onChange={handleChange('name')}
-                  name="Name"
-                  value={values.name}
-                  validators={['required']}
-                  errorMessages={['this field is required']}
-                />
-                <TextValidator
-                  className={classes.input}
-                  label={t('unisex-landing.form_email')}
+                  label={t('footer.form_email')}
                   onChange={handleChange('email')}
                   name="Email"
                   value={values.email}
                   validators={['required', 'isEmail']}
                   errorMessages={['this field is required', 'email is not valid']}
                 />
-                <TextValidator
-                  multiline
-                  rows="6"
-                  className={classes.input}
-                  label={t('unisex-landing.form_message')}
-                  onChange={handleChange('message')}
-                  name="Message"
-                  value={values.message}
-                />
                 <div className={classes.btnArea}>
                   <Button variant="contained" type="submit" color="primary" size="large">
-                    {t('unisex-landing.form_send')}
+                    {t('footer.form_send')}
                   </Button>
                 </div>
               </ValidatorForm>

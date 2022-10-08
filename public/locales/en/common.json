@@ -9,7 +9,7 @@
   "contact_title": "Free Project Quote",
   "contact_subtitle": "Do you have any questions? Are you ready to reduce cost and create new revenue? Or you simply want to say hi? Drop us a message.",
   "form_name": "What is your name? *",
-  "form_email": "What it your email? *",
+  "form_email": "What is your email? *",
   "form_phone": "What is your phone number?",
   "form_company": "What is your company?",
   "form_message": "Write your message here",
@@ -33,6 +33,10 @@
     "title": "knife selection",
     "intro_title": "One Meta Knife.",
     "intro_title_bold": "One Real Knife."
+  },
+  "footer": {
+    "form_email": "What is your email? *",
+    "form_send": "Sign Up for News"
   },
   "unisex-landing": {
     "header_language": "language",
@@ -70,8 +74,7 @@
     "footer_hello": "Say hello",
     "contact_title": "Contact Us",
     "form_name": "What is your name? *",
-    "form_email": "What it your email? *",
-    "form_message": "Write your message here",
-    "form_send": "Send Message"
+    "form_email": "What is your email? *",
+    "form_message": "Write your message here"
   }
 }

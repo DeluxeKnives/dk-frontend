@@ -43,8 +43,8 @@ export default function ImageThumb(props) {
             <Typography style={{ float: "right" }} variant="p">{price} NEAR</Typography>
           </div>
           <div>
-            <Typography variant="p">Price:</Typography>
-            <Typography style={{ float: "right" }} variant="p">{price} NEAR</Typography>
+            <Typography variant="p">Remaining:</Typography>
+            <Typography style={{ float: "right" }} variant="p">{remaining} Units</Typography>
           </div>
         </div>
       </ButtonBase>
