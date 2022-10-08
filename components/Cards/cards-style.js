@@ -122,7 +122,7 @@ const cardsStyles = makeStyles(theme => ({
         '&:before': {
           bottom: 0
         },
-        '& h6, & a': {
+        '& h6, & a, & div': {
           transform: 'translate(0, 20px)',
         }
       }
@@ -149,7 +149,7 @@ const cardsStyles = makeStyles(theme => ({
         '&:before': {
           bottom: 0
         },
-        '& h6, & a': {
+        '& h6, & a, & div': {
           transform: 'translate(0, 20px)',
         }
       }
@@ -165,11 +165,11 @@ const cardsStyles = makeStyles(theme => ({
     backgroundSize: '300%',
     backgroundPosition: '0% 0',
     padding: theme.spacing(3),
+    paddingTop: theme.spacing(1),
     borderRadius: theme.rounded.big,
     color: theme.palette.common.white,
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
     '& > *': {
       transition: 'all 0.4s ease-out'
     },
@@ -179,9 +179,8 @@ const cardsStyles = makeStyles(theme => ({
       marginBottom: theme.spacing(3),
       lineHeight: '36px'
     },
-    '& a': {
-      fontSize: 18,
-      textDecoration: 'underline',
+    '& a & div': {
+      fontSize: 16,
       color: theme.palette.common.white,
       position: 'relative',
       transform: 'translate(0, 60px)',
@@ -216,7 +215,7 @@ const cardsStyles = makeStyles(theme => ({
     }
   },
   long: {
-    height: 480,
+    height: 580,
     [theme.breakpoints.down('xs')]: {
       height: 210
     },
@@ -236,7 +235,7 @@ const cardsStyles = makeStyles(theme => ({
       }
     },
     '& $detail': {
-      height: '80%',
+      height: '25%',
     }
   },
   post: {
@@ -265,7 +264,7 @@ const cardsStyles = makeStyles(theme => ({
       fontWeight: theme.typography.fontWeightBold,
       marginBottom: theme.spacing(),
     },
-    '& p': {
+    '& span': {
       color: theme.palette.text.secondary,
       display: '-webkit-box',
       '-webkit-line-clamp': 3,

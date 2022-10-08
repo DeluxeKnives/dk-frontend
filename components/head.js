@@ -44,7 +44,7 @@ const HeadComponent = () => (
     <meta property="twitter:domain" content="iluxi.ux-maestro.com" />
     <meta property="twitter:creator" content="iluxi" />
     <meta property="twitter:card" content="summary" />
-    <meta property="twitter:image:src" content="/images/unisex-logo.png" />
+    <meta property="twitter:image:src" content="/images/dk_logo_filled_circle.jpeg" />
     <meta property="og:url" content={brand.unisex.url} />
     <meta property="og:title" content={brand.unisex.desc} />
     <meta

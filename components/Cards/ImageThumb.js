@@ -14,7 +14,8 @@ export default function ImageThumb(props) {
   const {
     img,
     title,
-    link,
+    price,
+    remaining,
     size,
     onClick
   } = props;
@@ -37,7 +38,14 @@ export default function ImageThumb(props) {
         </div>
         <div className={classes.detail}>
           <Typography variant="h6" className={text.subtitle}>{title}</Typography>
-          <Link href="#">{link}</Link>
+          <div>
+            <Typography variant="p">Price:</Typography>
+            <Typography style={{ float: "right" }} variant="p">{price} NEAR</Typography>
+          </div>
+          <div>
+            <Typography variant="p">Price:</Typography>
+            <Typography style={{ float: "right" }} variant="p">{price} NEAR</Typography>
+          </div>
         </div>
       </ButtonBase>
     </Paper>
@@ -53,5 +61,5 @@ ImageThumb.propTypes = {
 };
 
 ImageThumb.defaultProps = {
-  openPopup: () => {}
+  openPopup: () => { }
 };

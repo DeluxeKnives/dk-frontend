@@ -57,12 +57,17 @@ function Gallery() {
     console.log(data);
     try {
       for (const nft of data.mb_views_nft_metadata_unburned) {
+        let category = "";
+        nft.reference_blob?.extra?.forEach(x => {
+          if(x?.trait_type == "type") category = x.value;
+        });
+
         nftsFormatted.push({
           img: nft.media,
           title: nft.title,
           link: `/${nft.title}`,
           size: 'long',
-          category: nft.reference_blob?.extra?.[0]?.value ?? "",
+          category,
           metadataId: nft.metadataId
         });
       }
@@ -119,7 +124,7 @@ function Gallery() {
         </div>
         <Hidden xsDown>
           <div className={classes.massonry}>
-            {formattedData.map((item, index) => (item.category == filter || filter == 'all') && (
+            {formattedData.filter(item => item?.category == filter || filter == 'all').map((item, index) => (
               <div
                 className={classes.item}
                 key={index.toString()}
@@ -138,6 +143,7 @@ function Gallery() {
                       title={item.title}
                       link={item.link}
                       size={item.size}
+                      price="21"
                       onClick={() => { }}
                     />
                   </Link>
@@ -159,6 +165,8 @@ function Gallery() {
                   title={item.title}
                   link={item.link}
                   size={item.size}
+                  price="21"
+                  remaining={"0"}
                   onClick={() => showPopup(index)}
                 />
               </div>

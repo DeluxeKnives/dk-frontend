@@ -6,7 +6,7 @@ import Container from '@material-ui/core/Container';
 import AnchorLink from 'react-anchor-link-smooth-scroll';
 import Scrollspy from 'react-scrollspy';
 import { useTranslation } from 'next-i18next';
-import logo from '~/public/images/unisex-logo.svg';
+import logo from '~/public/images/dk_logo_filled_circle.jpeg';
 import useStyles from './sidenav-style';
 import navMenu from './menu';
 

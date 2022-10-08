@@ -15,7 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import AnchorLink from 'react-anchor-link-smooth-scroll';
 import Fade from '@material-ui/core/Fade';
 import { useTranslation } from 'next-i18next';
-import logo from '~/public/images/unisex-logo.svg';
+import logo from '~/public/images/dk_logo_filled_circle.jpeg';
 import brand from '~/public/text/brand';
 import { useText } from '~/theme/common';
 import routeLink from '~/public/text/link';
