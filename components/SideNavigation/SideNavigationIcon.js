@@ -9,9 +9,10 @@ import { useTranslation } from 'next-i18next';
 import logo from '~/public/images/dk_logo_filled_circle.jpeg';
 import useStyles from './sidenav-icon-style';
 import navMenu from './menu';
+import Link from '@material-ui/core/Link';
 
 let counter = 0;
-function createData(name, url, icon, offset) {
+function createData(name, url, icon, offset = 0) {
   counter += 1;
   return {
     id: counter,
@@ -22,17 +23,17 @@ function createData(name, url, icon, offset) {
   };
 }
 
-function SideNavigation() {
+function SideNavigation({ isMain }) {
   const classes = useStyles();
   const { t } = useTranslation('common');
   const [menuList] = useState([
-    createData(navMenu[0], '#' + navMenu[0], 'ion-ios-contact', 160),
-    createData(navMenu[1], '#' + navMenu[1], 'ion-ios-add-circle'),
-    createData(navMenu[2], '#' + navMenu[2], 'ion-ios-keypad'),
-    createData(navMenu[3], '#' + navMenu[3], 'ion-ios-chatboxes', -40),
-    createData(navMenu[4], '#' + navMenu[4], 'ion-ios-copy'),
-    createData(navMenu[5], '#' + navMenu[5], 'ion-ios-mail'),
+    createData("store", "/store", 'ion-ios-add-circle'),
+    createData("FAQ", "/#faq", 'ion-ios-keypad'),
+    createData("game", "/game", 'ion-ios-chatboxes', -40),
+    createData("discord", "", 'ion-ios-mail'),
+    createData("main", "https://deluxeknives.com/", 'ion-ios-copy'),
   ]);
+
   return (
     <div className={classes.navigation}>
       <nav className={classes.navMenu}>
@@ -48,18 +49,20 @@ function SideNavigation() {
               <ListItem
                 key={item.id.toString()}
                 button
-                component={AnchorLink}
+                component={isMain && item.url.startsWith('#/') ? AnchorLink : Link}
                 offset={item.offset || 0}
                 href={item.url}
                 classes={{ root: classes.link }}
               >
-                <ListItemIcon className={classes.icon}>
-                  <span className={item.icon} />
-                </ListItemIcon>
-                <ListItemText
-                  classes={{ root: classes.text }}
-                  primary={t('unisex-landing.header_' + item.name)}
-                />
+                <>
+                  <ListItemIcon className={classes.icon}>
+                    <span className={item.icon} />
+                  </ListItemIcon>
+                  <ListItemText
+                    classes={{ root: classes.text }}
+                    primary={t('navigation.' + item.name)}
+                  />
+                </>
               </ListItem>
             ))}
           </Scrollspy>

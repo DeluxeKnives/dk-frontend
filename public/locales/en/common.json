@@ -38,6 +38,14 @@
     "form_email": "What is your email? *",
     "form_send": "Sign Up for News"
   },
+  "navigation": {
+    "about": "About",
+    "store": "Store",
+    "FAQ": "FAQ",
+    "game": "Game",
+    "discord": "Discord",
+    "main": "Main Site"
+  },
   "unisex-landing": {
     "header_language": "language",
     "header_theme": "Theme mode",

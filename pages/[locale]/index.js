@@ -100,6 +100,9 @@ function Landing(props) {
           <section id="testimonials" className={classes.spaceTop}>
             <Testimonials />
           </section>
+          <section id="faq" className={classes.spaceTop}>
+            <Testimonials />
+          </section>
           <section id="contact" className={classes.spaceTop}>
             <Footer />
           </section>

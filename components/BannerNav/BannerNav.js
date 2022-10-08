@@ -35,7 +35,7 @@ function BannerNav(props) {
       <Grid container spacing={0}>
         <Grid item lg={ui.navigation === 'icon' ? 1 : 2} xs={12}>
           <Hidden mdDown>
-            {ui.navigation === 'icon' && <SideNavigationIcon />}
+            {ui.navigation === 'icon' && <SideNavigationIcon isMain />}
             {ui.navigation === 'text' && <SideNavigation />}
           </Hidden>
         </Grid>

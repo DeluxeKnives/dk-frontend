@@ -4344,7 +4344,7 @@
   dependencies:
     "prop-types" "^15.5.10"
 
-"react-scrollspy@^3.4.2":
+"react-scrollspy@^3.4.3":
   "integrity" "sha512-c2QZpMPWxm1HF71h1EqaxBldx2zLYO0aZ24Bcuo2mUWF79T+F6qOtr7XJCzUDm99NOwhVKQD01a7A8VC6c90CQ=="
   "resolved" "https://registry.npmjs.org/react-scrollspy/-/react-scrollspy-3.4.3.tgz"
   "version" "3.4.3"
