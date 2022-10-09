@@ -34,13 +34,17 @@ function ThingPage(props) {
   const pid = router.query.id;
 
   const [formattedData, setFormattedData] = useState();
-  const { loading, error, data } = useQuery(STORE_NFTS, {
+
+  // Query for the store
+  const [result, reexecuteQuery] = useQuery(STORE_NFTS, {
+    query: STORE_NFTS,
     variables: {
       "condition": {
         "nft_contract_id": { "_eq": "shopifyteststore.mintspace2.testnet" }
       }
     }
   });
+  const { data, error } = result;
 
   useEffect(() => {
     console.log(data);

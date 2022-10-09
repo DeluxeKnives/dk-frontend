@@ -10,7 +10,7 @@ const brand = {
     logoText: 'DeluxeKnives',
     projectName: 'Profile',
     url: 'Iluxi.ux-maestro.com/profile',
-    img: '/images/dk_logo_filled_circle.jpeg',
+    img: '/images/dk_logo_filled_circle.png',
     avatar: imgAPI.unisex[0],
     cover: imgAPI.unisex[1],
     notifMsg: 'Donec sit amet nulla sed arcu pulvinar ultricies commodo id ligula.'

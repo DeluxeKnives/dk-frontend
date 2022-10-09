@@ -5,15 +5,18 @@ import clsx from 'clsx';
 
 function ConnectButton(props) {
     const classes = useStyles();
+    /*
     const {
         isConnected, details, signIn, signOut,
-    } = useWallet();
+    } = useWallet();*/
+    let isConnected = false;
 
     const buttonLabel = isConnected
         ? `Sign Out`
         : ' Connect NEAR Wallet';
 
-    const buttonAction = isConnected ? signOut : signIn;
+    // disabled
+    const buttonAction = () => {} // isConnected ? signOut : signIn;
 
     return (
         <div className={clsx(classes.container, props.top ? classes.top : '')}>

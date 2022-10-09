@@ -4,6 +4,7 @@ const sideNavIconStyles = makeStyles(theme => ({
   logo: {
     display: 'block',
     margin: theme.spacing(1.5, 0),
+    padding: theme.spacing(0, 1),
     position: 'relative',
     textAlign: 'center',
     '& img': {
@@ -35,6 +36,11 @@ const sideNavIconStyles = makeStyles(theme => ({
       '-webkit-text-fill-color': 'transparent',
     }
   },
+  iconComponent: {
+    height: "36px",
+    width: "36px",
+    //marginTop: '1rem'
+  },
   text: {
     transition: 'all 0.3s cubic-bezier(0, 1.73, 1, 1.02)',
     color: theme.palette.common.white,
@@ -58,6 +64,8 @@ const sideNavIconStyles = makeStyles(theme => ({
     textAlign: 'center',
     borderRadius: theme.rounded.medium,
     padding: theme.spacing(1),
+    paddingTop: '12px',
+    paddingBottom: '12px',
     '&:before': {
       content: '""',
       transition: 'all 0.75s ease-out',

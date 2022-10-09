@@ -121,17 +121,12 @@ function MyApp(props) {
           <div id="main-wrap">
             <PageTransition timeout={300} classNames="page-fade-transition">
             <ApolloProvider client={client}>
-              <NearWalletProvider
-                network={process.env.NEAR_NETWORK}
-                contractAddress={''}
-              >
                 <Component
                   {...pageProps}
                   onToggleDark={toggleDarkTheme}
                   onToggleDir={toggleDirection}
                   key={router.route}
                 />
-              </NearWalletProvider>
             </ApolloProvider>
             </PageTransition>
           </div>
@@ -140,6 +135,12 @@ function MyApp(props) {
     </div>
   );
 }
+/*
+              <NearWalletProvider
+                network={process.env.NEAR_NETWORK}
+                contractAddress={''}
+              >
+*/
 
 MyApp.propTypes = {
   Component: PropTypes.elementType.isRequired,

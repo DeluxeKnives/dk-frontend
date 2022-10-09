@@ -6,21 +6,18 @@ import AppBar from '@material-ui/core/AppBar';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import Hidden from '@material-ui/core/Hidden';
-import Link from 'next/link';
+import { Link } from '@material-ui/core';
 import clsx from 'clsx';
-import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import AnchorLink from 'react-anchor-link-smooth-scroll';
 import Fade from '@material-ui/core/Fade';
 import { useTranslation } from 'next-i18next';
-import logo from '~/public/images/dk_logo_filled_circle.jpeg';
+import logo from '~/public/images/dk-logo-small.svg';
 import brand from '~/public/text/brand';
 import { useText } from '~/theme/common';
-import routeLink from '~/public/text/link';
 import useStyles from './header-style';
-import Settings from '../Settings';
 import ConnectButton from '../ConnectButton';
 import navMenu from '../SideNavigation/menu';
 
@@ -119,17 +116,9 @@ function Header(props) {
                 </span>
               </IconButton>
               <div className={classes.logo}>
-                {invert ? (
-                  <Link href={routeLink.unisex.home}>
-                    <a>
-                      <img src={logo} alt="logo" />
-                    </a>
-                  </Link>
-                ) : (
-                  <AnchorLink href="#home">
-                    <img src={logo} alt="logo" />
-                  </AnchorLink>
-                )}
+                <a href={"/"}>
+                  <img src={logo} alt="logo" />
+                </a>
               </div>
               {/* <Settings toggleDark={onToggleDark} toggleDir={onToggleDir} invert={invert} /> */}
               <div style={{ width: '48px', height: '48px', margin: '0px 8px' }}>
