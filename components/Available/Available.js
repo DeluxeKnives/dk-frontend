@@ -96,7 +96,7 @@ function Available() {
           {t('available.titlebold')}
         </strong>
       </Title>
-      <Button variant="outlined" color="primary" className={classes.tostore} component="a">
+      <Button variant="outlined" color="primary" className={classes.tostore} component="a" href="/store">
         {t('available.button')}
       </Button>
     </div>;

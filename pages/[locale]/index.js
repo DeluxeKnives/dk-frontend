@@ -9,13 +9,8 @@ import brand from '~/public/text/brand';
 import { getStaticPaths, makeStaticProps } from '../../lib/getStatic';
 import Header from '../../components/Header';
 import BannerNav from '../../components/BannerNav';
-import About from '../../components/About';
-import Timeline from '../../components/Timeline';
-import Counter from '../../components/Counter';
-import Services from '../../components/Services';
-import Gallery from '../../components/Gallery';
 import Testimonials from '../../components/Testimonials';
-import Blog from '../../components/Available';
+import Available from '../../components/Available';
 import Footer from '../../components/Footer';
 import PageNav from '../../components/PageNav';
 import Decoration from '../../components/Parallax/Decoration';
@@ -94,8 +89,8 @@ function Landing(props) {
           <div className={classes.bottomDeco}>
             <Decoration />
           </div>
-          <section id="blog" className={classes.spaceTop}>
-            <Blog />
+          <section id="available" className={classes.spaceTop}>
+            <Available />
           </section>
           <section id="testimonials" className={classes.spaceTop}>
             <Testimonials />
