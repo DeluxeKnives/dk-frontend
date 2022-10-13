@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import { useText } from '~/theme/common';
@@ -30,6 +29,7 @@ export default function ImageThumb(props) {
         return classes.medium;
     }
   };
+  
   return (
     <Paper className={clsx(classes.imgThumb, setSize(size))}>
       <ButtonBase onClick={onClick}>
@@ -39,12 +39,12 @@ export default function ImageThumb(props) {
         <div className={classes.detail}>
           <Typography variant="h6" className={text.subtitle}>{title}</Typography>
           <div>
-            <Typography variant="p">Price:</Typography>
-            <Typography style={{ float: "right" }} variant="p">{price} NEAR</Typography>
+            <span>Price:</span>
+            <span style={{ float: "right" }}>{price} NEAR</span>
           </div>
           <div>
-            <Typography variant="p">Remaining:</Typography>
-            <Typography style={{ float: "right" }} variant="p">{remaining} Units</Typography>
+            <span>Remaining:</span>
+            <span style={{ float: "right" }}>{remaining} Units</span>
           </div>
         </div>
       </ButtonBase>

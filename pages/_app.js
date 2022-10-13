@@ -118,28 +118,30 @@ function MyApp(props) {
             progress={loading}
             className="top-loading-bar"
           />
-          <div id="main-wrap">
-            <PageTransition timeout={300} classNames="page-fade-transition">
+          <NearWalletProvider
+            network={process.env.NEAR_NETWORK}
+            contractAddress={''}
+          >
             <ApolloProvider client={client}>
-                <Component
-                  {...pageProps}
-                  onToggleDark={toggleDarkTheme}
-                  onToggleDir={toggleDirection}
-                  key={router.route}
-                />
+              <div id="main-wrap">
+                <PageTransition timeout={300} classNames="page-fade-transition">
+                  <Component
+                    {...pageProps}
+                    onToggleDark={toggleDarkTheme}
+                    onToggleDir={toggleDirection}
+                    key={router.route}
+                  />
+                </PageTransition>
+              </div>
             </ApolloProvider>
-            </PageTransition>
-          </div>
+          </NearWalletProvider>
         </ThemeProvider>
       </StylesProvider>
     </div>
   );
 }
 /*
-              <NearWalletProvider
-                network={process.env.NEAR_NETWORK}
-                contractAddress={''}
-              >
+
 */
 
 MyApp.propTypes = {

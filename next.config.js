@@ -24,6 +24,7 @@ module.exports = withImages({
     return config;
   },
   env: {
-    NEAR_NETWORK: "testnet"
+    NEAR_NETWORK: "testnet",
+    NEXT_PUBLIC_DEVELOPER_KEY: "0da4bb5e-3666-467a-a98a-f4adfdf81ae6"
   }
 });

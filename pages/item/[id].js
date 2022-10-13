@@ -1,55 +1,71 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Head from 'next/head';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import brand from '~/public/text/brand';
 import { Button, Grid } from '@material-ui/core';
 import SimpleImage from '../../components/Cards/SimpleImage';
-import { STORE_NFTS } from '../../components/Gallery/Gallery';
-import { useQuery } from '@apollo/client';
+import { useQuery, gql } from '@apollo/client';
 import { useRouter } from 'next/router'
-import { Wallet, Chain, Network } from 'mintbase'
+import { useWallet } from '../../lib/NearWalletProvider';
+import { nearToYocto } from 'near-api-js';
 
-/*
-// Connect and fetch details
-async function connect() {
-  const { data: walletData, error } = await new Wallet().init({
-    networkName: Network.testnet,
-    chain: Chain.near,
-    apiKey: API_KEY,
-  })
+const STORE_NFTS = gql`
+query GetNFTListings( 
+  $offset: Int = 0 $tok_cond: mb_views_nft_tokens_bool_exp $list_cond: mb_views_active_listings_bool_exp) 
+  @cached 
+  { 
+   mb_views_nft_tokens(
+     where: $tok_cond
+     offset: $offset
+     distinct_on: metadata_id
+   )
+   {
+    media 
+    storeId: nft_contract_id 
+    metadataId: metadata_id 
+    title 
+    reference_blob
+   }
+   mb_views_active_listings( 
+     where: $list_cond
+     offset: $offset 
+   ) 
+   {       
+     price
+     receipt_id
+     currency
+     kind
+     token_id
+   }
+ }
+`;
 
-  const { wallet, isConnected } = walletData
 
-  if (isConnected) {
-    const { data: details } = await wallet.details()
-  }
-}
-
-connect()
-*/
-
+// TODO: add a top bar
 
 function ThingPage(props) {
   const router = useRouter();
   const pid = router.query.id;
 
-  const [formattedData, setFormattedData] = useState();
-
   // Query for the store
-  const [result, reexecuteQuery] = useQuery(STORE_NFTS, {
-    query: STORE_NFTS,
+  const { loading, error, data } = useQuery(STORE_NFTS, {
     variables: {
-      "condition": {
-        "nft_contract_id": { "_eq": "shopifyteststore.mintspace2.testnet" }
+      "tok_cond": {
+        "metadata_id": { "_eq": "shopifyteststore.mintspace2.testnet:99f7c63d259703bc3820810275a1a667" }
+      },
+      "list_cond": { 
+        "metadata_id": { "_eq": "shopifyteststore.mintspace2.testnet:99f7c63d259703bc3820810275a1a667" },
+        "listed_by": { "_eq": "deluxeshop.testnet" },
+        "kind": { "_eq": "simple" }
       }
     }
   });
-  const { data, error } = result;
 
+  // Correctly store the queried data
   useEffect(() => {
     console.log(data);
     try {
-      const nft = data.mb_views_nft_metadata_unburned.find(x => x.metadataId == pid);
+      const nft = data.mb_views_nft_tokens[0];
       const fnft = {
         img: nft.media,
         link: `/${nft.title}`,
@@ -64,6 +80,28 @@ function ThingPage(props) {
       console.log("ERROR AHH", e)
     }
   }, [data, error]);
+  const [formattedData, setFormattedData] = useState();
+
+  // Wallet interaction
+  const { wallet } = useWallet();
+
+  const buyNFT = useCallback(async () => {
+    if (!pid) return;
+    console.log(formattedData);
+
+    const price = BigInt(formattedData.listed).toString();
+    await wallet?.makeOffer(pid, nearToYocto(price), {
+      callbackUrl: `${window.location.origin}/wallet-callback`,
+      meta: JSON.stringify({
+        type: 'make-offer',
+        args: {
+          tokenId: pid,
+          price: nearToYocto(price),
+        },
+      }),
+
+    });
+  }, [formattedData, wallet]);
 
   return (
     <Grid container spacing={3} style={{ padding: "1rem" }}>
@@ -72,7 +110,9 @@ function ThingPage(props) {
       </Grid>
       <Grid item md={8} sm={12}>
         <div>
-          <Button disabled={formattedData?.listed == null}>Buy</Button>
+          <Button onClick={buyNFT} disabled={formattedData?.listed == null}>
+            Buy
+          </Button>
           <Button component="a" href={`https://${process.env.NEAR_NETWORK}.mintbase.io/meta/${pid}`}>
             Transfer
           </Button>

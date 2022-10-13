@@ -153,7 +153,15 @@ const cardsStyles = makeStyles(theme => ({
           transform: 'translate(0, 20px)',
         }
       }
-    }
+    },
+    '& $figure': {
+      height: '100%',
+      width: '100%',
+      position: 'relative',
+      margin: 0,
+      overflow: 'hidden',
+      borderRadius: theme.rounded.big,
+    },
   },
   detail: {
     position: 'absolute',

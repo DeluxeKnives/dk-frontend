@@ -25,10 +25,10 @@ function SideNavigation({ isMain }) {
   const classes = useStyles();
   const { t } = useTranslation('common');
   const [menuList] = useState([
-    createData("store", "/store", <IoStorefront className={classes.iconComponent} />),
-    createData("game", "/game", <IoGameController className={classes.iconComponent} />),
-    createData("discord", "", <IoLogoDiscord className={classes.iconComponent} />),
-    createData("main", "https://deluxeknives.com/", <IoHomeSharp className={classes.iconComponent} />),
+    createData("store", "/store", <IoStorefront size={36} />),
+    createData("game", "/game", <IoGameController size={36} />),
+    createData("discord", "", <IoLogoDiscord size={36} />),
+    createData("main", "https://deluxeknives.com/", <IoHomeSharp size={36} />),
   ]);
 
   return (

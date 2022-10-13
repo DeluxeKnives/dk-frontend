@@ -17,7 +17,9 @@ export default function ImageThumb(props) {
 
   return (
     <Paper className={clsx(classes.simpleImg, 'long')} >
-      <img className={classes.img} src={img} />
+      <div className={classes.figure}>
+        <img className={classes.img} src={img} />
+      </div>
     </Paper>
   );
 }
