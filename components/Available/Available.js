@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import Carousel from 'react-slick';
@@ -12,39 +12,26 @@ import Title from '../Title';
 import BlogPostCard from '../Cards/BlogPost';
 import useStyle from './blog-style';
 import imgApi from '~/public/images/imgAPI';
+import { useQuery, gql } from "@apollo/client";
 
-const blogData = [
-  {
-    img: imgApi.photo[0],
-    title: 'Vivamus sit amet interdum elit',
-    desc: 'Ut sed eros finibus, placerat orci id, dapibus mauris. Vestibulum consequat…'
-  },
-  {
-    img: imgApi.photo[1],
-    title: 'Vivamus sit amet interdum elit',
-    desc: 'Ut sed eros finibus, placerat orci id, dapibus mauris. Vestibulum consequat…'
-  },
-  {
-    img: imgApi.photo[2],
-    title: 'Vivamus sit amet interdum elit',
-    desc: 'Ut sed eros finibus, placerat orci id, dapibus mauris. Vestibulum consequat…'
-  },
-  {
-    img: imgApi.photo[3],
-    title: 'Vivamus sit amet interdum elit',
-    desc: 'Ut sed eros finibus, placerat orci id, dapibus mauris. Vestibulum consequat…'
-  },
-  {
-    img: imgApi.photo[4],
-    title: 'Vivamus sit amet interdum elit',
-    desc: 'Ut sed eros finibus, placerat orci id, dapibus mauris. Vestibulum consequat…'
-  },
-  {
-    img: imgApi.photo[5],
-    title: 'Vivamus sit amet interdum elit',
-    desc: 'Ut sed eros finibus, placerat orci id, dapibus mauris. Vestibulum consequat…'
-  },
-];
+const STORE_NFTS = gql`
+query GetStoreNfts( 
+  $offset: Int = 0 $condition: mb_views_nft_metadata_unburned_bool_exp) 
+  @cached 
+  { 
+   mb_views_nft_metadata_unburned( 
+     where: $condition
+     offset: $offset 
+     order_by: { minted_timestamp: desc } 
+   ) 
+   {       
+     listed: price 
+     media 
+     title 
+     metadata_id
+   }
+ }
+`;
 
 function Available() {
   const slider = useRef(null);
@@ -80,6 +67,48 @@ function Available() {
     }]
   };
 
+  // Query for the store
+  const [formattedData, setFormattedData] = useState([{}, {}, {}, {}, {}, {}]);
+  const { loading, error, data } = useQuery(STORE_NFTS, {
+    variables: {
+      "condition": {
+        "nft_contract_id": { "_eq": "shopifyteststore.mintspace2.testnet" }
+      }
+    }
+  });
+  useEffect(() => {
+    const nftsFormatted = [];
+    console.log(data);
+    try {
+      for (const nft of data.mb_views_nft_metadata_unburned) {
+        let category = "";
+        nft.reference_blob?.extra?.forEach(x => {
+          if(x?.trait_type == "type") category = x.value;
+        });
+        const priceStr =
+          (parseInt(
+            (BigInt(nft.listed ?? 0) / BigInt(100000000000000000000000))
+              .toString()
+            ) / 10
+          )
+          .toString();
+        let price = priceStr;
+
+        nftsFormatted.push({
+          img: nft.media,
+          title: nft.title,
+          price,
+          link: `/item/${nft.metadata_id}`
+        });
+      }
+    }
+    catch (e) {
+      console.log("ERROR AHH", e)
+    }
+    setFormattedData(nftsFormatted);
+  });
+
+  // Idk some slide directon stuff beats me
   useEffect(() => {
     if (theme.direction === 'rtl') {
       const lastSlide = Math.floor(blogData.length - 2);
@@ -117,15 +146,16 @@ function Available() {
               <div className={clsx(classes.item, classes.itemPropsFirst)}>
                 <div>
                   {sectionTitle}
-                  </div>
+                </div>
               </div>
             )}
-            {blogData.map((item, index) => (
+            {formattedData.map((item, index) => (
               <div key={index.toString()} className={classes.item}>
                 <BlogPostCard
                   img={item.img}
                   title={item.title}
                   desc={item.desc}
+                  link={item.link}
                 />
               </div>
             ))}

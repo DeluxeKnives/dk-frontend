@@ -13,7 +13,7 @@ function BlogPost(props) {
   const {
     img,
     title,
-    desc,
+    link,
   } = props;
   const { t } = useTranslation('common');
 
@@ -22,12 +22,11 @@ function BlogPost(props) {
       <figure>
         <img src={img} alt="thumb" />
       </figure>
-      <div className={classes.text}>
+      <div className={classes.textNoMargin}>
         <Typography variant="h5" className={text.subtitle2}>{title}</Typography>
-        <Typography display="block" component="p" className={text.paragraph}>{desc}</Typography>
       </div>
       <Button
-        href="#"
+        href={link}
         color="primary"
         className={classes.readmore}
         classes={{
@@ -35,7 +34,7 @@ function BlogPost(props) {
           text: classes.textReadmore
         }}
       >
-        {t('unisex-landing.read_more')}
+        {t('view_listing')}
       </Button>
     </Paper>
   );

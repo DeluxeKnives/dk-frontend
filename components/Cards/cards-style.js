@@ -257,7 +257,7 @@ const cardsStyles = makeStyles(theme => ({
     '& figure': {
       margin: 0,
       width: '100%',
-      height: 140,
+      height: 250,
       overflow: 'hidden',
       '& img': {
         width: '100%',
@@ -277,6 +277,13 @@ const cardsStyles = makeStyles(theme => ({
       display: '-webkit-box',
       '-webkit-line-clamp': 3,
       '-webkit-box-orient': 'vertical'
+    }
+  },
+  textNoMargin: {
+    height: 90,
+    padding: theme.spacing(2),
+    '& h5': {
+      fontWeight: theme.typography.fontWeightMedium,
     }
   },
   readmore: {

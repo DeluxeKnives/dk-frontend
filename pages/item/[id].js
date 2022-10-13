@@ -51,11 +51,11 @@ function ThingPage(props) {
   const { loading, error, data } = useQuery(STORE_NFTS, {
     variables: {
       "tok_cond": {
-        "metadata_id": { "_eq": "shopifyteststore.mintspace2.testnet:99f7c63d259703bc3820810275a1a667" }
+        "metadata_id": { "_eq": pid }
       },
       "list_cond": { 
-        "metadata_id": { "_eq": "shopifyteststore.mintspace2.testnet:99f7c63d259703bc3820810275a1a667" },
-        "listed_by": { "_eq": "deluxeshop.testnet" },
+        "metadata_id": { "_eq": pid },
+        "listed_by": { "_eq": `deluxeshop.${process.env.NEAR_NETWORK}` },
         "kind": { "_eq": "simple" }
       }
     }
