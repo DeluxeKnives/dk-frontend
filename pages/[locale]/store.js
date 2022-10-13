@@ -13,7 +13,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Decoration from '../../components/Parallax/Decoration';
 import StoreBanner from '../../components/BannerNav/StoreBanner';
 import Footer from '../../components/Footer';
-import clsx from 'clsx';
 
 const useStyles = makeStyles(theme => ({
   mainWrap: {

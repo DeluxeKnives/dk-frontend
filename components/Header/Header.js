@@ -19,7 +19,6 @@ import brand from '~/public/text/brand';
 import { useText } from '~/theme/common';
 import useStyles from './header-style';
 import ConnectButton from '../ConnectButton';
-import navMenu from '../SideNavigation/menu';
 
 let counter = 0;
 function createData(name, url, offset) {
@@ -68,12 +67,11 @@ function Header(props) {
   const { t } = useTranslation('common');
 
   const [menuList] = useState([
-    createData(navMenu[0], '#' + navMenu[0]),
-    createData(navMenu[1], '#' + navMenu[1], -100),
-    createData(navMenu[2], '#' + navMenu[2]),
-    createData(navMenu[3], '#' + navMenu[3], -40),
-    createData(navMenu[4], '#' + navMenu[4], -40),
-    createData(navMenu[5], '#' + navMenu[5], -40),
+    createData("home", "/"),
+    createData("store", "/store"),
+    createData("game", "/game"),
+    createData("main", "https://deluxeknives.com/"),
+    createData("discord", "https://discord.com/"),
   ]);
   const [openDrawer, setOpenDrawer] = useState(false);
   const handleOpenDrawer = () => {
@@ -144,17 +142,9 @@ function Header(props) {
                       <ul className={classes.menu}>
                         {menuList.map((item, index) => (
                           <li key={item.id.toString()} style={{ animationDuration: index * 0.15 + 's' }}>
-                            {invert ? (
-                              // eslint-disable-next-line
-                              <Button href={'/' + item.url}>
-                                {t('unisex-landing.header_' + item.name)}
-                              </Button>
-                            ) : (
-                              // eslint-disable-next-line
-                              <Button component={AnchorLink} onClick={handleCloseDrawer} offset={item.offset || 0} href={item.url}>
-                                {t('unisex-landing.header_' + item.name)}
-                              </Button>
-                            )}
+                            <Button href={item.url}>
+                              {t('navigation.' + item.name)}
+                            </Button>
                           </li>
                         ))}
                       </ul>
@@ -163,11 +153,6 @@ function Header(props) {
                 </Grid>
                 <Grid item sm={6}>
                   <div className={classes.detail}>
-                    <Hidden mdDown>
-                      <Typography variant="h5" className={classes.nameDeco}>
-                        CONTACT
-                      </Typography>
-                    </Hidden>
                     <div className={classes.logoName}>
                       <Typography variant="h3" className={text.title}>
                         {brand.unisex.name}

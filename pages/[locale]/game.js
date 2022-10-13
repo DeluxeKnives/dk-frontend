@@ -6,6 +6,7 @@ import { useTranslation } from 'next-i18next';
 import brand from '~/public/text/brand';
 import { getStaticPaths, makeStaticProps } from '../../lib/getStatic';
 import clsx from 'clsx';
+import SideNavigationIcon from '../../components/SideNavigation/SideNavigationIcon';
 
 const useStyles = makeStyles(theme => ({
   dedicatedPage: {
@@ -37,9 +38,10 @@ function Game(props) {
           </title>
         </Head>
         <div className={clsx( classes.dedicatedPage, classes.wrap)}>
-          <h3 className={classes.wrap}>
+          <SideNavigationIcon />
+          <h2 style={{ position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
             COMING SOON
-          </h3>
+          </h2>
         </div>
       </Fragment>
     );
