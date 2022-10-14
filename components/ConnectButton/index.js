@@ -17,7 +17,7 @@ function ConnectButton(props) {
     const buttonAction = isConnected ? signOut : signIn;
 
     return (
-        <div className={clsx(classes.container, props.top ? classes.top : '')} style={{ zIndex: 10 }}>
+        <div className={clsx(classes.container, props.top ? classes.top : '')} style={{ zIndex: 1 }}>
             <Button variant='outlined' onClick={buttonAction} className={classes.button}>
                 {buttonLabel}
             </Button>

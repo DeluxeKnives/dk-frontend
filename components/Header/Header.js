@@ -165,18 +165,22 @@ function Header(props) {
                       {t('unisex-landing.main_site')}
                     </Button>
                     <div className={classes.socmed}>
-                      <IconButton aria-label="Delete" className={classes.margin} size="small">
-                        <i className={clsx('ion-logo-facebook', classes.fb)} />
-                      </IconButton>
-                      <IconButton aria-label="Delete" className={classes.margin} size="small">
-                        <i className={clsx('ion-logo-instagram', classes.ig)} />
-                      </IconButton>
-                      <IconButton aria-label="Delete" className={classes.margin} size="small">
-                        <i className={clsx('ion-logo-twitter', classes.tw)} />
-                      </IconButton>
-                      <IconButton aria-label="Delete" className={classes.margin} size="small">
-                        <i className={clsx('ion-logo-linkedin', classes.in)} />
-                      </IconButton>
+                    <IconButton aria-label="Delete" className={classes.margin} size="small"
+                        onClick={() => location.href = 'https://www.facebook.com/DeluxeKnives'}>
+                        <i className="ion-logo-facebook" />
+                    </IconButton>
+                    <IconButton aria-label="Delete" className={classes.margin} size="small"
+                        onClick={() => location.href = 'https://twitter.com/DeluxeKnives'}>
+                        <i className="ion-logo-instagram" />
+                    </IconButton>
+                    <IconButton aria-label="Delete" className={classes.margin} size="small"
+                        onClick={() => location.href = 'https://www.instagram.com/DeluxeKnives/'}>
+                        <i className="ion-logo-twitter" />
+                    </IconButton>
+                    <IconButton aria-label="Delete" className={classes.margin} size="small"
+                        onClick={() => location.href = 'https://www.youtube.com/channel/UCdPUX9Ixi7jccSej8LsTG0g'}>
+                        <i className="ion-logo-youtube" />
+                    </IconButton>
                     </div>
                   </div>
                 </Grid>

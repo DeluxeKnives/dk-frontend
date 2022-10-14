@@ -49,7 +49,7 @@ function MyApp(props) {
   const curLang = lngDetector.detect();
 
   const [theme, setTheme] = useState({
-    ...appTheme('gold', themeType),
+    ...appTheme('deluxe_custom', themeType),
     direction: curLang === 'ar' ? 'rtl' : 'ltr'
   });
 

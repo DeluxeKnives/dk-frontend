@@ -61,7 +61,7 @@ function About() {
                     <i className="ion-logo-google" />
                   </IconButton>
                   <IconButton aria-label="Delete" className={classes.margin} size="small">
-                    <i className="ion-logo-linkedin" />
+                    <i className="ion-logo-youtube" />
                   </IconButton>
                 </div>
                 <Typography variant="h5">

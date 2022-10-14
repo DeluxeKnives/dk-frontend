@@ -87,7 +87,7 @@ function BannerNav(props) {
                   </IconButton>
                   <IconButton aria-label="Delete" className={classes.margin} size="small"
                     onClick={() => location.href = 'https://www.youtube.com/channel/UCdPUX9Ixi7jccSej8LsTG0g'}>
-                    <i className="ion-logo-linkedin" />
+                    <i className="ion-logo-youtube" />
                   </IconButton>
                 </div>
               </Hidden>

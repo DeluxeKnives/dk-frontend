@@ -14,7 +14,8 @@ const sideNavIconStyles = makeStyles(theme => ({
   },
   menu: {
     margin: '0 auto',
-    background: theme.palette.type === 'dark' ? darken(theme.palette.primary.dark, 0.5) : theme.palette.primary.light,
+    // background: theme.palette.type === 'dark' ? darken(theme.palette.primary.dark, 0.0) : theme.palette.primary.light,
+    background: 'transparent',
     boxShadow: theme.shade.light,
     padding: theme.spacing(0.5),
     borderRadius: theme.rounded.big,
@@ -68,7 +69,7 @@ const sideNavIconStyles = makeStyles(theme => ({
     paddingBottom: '12px',
     '&:before': {
       content: '""',
-      transition: 'all 0.75s ease-out',
+      transition: 'all 0.3s ease-out',
       width: 0,
       height: 30,
       background: `linear-gradient(120deg, ${theme.palette.secondary.main}, ${theme.palette.primary.main})`,

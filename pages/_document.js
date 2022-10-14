@@ -10,7 +10,12 @@ class MyDocument extends Document {
     return (
       <Html lang={currentLocale} dir={currentLocale === 'ar' ? 'rtl' : 'ltr'}>
         <HeadComponent />
-        <body>
+        <body style={{
+            // https://www.toptal.com/designers/subtlepatterns/prism/
+            // https://www.toptal.com/designers/subtlepatterns/tactile-noise/
+            backgroundImage: 'url("https://cdn.discordapp.com/attachments/916989584620015619/1030368761091477514/tactile_noise.webp")',
+            backgroundRepeat: 'repeat',
+        }}>
           <div
             id="preloader"
             style={{

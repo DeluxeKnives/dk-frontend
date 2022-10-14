@@ -253,6 +253,22 @@ module.exports = {
       },
     },
   },
+  deluxe_custom: {
+    palette: {
+      primary: {
+        light: '#EF5923',
+        main: '#EF5923',
+        dark: '#EF5923',
+        contrastText: '#fff',
+      },
+      secondary: {
+        light: '#EF5923',
+        main: '#EF5923',
+        dark: '#EF5923',
+        contrastText: '#fff',
+      },
+    },
+  },
   botani: {
     palette: {
       primary: {

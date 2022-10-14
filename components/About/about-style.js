@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
-const gold = '#D6BD96';
+const gold = '#EF5923';
 
 const aboutStyles = makeStyles(theme => ({
   root: {
