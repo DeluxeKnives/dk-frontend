@@ -9,7 +9,7 @@ import brand from '~/public/text/brand';
 import { getStaticPaths, makeStaticProps } from '../../lib/getStatic';
 import Header from '../../components/Header';
 import BannerNav from '../../components/BannerNav';
-import Testimonials from '../../components/Testimonials';
+import HowItWorks from '../../components/HowItWorks';
 import Available from '../../components/Available';
 import Footer from '../../components/Footer';
 import PageNav from '../../components/PageNav';
@@ -93,10 +93,10 @@ function Landing(props) {
             <Available />
           </section>
           <section id="testimonials" className={classes.spaceTop}>
-            <Testimonials />
+            <HowItWorks />
           </section>
           <section id="faq" className={classes.spaceTop}>
-            <Testimonials />
+            <HowItWorks />
           </section>
           <section id="contact" className={classes.spaceTop}>
             <Footer />

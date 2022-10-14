@@ -12,7 +12,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import { useTranslation } from 'next-i18next';
 import { useText } from '~/theme/common';
-import testiData from './testimonialsData';
 import Title from '../Title';
 import useStyle from './testi-style';
 
@@ -126,58 +125,16 @@ function Testimonials() {
             </div>
           </Popover>
           <Title dark>
-            {t('unisex-landing.testi_title')}
+            {t('home.hiw_title')}
             &nbsp;
             <strong>
-              {t('unisex-landing.testi_titleBold')}
+              {t('home.hiw_titleBold')}
             </strong>
           </Title>
           <Grid container>
             <Grid item md={7} xs={12}>
               <div className={classes.worldMap}>
-                <Hidden xsDown>
-                  <div className={classes.avatarWrap}>
-                    {testiData.map((item, index) => (
-                      <AvatarBuble
-                        key={index.toString()}
-                        avatar={item.avatar}
-                        name={item.name}
-                        x={item.x}
-                        y={item.y}
-                        openPopover={(e) => handlePopoverOpen(e, item)}
-                        closePopover={handlePopoverClose}
-                      />
-                    ))}
-                  </div>
-                </Hidden>
-                <Hidden smUp>
-                  <Carousel {...settings}>
-                    {testiData.map((item, index) => (
-                      <div
-                        className={classes.itemCarousel}
-                        key={index.toString()}
-                      >
-                        <Paper className={classes.card}>
-                          <Typography variant="body1" display="block">
-                            {item.text}
-                          </Typography>
-                          <div className={classes.name}>
-                            {item.avatar ? (
-                              <Avatar alt={item.name} src={item.avatar} className={classes.avatar} />
-                            ) : (
-                              <Avatar alt={item.name} className={classes.avatar}>
-                                {firsthChar(item.name)}
-                              </Avatar>
-                            )}
-                            <Typography variant="caption">
-                              {item.name}
-                            </Typography>
-                          </div>
-                        </Paper>
-                      </div>
-                    ))}
-                  </Carousel>
-                </Hidden>
+
               </div>
             </Grid>
             <Grid item md={5} xs={12}>
