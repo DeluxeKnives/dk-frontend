@@ -18,11 +18,12 @@ import Slideshow from './Hero/Slideshow';
 import VideoHero from './Hero/Video';
 import useStyles from './banner-style';
 import ConnectButton from '../ConnectButton';
+import ThreeDKnife from "../3DKnife";
 
 function BannerNav(props) {
   const text = useText();
   const classes = useStyles();
-  const [bannerHero] = useState(props.bannerHero ?? 'animation-slide');
+  const [bannerHero] = useState(props.bannerHero ?? 'animation');
 
   const { t } = useTranslation('common');
   const {
@@ -48,7 +49,7 @@ function BannerNav(props) {
                 {bannerHero === 'animation' && <Animation />}
                 {bannerHero === 'animation-slide' && <AnimationSlideshow />}
                 {bannerHero === 'slideshow' && <Slideshow />}
-                <ConnectButton top />
+                {/* <ConnectButton top /> */}
               </div>
             </div>
             {
@@ -61,31 +62,31 @@ function BannerNav(props) {
               */
             }
             <div className={classes.text}>
-              <Typography variant="h4" className={text.title2}>
-                {t('unisex-landing.banner_greeting')}
-                ,
-              </Typography>
               <Typography variant="h2" className={text.title}>
-                {t('unisex-landing.banner_me')}
-                &nbsp;James,&nbsp;
-                {brand.unisex.title}
+                {t('home.banner_title')}
               </Typography>
               <Hidden smDown>
                 <Typography variant="h5" className={text.subtitle2}>
-                  {t('unisex-landing.banner_desc')}
+                  {t('home.banner_desc')}
                 </Typography>
                 <div className={classes.socmed}>
-                  <Button variant="outlined" className={classes.download} component="a">Download CV</Button>
-                  <IconButton aria-label="Delete" className={classes.margin} size="small">
+                  <Button variant="outlined" className={classes.download} component="a">
+                    {t('home.cta')}
+                  </Button>
+                  <IconButton aria-label="Delete" className={classes.margin} size="small"
+                    onClick={() => location.href = 'https://www.facebook.com/DeluxeKnives'}>
                     <i className="ion-logo-facebook" />
                   </IconButton>
-                  <IconButton aria-label="Delete" className={classes.margin} size="small">
+                  <IconButton aria-label="Delete" className={classes.margin} size="small"
+                    onClick={() => location.href = 'https://twitter.com/DeluxeKnives'}>
                     <i className="ion-logo-twitter" />
                   </IconButton>
-                  <IconButton aria-label="Delete" className={classes.margin} size="small">
+                  <IconButton aria-label="Delete" className={classes.margin} size="small"
+                    onClick={() => location.href = 'https://www.instagram.com/DeluxeKnives/'}>
                     <i className="ion-logo-instagram" />
                   </IconButton>
-                  <IconButton aria-label="Delete" className={classes.margin} size="small">
+                  <IconButton aria-label="Delete" className={classes.margin} size="small"
+                    onClick={() => location.href = 'https://www.youtube.com/channel/UCdPUX9Ixi7jccSej8LsTG0g'}>
                     <i className="ion-logo-linkedin" />
                   </IconButton>
                 </div>
@@ -94,6 +95,7 @@ function BannerNav(props) {
           </div>
         </Grid>
       </Grid>
+      <ThreeDKnife />
     </div>
   );
 }

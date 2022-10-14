@@ -48,6 +48,11 @@
     "discord": "Discord",
     "main": "Main Site"
   },
+  "home": {
+    "banner_title": "1 NFT = 1 Real Knife",
+    "banner_desc": "Introducing DeluxeKnive's metaverse offering on NEAR. Get both a metaphysical knife and a FREE physical knife in a single NFT purchase.",
+    "cta": "See Selection"
+  },
   "unisex-landing": {
     "header_language": "language",
     "header_theme": "Theme mode",

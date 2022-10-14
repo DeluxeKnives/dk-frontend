@@ -54,7 +54,7 @@ const blogStyles = makeStyles(theme => ({
     height: 36,
     padding: 0,
     minWidth: 0,
-    zIndex: 3,
+    zIndex: 10,
     background: theme.palette.background.paper,
     border: 'none',
     boxShadow: 'none',

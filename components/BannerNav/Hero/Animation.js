@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import useStyles from './hero-style';
+import ThreeDKnife from '../../3DKnife';
 
 function Animation() {
   const classes = useStyles();
@@ -19,7 +20,9 @@ function Animation() {
   }, []);
 
   return (
-    <div className={classes.illustration} id="vanta_art" />
+    <>
+      <div className={classes.illustration} id="vanta_art" />
+    </>
   );
 }
 
