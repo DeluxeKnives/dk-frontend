@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import useStyles from './hero-style';
-import ThreeDKnife from '../../3DKnife';
 
 function Animation() {
   const classes = useStyles();
@@ -14,7 +13,9 @@ function Animation() {
         gyroControls: false,
         minHeight: 400.00,
         minWidth: 400.00,
-        size: 3.00
+        size: 3.00,
+        backgroundColor: "#EF5925",
+        baseColor: "#05021A"
       });
     }
   }, []);

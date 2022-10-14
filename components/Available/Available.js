@@ -78,7 +78,6 @@ function Available() {
   });
   useEffect(() => {
     const nftsFormatted = [];
-    console.log(data);
     try {
       for (const nft of data.mb_views_nft_metadata_unburned) {
         let category = "";
@@ -106,7 +105,7 @@ function Available() {
       console.log("ERROR AHH", e)
     }
     setFormattedData(nftsFormatted);
-  });
+  }, [data]);
 
   // Idk some slide directon stuff beats me
   useEffect(() => {

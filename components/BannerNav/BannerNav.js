@@ -23,7 +23,7 @@ import ThreeDKnife from "../3DKnife";
 function BannerNav(props) {
   const text = useText();
   const classes = useStyles();
-  const [bannerHero] = useState(props.bannerHero ?? 'animation');
+  const [bannerHero] = useState(props.bannerHero ?? 'video');
 
   const { t } = useTranslation('common');
   const {
