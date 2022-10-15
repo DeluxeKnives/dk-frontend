@@ -11,7 +11,6 @@ import { useText } from '~/theme/common';
 import Title from '../Title';
 import BlogPostCard from '../Cards/BlogPost';
 import useStyle from './blog-style';
-import imgApi from '~/public/images/imgAPI';
 import { useQuery, gql } from "@apollo/client";
 
 const STORE_NFTS = gql`
@@ -148,7 +147,7 @@ function Available() {
                 </div>
               </div>
             )}
-            {formattedData.map((item, index) => (
+            {formattedData.map((item, index) => item.img !== undefined && (
               <div key={index.toString()} className={classes.item}>
                 <BlogPostCard
                   img={item.img}

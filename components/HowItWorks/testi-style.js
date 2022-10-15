@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 const testiStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(5, 0),
-    backgroundImage: `linear-gradient(120deg, ${theme.palette.type === 'dark' ? theme.palette.secondary.dark : theme.palette.secondary.main}, ${theme.palette.primary.main})`,
     boxShadow: `0px 1px 10px 3px ${theme.palette.type === 'dark' ? theme.palette.primary.dark : theme.palette.primary.light}, 0px 1px 1px 0px ${theme.palette.type === 'dark' ? theme.palette.primary.dark : theme.palette.primary.main}, 0px 2px 1px -1px ${theme.palette.primary.dark}`,
     color: theme.palette.common.white,
     position: 'relative',

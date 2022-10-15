@@ -15,6 +15,7 @@ import Footer from '../../components/Footer';
 import PageNav from '../../components/PageNav';
 import Decoration from '../../components/Parallax/Decoration';
 import Notification from '../../components/Notification';
+import Partners from '../../components/Partners/Partners';
 
 const sectionMargin = margin => (margin * 20);
 const useStyles = makeStyles(theme => ({
@@ -92,8 +93,11 @@ function Landing(props) {
           <section id="available" className={classes.spaceTop}>
             <Available />
           </section>
-          <section id="testimonials" className={classes.spaceTop}>
+          <section id="howitworks" className={classes.spaceTop}>
             <HowItWorks />
+          </section>
+          <section id="partners" className={classes.spaceTop}>
+            <Partners />
           </section>
           <section id="faq" className={classes.spaceTop}>
             <HowItWorks />

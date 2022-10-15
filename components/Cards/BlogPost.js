@@ -42,8 +42,7 @@ function BlogPost(props) {
 
 BlogPost.propTypes = {
   img: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  desc: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired
 };
 
 export default BlogPost;

@@ -5,7 +5,7 @@
 ## Installation
 
 ```
-lerna bootstrap
+npm install
 ```
 
 ## Run Development

@@ -10,18 +10,19 @@ import Link from '@material-ui/core/Link';
 import { IoLogoDiscord, IoHomeSharp, IoGameController, IoStorefront } from "react-icons/io5";
 
 let counter = 0;
-function createData(name, url, icon, offset = 0) {
+function createData(name, url, icon, offset = 0, placeholder) {
   counter += 1;
   return {
     id: counter,
     name,
     url,
     icon,
-    offset
+    offset,
+    placeholder: placeholder ?? (name.charAt(0).toUpperCase() + name.slice(1))
   };
 }
 
-function SideNavigation({ isMain }) {
+function SideNavigation({ isMain, isNotTranslated }) {
   const classes = useStyles();
   const { t } = useTranslation('common');
   const [menuList] = useState([
@@ -52,7 +53,7 @@ function SideNavigation({ isMain }) {
               </ListItemIcon>
               <ListItemText
                 classes={{ root: classes.text }}
-                primary={t('navigation.' + item.name)}
+                primary={isNotTranslated ? item.placeholder : t('navigation.' + item.name)}
               />
             </ListItem>
           ))}

@@ -5,24 +5,31 @@ import clsx from 'clsx';
 
 function ConnectButton(props) {
     const classes = useStyles();
+
+    return (
+        <div className={clsx(classes.container, props.top ? classes.top : '')} style={{ zIndex: 1 }}>
+            <UnstyledConnectButton variant='outlined' className={classes.button} />
+        </div>
+    );
+}
+
+export default ConnectButton;
+
+export function UnstyledConnectButton(props) {
+
     const {
-        isConnected, details, signIn, signOut,
+        isConnected, details, signIn, signOut
     } = useWallet();
 
     const buttonLabel = isConnected
         ? `Sign Out`
         : ' Connect NEAR Wallet';
 
-    // disabled
     const buttonAction = isConnected ? signOut : signIn;
 
     return (
-        <div className={clsx(classes.container, props.top ? classes.top : '')} style={{ zIndex: 1 }}>
-            <Button variant='outlined' onClick={buttonAction} className={classes.button}>
-                {buttonLabel}
-            </Button>
-        </div>
+        <Button {...props} onClick={buttonAction}>
+            {buttonLabel}
+        </Button>
     );
 }
-
-export default ConnectButton;

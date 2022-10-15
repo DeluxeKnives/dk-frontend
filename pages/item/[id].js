@@ -2,12 +2,16 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Head from 'next/head';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import brand from '~/public/text/brand';
-import { Button, Grid } from '@material-ui/core';
+import { Button, Grid, Hidden } from '@material-ui/core';
 import SimpleImage from '../../components/Cards/SimpleImage';
 import { useQuery, gql } from '@apollo/client';
 import { useRouter } from 'next/router'
 import { useWallet } from '../../lib/NearWalletProvider';
 import { nearToYocto } from 'near-api-js';
+import ReactMarkdown from 'react-markdown';
+import SideNavigationIcon from '../../components/SideNavigation/SideNavigationIcon';
+import { UnstyledConnectButton } from "../../components/ConnectButton";
+
 
 const STORE_NFTS = gql`
 query GetNFTListings( 
@@ -53,7 +57,7 @@ function ThingPage(props) {
       "tok_cond": {
         "metadata_id": { "_eq": pid }
       },
-      "list_cond": { 
+      "list_cond": {
         "metadata_id": { "_eq": pid },
         "listed_by": { "_eq": `deluxeshop.${process.env.NEAR_NETWORK}` },
         "kind": { "_eq": "simple" }
@@ -75,49 +79,65 @@ function ThingPage(props) {
         ...nft
       };
       setFormattedData(fnft);
+      setListings(data.mb_views_active_listings);
     }
     catch (e) {
       console.log("ERROR AHH", e)
     }
   }, [data, error]);
   const [formattedData, setFormattedData] = useState();
+  const [listings, setListings] = useState();
+  const isSoldOut = listings == null || listings.length == 0;
 
   // Wallet interaction
   const { wallet } = useWallet();
 
+  const meta = JSON.stringify({
+    type: 'accept_and_transfer',
+    args: {
+      tokenId: `${listings?.[0].token_id}:${formattedData?.storeId}`,
+    },
+  });
+  console.log(meta);
+  
   const buyNFT = useCallback(async () => {
     if (!pid) return;
-    console.log(formattedData);
 
-    const price = BigInt(formattedData.listed).toString();
-    await wallet?.makeOffer(pid, nearToYocto(price), {
-      callbackUrl: `${window.location.origin}/wallet-callback`,
-      meta: JSON.stringify({
-        type: 'make-offer',
-        args: {
-          tokenId: pid,
-          price: nearToYocto(price),
-        },
-      }),
 
-    });
+
+    wallet.acceptAndTransfer(`${listings[0].token_id}:${formattedData.storeId}`, {
+      callbackUrl: `${window.location.origin}`,
+      meta
+    })
+
+
   }, [formattedData, wallet]);
+
 
   return (
     <Grid container spacing={3} style={{ padding: "1rem" }}>
-      <Grid item md={4} sm={12}>
-        <SimpleImage {...formattedData} />
-      </Grid>
-      <Grid item md={8} sm={12}>
+      <Hidden smDown>
+        <Grid item md={1}>
+          <SideNavigationIcon isNotTranslated />
+        </Grid>
+      </Hidden>
+      <Grid item md={7} sm={12}>
         <div>
-          <Button onClick={buyNFT} disabled={formattedData?.listed == null}>
+          <Button onClick={buyNFT} disabled={listings == null || listings.length == 0}>
             Buy
           </Button>
           <Button component="a" href={`https://${process.env.NEAR_NETWORK}.mintbase.io/meta/${pid}`}>
             Transfer
           </Button>
-          <p>{formattedData?.description}</p>
+          <div style={{ float: 'right' }}>
+            <UnstyledConnectButton />
+          </div>
+          <p>{isSoldOut ? "SOLD OUT!" : listings.length + " NFTs remaining."}</p>
+          <ReactMarkdown>{formattedData?.description}</ReactMarkdown>
         </div>
+      </Grid>
+      <Grid item md={4} sm={12}>
+        <SimpleImage {...formattedData} />
       </Grid>
     </Grid>
   );
