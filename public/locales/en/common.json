@@ -54,7 +54,9 @@
     "cta": "See Selection",
     "hiw_title": "How it ",
     "hiw_titleBold": "Works",
-    "partners": "Partners"
+    "partners": "Partners",
+    "faq": "Frequently Asked Questions",
+    "faq_subtitle": "Have a question? Find an asnwer here or in our community Discord."
   },
   "unisex-landing": {
     "header_language": "language",
