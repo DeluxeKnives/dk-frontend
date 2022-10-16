@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const blogStyles = makeStyles(theme => ({
   root: {
     position: 'relative',
+    minHeight: '396px',
     '& > div': {
       [theme.breakpoints.down('md')]: {
         padding: 0,
