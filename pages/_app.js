@@ -120,7 +120,7 @@ function MyApp(props) {
           />
           <NearWalletProvider
             network={process.env.NEAR_NETWORK}
-            contractAddress={''}
+            apiKey={process.env.MINTBASE_API_KEY}
           >
             <ApolloProvider client={client}>
               <div id="main-wrap">

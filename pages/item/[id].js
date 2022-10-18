@@ -96,6 +96,7 @@ function ThingPage(props) {
     type: 'accept_and_transfer',
     args: {
       tokenId: `${listings?.[0].token_id}:${formattedData?.storeId}`,
+      marketAddress: "shopifyteststore.mintspace2.testnet"
     },
   });
   console.log(meta);
@@ -103,13 +104,11 @@ function ThingPage(props) {
   const buyNFT = useCallback(async () => {
     if (!pid) return;
 
-
-
     wallet.acceptAndTransfer(`${listings[0].token_id}:${formattedData.storeId}`, {
       callbackUrl: `${window.location.origin}`,
-      meta
-    })
-
+      meta,
+      marketAddress: "shopifyteststore.mintspace2.testnet"
+    });
 
   }, [formattedData, wallet]);
 
