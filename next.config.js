@@ -25,6 +25,8 @@ module.exports = withImages({
   },
   env: {
     NEAR_NETWORK: "testnet",
-    NEXT_PUBLIC_DEVELOPER_KEY: "0da4bb5e-3666-467a-a98a-f4adfdf81ae6"
+    NEXT_PUBLIC_DEVELOPER_KEY: "0da4bb5e-3666-467a-a98a-f4adfdf81ae6",
+    MINTBASE_MARKET_ADDRESS: "market-v2-beta.mintspace2.testnet",
+    BACKEND_URL: "http://localhost:3003"
   }
 });

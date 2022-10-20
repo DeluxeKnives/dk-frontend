@@ -7,7 +7,6 @@ import SimpleImage from '../../components/Cards/SimpleImage';
 import { useQuery, gql } from '@apollo/client';
 import { useRouter } from 'next/router'
 import { useWallet } from '../../lib/NearWalletProvider';
-import { nearToYocto } from 'near-api-js';
 import ReactMarkdown from 'react-markdown';
 import SideNavigationIcon from '../../components/SideNavigation/SideNavigationIcon';
 import { UnstyledConnectButton } from "../../components/ConnectButton";
@@ -67,7 +66,6 @@ function ThingPage(props) {
 
   // Correctly store the queried data
   useEffect(() => {
-    console.log(data);
     try {
       const nft = data.mb_views_nft_tokens[0];
       const fnft = {
@@ -96,21 +94,66 @@ function ThingPage(props) {
     type: 'accept_and_transfer',
     args: {
       tokenId: `${listings?.[0].token_id}:${formattedData?.storeId}`,
-      marketAddress: "shopifyteststore.mintspace2.testnet"
+      marketAddress: process.env.MINTBASE_MARKET_ADDRESS
     },
   });
-  console.log(meta);
-  
+
   const buyNFT = useCallback(async () => {
     if (!pid) return;
 
     wallet.acceptAndTransfer(`${listings[0].token_id}:${formattedData.storeId}`, {
       callbackUrl: `${window.location.origin}`,
       meta,
-      marketAddress: "shopifyteststore.mintspace2.testnet"
+      marketAddress: process.env.MINTBASE_MARKET_ADDRESS
     });
 
   }, [formattedData, wallet]);
+
+
+  async function dab() {
+    console.log(wallet);
+    const res = await fetch(`${process.env.BACKEND_URL}/redemption/redeemMirror`, {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id: 5,
+        nftID: 5
+      })
+    });
+    console.log(await res.json());
+  }
+
+  async function login() {
+    const accountId = wallet.activeAccount.accountId;
+    console.log(wallet);
+    const signed = await wallet.activeAccount.connection.signer.signMessage(
+      "BADASS MESSAGE", accountId, process.env.NEAR_NETWORK
+    );
+
+    const res = await fetch(`${process.env.BACKEND_URL}/redemption/redeemMirror`, {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        "id": "634cd9934e57a674636020e4",
+        "nftID": 5,
+        "accountId": accountId,
+        password: signed
+      })
+    });
+
+    console.log(JSON.stringify(signed));
+    /*
+    const res = await fetch(`${process.env.BACKEND_URL}/redemption/login`, {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: accountId,
+        password: JSON.stringify(signed)
+      })
+    });
+    */
+    //console.log(await res.json());
+  }
 
 
   return (
@@ -127,6 +170,12 @@ function ThingPage(props) {
           </Button>
           <Button component="a" href={`https://${process.env.NEAR_NETWORK}.mintbase.io/meta/${pid}`}>
             Transfer
+          </Button>
+          <Button onClick={login}>
+            Login
+          </Button>
+          <Button onClick={dab}>
+            Redemption
           </Button>
           <div style={{ float: 'right' }}>
             <UnstyledConnectButton />
