@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Head from 'next/head';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import brand from '~/public/text/brand';
-import { Button, Grid, Hidden } from '@material-ui/core';
+import { Button, Grid, Hidden, Chip } from '@material-ui/core';
 import SimpleImage from '../../components/Cards/SimpleImage';
 import { useQuery, gql } from '@apollo/client';
 import { useRouter } from 'next/router'
@@ -10,11 +10,11 @@ import { useWallet } from '../../lib/NearWalletProvider';
 import ReactMarkdown from 'react-markdown';
 import SideNavigationIcon from '../../components/SideNavigation/SideNavigationIcon';
 import { UnstyledConnectButton } from "../../components/ConnectButton";
-
+import { nearNumToHuman } from '../../lib/NearWalletProvider';
 
 const STORE_NFTS = gql`
 query GetNFTListings( 
-  $offset: Int = 0 $tok_cond: mb_views_nft_tokens_bool_exp $list_cond: mb_views_active_listings_bool_exp) 
+  $offset: Int = 0 $tok_cond: mb_views_nft_tokens_bool_exp $list_cond: mb_views_active_listings_bool_exp $user_cond: nft_tokens_bool_exp) 
   @cached 
   { 
    mb_views_nft_tokens(
@@ -40,6 +40,14 @@ query GetNFTListings(
      kind
      token_id
    }
+   nft_tokens(
+    where: $user_cond
+    offset: $offset
+  )
+  {
+   token_id
+   owner
+  }
  }
 `;
 
@@ -60,6 +68,9 @@ function ThingPage(props) {
         "metadata_id": { "_eq": pid },
         "listed_by": { "_eq": `deluxeshop.${process.env.NEAR_NETWORK}` },
         "kind": { "_eq": "simple" }
+      },
+      "user_cond": {
+        "metadata_id": { "_eq": pid }
       }
     }
   });
@@ -78,6 +89,7 @@ function ThingPage(props) {
       };
       setFormattedData(fnft);
       setListings(data.mb_views_active_listings);
+      setNFTOwners(data.nft_tokens);
     }
     catch (e) {
       console.log("ERROR AHH", e)
@@ -85,6 +97,7 @@ function ThingPage(props) {
   }, [data, error]);
   const [formattedData, setFormattedData] = useState();
   const [listings, setListings] = useState();
+  const [nftOwners, setNFTOwners] = useState();
   const isSoldOut = listings == null || listings.length == 0;
 
   // Wallet interaction
@@ -93,7 +106,7 @@ function ThingPage(props) {
   const meta = JSON.stringify({
     type: 'accept_and_transfer',
     args: {
-      tokenId: `${listings?.[0].token_id}:${formattedData?.storeId}`,
+      tokenId: `${listings?.[0]?.token_id}:${formattedData?.storeId}`,
       marketAddress: process.env.MINTBASE_MARKET_ADDRESS
     },
   });
@@ -130,6 +143,10 @@ function ThingPage(props) {
       "BADASS MESSAGE", accountId, process.env.NEAR_NETWORK
     );
 
+    var decoder = new TextDecoder("utf-8");
+    console.log(decoder.decode(Uint8Array.from(signed.publicKey.data)));
+    console.log(signed);
+
     const res = await fetch(`${process.env.BACKEND_URL}/redemption/redeemMirror`, {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
@@ -155,6 +172,7 @@ function ThingPage(props) {
     //console.log(await res.json());
   }
 
+  console.log(listings);
 
   return (
     <Grid container spacing={3} style={{ padding: "1rem" }}>
@@ -165,6 +183,9 @@ function ThingPage(props) {
       </Hidden>
       <Grid item md={7} sm={12}>
         <div>
+          <Hidden mdUp>
+            <SimpleImage {...formattedData} />
+          </Hidden>
           <Button onClick={buyNFT} disabled={listings == null || listings.length == 0}>
             Buy
           </Button>
@@ -180,13 +201,30 @@ function ThingPage(props) {
           <div style={{ float: 'right' }}>
             <UnstyledConnectButton />
           </div>
-          <p>{isSoldOut ? "SOLD OUT!" : listings.length + " NFTs remaining."}</p>
+          <div style={{ marginTop: '1rem' }}>
+            {!isSoldOut &&
+              <Chip
+                color={'primary'} style={{ marginRight: '1rem' }}
+                label={`${nearNumToHuman(listings[0].price)} NEAR`}
+              />
+            }
+            <Chip
+              color={isSoldOut ? 'default' : 'primary'} style={{ marginRight: '1rem' }}
+              label={isSoldOut ? "SOLD OUT!" : `${listings.length} NFT${listings.length > 1 ? "s" : ""} remaining`}
+            />
+            <Chip
+              style={{ marginRight: '1rem' }}
+              label={`Owns ${nftOwners?.filter(x => x.owner == wallet?.activeAccount?.accountId).length} of ${nftOwners?.length}`}
+            />
+          </div>
           <ReactMarkdown>{formattedData?.description}</ReactMarkdown>
         </div>
       </Grid>
-      <Grid item md={4} sm={12}>
-        <SimpleImage {...formattedData} />
-      </Grid>
+      <Hidden smDown>
+        <Grid item md={4} sm={12}>
+          <SimpleImage {...formattedData} />
+        </Grid>
+      </Hidden>
     </Grid>
   );
 }

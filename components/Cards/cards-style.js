@@ -162,6 +162,7 @@ const cardsStyles = makeStyles(theme => ({
       overflow: 'hidden',
       borderRadius: theme.rounded.big,
     },
+    marginBottom: '1rem'
   },
   detail: {
     position: 'absolute',

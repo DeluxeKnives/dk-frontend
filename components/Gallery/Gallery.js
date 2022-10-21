@@ -12,6 +12,7 @@ import Title from '../Title';
 import useStyle from './gallery-style';
 import { useQuery, gql } from "@apollo/client";
 import Link from 'next/dist/client/link';
+import { nearNumToHuman } from '../../lib/NearWalletProvider';
 
 
 
@@ -61,13 +62,7 @@ function Gallery() {
         nft.reference_blob?.extra?.forEach(x => {
           if(x?.trait_type == "type") category = x.value;
         });
-        const priceStr =
-          (parseInt(
-            (BigInt(nft.listed ?? 0) / BigInt(100000000000000000000000))
-              .toString()
-            ) / 10
-          )
-          .toString();
+        const priceStr = nearNumToHuman(nft.listed);
         let price = priceStr;
 
         nftsFormatted.push({
@@ -189,3 +184,4 @@ function Gallery() {
 }
 
 export default Gallery;
+
