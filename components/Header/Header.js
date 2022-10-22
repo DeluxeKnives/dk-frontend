@@ -71,7 +71,7 @@ function Header(props) {
     createData("store", "/store"),
     createData("game", "/game"),
     createData("main", "https://deluxeknives.com/"),
-    createData("discord", "https://discord.com/"),
+    createData("discord", "https://discord.gg/sf4FzDTFb4"),
   ]);
   const [openDrawer, setOpenDrawer] = useState(false);
   const handleOpenDrawer = () => {

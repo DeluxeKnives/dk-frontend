@@ -57,7 +57,7 @@ function Gallery() {
     const nftsFormatted = [];
     console.log(data);
     try {
-      for (const nft of data.mb_views_nft_metadata_unburned) {
+      for (const nft of data?.mb_views_nft_metadata_unburned) {
         let category = "";
         nft.reference_blob?.extra?.forEach(x => {
           if(x?.trait_type == "type") category = x.value;
@@ -77,7 +77,7 @@ function Gallery() {
       }
     }
     catch (e) {
-      console.log("ERROR AHH", e)
+      //console.log("ERROR AHH", e)
     }
 
     setFormattedData(nftsFormatted);

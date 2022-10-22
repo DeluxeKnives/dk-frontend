@@ -29,7 +29,7 @@ function SideNavigation({ isMain, isNotTranslated }) {
     // createData("main", "https://deluxeknives.com/", <IoHomeSharp size={36} />),
     createData("store", "/store", <IoStorefront size={36} />),
     createData("game", "/game", <IoGameController size={36} />),
-    createData("discord", "", <IoLogoDiscord size={36} />),
+    createData("discord", "https://discord.gg/sf4FzDTFb4", <IoLogoDiscord size={36} />),
   ]);
 
   return (
