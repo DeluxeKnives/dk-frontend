@@ -5,7 +5,9 @@ const testiStyles = makeStyles(theme => ({
     color: theme.palette.text.secondary,
   },
   logo: {
-    maxWidth: "300px"
+    maxWidth: "350px",
+    marginRight: '2rem',
+    marginLeft: '2rem'
   },
   card: {
     padding: theme.spacing(3),

@@ -11,6 +11,8 @@ import ReactMarkdown from 'react-markdown';
 import SideNavigationIcon from '../../components/SideNavigation/SideNavigationIcon';
 import { UnstyledConnectButton } from "../../components/ConnectButton";
 import { nearNumToHuman } from '../../lib/NearWalletProvider';
+import { sha256 } from "js-sha256";
+import { utils } from "near-api-js";
 
 const STORE_NFTS = gql`
 query GetNFTListings( 
@@ -139,13 +141,22 @@ function ThingPage(props) {
   async function login() {
     const accountId = wallet.activeAccount.accountId;
     console.log(wallet);
-    const signed = await wallet.activeAccount.connection.signer.signMessage(
-      "BADASS MESSAGE", accountId, process.env.NEAR_NETWORK
+    const signed = await wallet.activeWallet._near.connection.signer.signMessage(
+      new Uint8Array(sha256.array("MESSAGE")), accountId, process.env.NEAR_NETWORK
     );
 
-    var decoder = new TextDecoder("utf-8");
-    console.log(decoder.decode(Uint8Array.from(signed.publicKey.data)));
-    console.log(signed);
+    // This is supposed to be the right public key:
+    const connected_public_key = "ed25519:Hpf9NUCsAQYW9UadGptKobvKZDjf5d7YMa7DA34NZEV1";
+    console.log(connected_public_key);
+    console.log(wallet.activeWallet._authData.allKeys[0]); // These are definitely the same
+
+    // Attempt local verification
+    const rpcPublicKey = utils.key_pair.PublicKey.from(connected_public_key);
+    const verification = rpcPublicKey.verify(
+      new Uint8Array(sha256.array("MESSAGE")), 
+      signed.signature);
+    console.log("VERIFICATION:", verification);
+    console.log(signed.signature);
 
     const res = await fetch(`${process.env.BACKEND_URL}/redemption/redeemMirror`, {
       method: "POST",

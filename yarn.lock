@@ -3919,10 +3919,10 @@
     "text-encoding-utf-8" "^1.0.2"
     "tweetnacl" "^1.0.1"
 
-"near-api-js@^1.0.0":
-  "integrity" "sha512-OYItaQIYlKK27FG5PrqqtkTI8Vv9TEOCi7gXePYigS4o6WofXciAXNjr4sihDJ8Vzi6s7+eEkf3zTNP3042FBw=="
-  "resolved" "https://registry.npmjs.org/near-api-js/-/near-api-js-1.0.0.tgz"
-  "version" "1.0.0"
+"near-api-js@^1.1.0":
+  "integrity" "sha512-qYKv1mYsaDZc2uYndhS+ttDhR9+60qFc+ZjD6lWsAxr3ZskMjRwPffDGQZYhC7BRDQMe1HEbk6d5mf+TVm0Lqg=="
+  "resolved" "https://registry.npmjs.org/near-api-js/-/near-api-js-1.1.0.tgz"
+  "version" "1.1.0"
   dependencies:
     "bn.js" "5.2.1"
     "borsh" "^0.7.0"

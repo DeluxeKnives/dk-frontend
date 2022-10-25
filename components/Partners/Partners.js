@@ -8,6 +8,7 @@ import useStyle from './style';
 
 // Images
 import nearImg from '~/public/images/partners/built-near.png';
+import mintbaseImg from '~/public/images/partners/mintbase-logo.png';
 
 function Partners() {
   const { t } = useTranslation('common');
@@ -29,6 +30,7 @@ function Partners() {
               duration={0.3}
             >
               <img src={nearImg} className={classes.logo}  />
+              <img src={mintbaseImg} className={classes.logo}  />
             </ScrollAnimation>
           </div>
         </Grid>

@@ -65,7 +65,7 @@ function Faq() {
               </Title>
               <Hidden smDown>
                 <div className={classes.illustration}>
-                  <img src="/images/crypto/faq.png" alt="illustration" />
+                  <img src="/images/K-Gamma-Doppler.png" alt="illustration" />
                 </div>
               </Hidden>
             </ScrollAnimation>
