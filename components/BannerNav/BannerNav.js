@@ -70,7 +70,7 @@ function BannerNav(props) {
                   {t('home.banner_desc')}
                 </Typography>
                 <div className={classes.socmed}>
-                  <Button variant="outlined" className={classes.download} component="a">
+                  <Button variant="outlined" className={classes.download} component="a" href="store">
                     {t('home.cta')}
                   </Button>
                   <IconButton aria-label="Delete" className={classes.margin} size="small"

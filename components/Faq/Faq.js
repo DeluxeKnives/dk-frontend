@@ -17,24 +17,24 @@ import ScrollAnimation from 'react-scroll-animation-wrapper';
 
 const faqData = [
   {
-    q: 'Pellentesque ac bibendum tortor?',
-    a: 'Vivamus sit amet interdum elit. Proin lacinia erat ac velit tempus auctor. '
+    q: 'What do you mean by a real knife?',
+    a: 'We mean that they are real, as in you can hold them in your hand. Chop carrots if you would like. '
   },
   {
-    q: 'In mi nulla, fringilla vestibulum?',
-    a: 'Vivamus sit amet interdum elit. Proin lacinia erat ac velit tempus auctor. '
+    q: 'How do I receive the knife after purchasing my NFT?',
+    a: 'When you purchase an NFT that has not been redeemed yet, you will be able to redeem it. Our backend will generate you a discount code for you to use on our Shopify store to receive a free knife (shipping applies).'
   },
   {
-    q: 'Quisque lacinia purus ut libero?',
-    a: 'Vivamus sit amet interdum elit. Proin lacinia erat ac velit tempus auctor. '
+    q: 'Is the NFT burnt after redeeming it?',
+    a: 'No. You can still transfer it and access any metaverse components that come with it. It cannot be used for another discount code. '
   },
   {
-    q: 'Quisque ut metus sit amet augue?',
-    a: 'Vivamus sit amet interdum elit. Proin lacinia erat ac velit tempus auctor. '
+    q: 'What about copyright?',
+    a: 'CSGO skins are protected by copyright. These knives are definitely inspired by popular skins, but are not exact copies. We do not claim for them to be copies or endorsed by their original creators, as cool as their originals are. '
   },
   {
-    q: 'Pellentesque ac bibendum tortor?',
-    a: 'Vivamus sit amet interdum elit. Proin lacinia erat ac velit tempus auctor. '
+    q: 'Why NFTs?',
+    a: 'Selling knives are cool, but we want to sell an experience with these knives too. NFTs allow us to introduce digital twins for our product, opening the door for potential collaboration with the rest of Web3. '
   },
 ];
 
