@@ -138,33 +138,39 @@ function ThingPage(props) {
   }
 
   async function login() {
-    const accountId = wallet.activeAccount.accountId;
+    const accountId = wallet._connectedAccount.accountId;
     console.log(accountId, wallet);
+
+    // Mintbase Attempt
     // const signed = await wallet.activeWallet._near.connection.signer.signMessage(
     //   new Uint8Array(sha256.array("MESSAGE")), accountId, process.env.NEAR_NETWORK
     // );
+    // const privateKey = wallet.keyStore.localStorage["near-api-js:keystore:deluxeshop.testnet:testnet"].substring(8);
+    // const keyPair = new utils.key_pair.KeyPairEd25519(privateKey);
 
     // Sign with Dorian's Link
     const sameMsgObj = new Uint8Array(sha256.array("MESSAGE"));
-    // const keyStore = new keyStores.BrowserLocalStorageKeyStore();
-    // const keyPair = await keyStore.getKey('testnet', accountId);
-    const privateKey = wallet.keyStore.localStorage["near-api-js:keystore:deluxeshop.testnet:testnet"].substring(8);
-    const keyPair = new utils.key_pair.KeyPairEd25519(privateKey);
+    const keyStore = new keyStores.BrowserLocalStorageKeyStore();
+    const keyPair = await keyStore.getKey(process.env.NEAR_NETWORK, accountId);
     const { signature } = keyPair.sign(sameMsgObj);
-    console.log(signature);
+
+    // Validate with the key pair
+    const keyPairVerify = keyPair.verify(sameMsgObj, signature);
 
     // This is supposed to be the right public key:
-    const connected_public_key = wallet.activeWallet._authData.allKeys[0]; //"ed25519:Hpf9NUCsAQYW9UadGptKobvKZDjf5d7YMa7DA34NZEV1";
-    //console.log(connected_public_key);
-    console.log(wallet.activeWallet._authData.allKeys[0]); // These are definitely the same
+    const connected_public_key = keyPair.getPublicKey();
+
+    console.log(connected_public_key); // These are definitely the same
+
 
     // Attempt local verification
-    const rpcPublicKey = utils.key_pair.PublicKey.from(connected_public_key);
-    const verification = rpcPublicKey.verify(
+    const rpcPublicKey = utils.key_pair.PublicKey.from(wallet._authData.allKeys[0]);
+    console.log(rpcPublicKey);
+    const publicKeyVerify = connected_public_key.verify(
       sameMsgObj, 
       signature);
-    console.log("VERIFICATION:", verification);
-    //console.log(signature);
+    
+    console.log("PUBLIC KEY VERIFICATION:", publicKeyVerify, "KEY PAIR VERIFICATION:", keyPairVerify);
 
     // const res = await fetch(`${process.env.BACKEND_URL}/redemption/redeemMirror`, {
     //   method: "POST",
