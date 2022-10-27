@@ -141,60 +141,22 @@ function ThingPage(props) {
     const accountId = wallet._connectedAccount.accountId;
     console.log(accountId, wallet);
 
-    // Mintbase Attempt
-    // const signed = await wallet.activeWallet._near.connection.signer.signMessage(
-    //   new Uint8Array(sha256.array("MESSAGE")), accountId, process.env.NEAR_NETWORK
-    // );
-    // const privateKey = wallet.keyStore.localStorage["near-api-js:keystore:deluxeshop.testnet:testnet"].substring(8);
-    // const keyPair = new utils.key_pair.KeyPairEd25519(privateKey);
-
     // Sign with Dorian's Link
-    const sameMsgObj = new Uint8Array(sha256.array("MESSAGE"));
+    const sameMsgObj = new Uint8Array(sha256.array("123456789"));
     const keyStore = new keyStores.BrowserLocalStorageKeyStore();
     const keyPair = await keyStore.getKey(process.env.NEAR_NETWORK, accountId);
-    const { signature } = keyPair.sign(sameMsgObj);
+    const signed = keyPair.sign(sameMsgObj);
 
-    // Validate with the key pair
-    const keyPairVerify = keyPair.verify(sameMsgObj, signature);
-
-    // This is supposed to be the right public key:
-    const connected_public_key = keyPair.getPublicKey();
-
-    console.log(connected_public_key); // These are definitely the same
-
-
-    // Attempt local verification
-    const rpcPublicKey = utils.key_pair.PublicKey.from(wallet._authData.allKeys[0]);
-    console.log(rpcPublicKey);
-    const publicKeyVerify = connected_public_key.verify(
-      sameMsgObj, 
-      signature);
-    
-    console.log("PUBLIC KEY VERIFICATION:", publicKeyVerify, "KEY PAIR VERIFICATION:", keyPairVerify);
-
-    // const res = await fetch(`${process.env.BACKEND_URL}/redemption/redeemMirror`, {
-    //   method: "POST",
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({
-    //     "id": "634cd9934e57a674636020e4",
-    //     "nftID": 5,
-    //     "accountId": accountId,
-    //     password: signed
-    //   })
-    // });
-
-    //console.log(JSON.stringify(signed));
-    /*
-    const res = await fetch(`${process.env.BACKEND_URL}/redemption/login`, {
+    const res = await fetch(`${process.env.BACKEND_URL}/redemption/redeemMirror`, {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        username: accountId,
-        password: JSON.stringify(signed)
+        "id": "634cd9934e57a674636020e4",
+        "nftID": 5,
+        "accountId": accountId,
+        password: signed
       })
     });
-    */
-    //console.log(await res.json());
   }
 
   console.log(listings);
