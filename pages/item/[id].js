@@ -40,6 +40,7 @@ query GetNFTListings(
      currency
      kind
      token_id
+     market_id
    }
    nft_tokens(
     where: $user_cond
@@ -104,38 +105,57 @@ function ThingPage(props) {
   // Wallet interaction
   const { wallet } = useWallet();
 
-  const meta = JSON.stringify({
-    type: 'accept_and_transfer',
-    args: {
-      tokenId: `${listings?.[0]?.token_id}:${formattedData?.storeId}`,
-      marketAddress: process.env.MINTBASE_MARKET_ADDRESS
-    },
-  });
-
   const buyNFT = useCallback(async () => {
     if (!pid) return;
 
-    wallet.acceptAndTransfer(`${listings[0].token_id}:${formattedData.storeId}`, {
-      callbackUrl: `${window.location.origin}`,
-      meta,
-      marketAddress: process.env.MINTBASE_MARKET_ADDRESS
-    });
+    const [shopId, metaId] = pid.split(":")
+    const listing = listings[0];
+
+    const transactions = [
+      {
+        receiverId: listing.market_id,
+        functionCalls: [
+          {
+            methodName: "buy",
+            receiverId: listing.market_id,
+            gas: "200000000000000",
+            args: {
+              // eslint-disable-next-line camelcase
+              nft_contract_id: shopId,
+              // eslint-disable-next-line camelcase
+              token_id: listing.token_id,
+            },
+            deposit: BigInt(listing.price).toString(),
+          },
+        ],
+      },
+    ];
+    const options = {
+      meta: JSON.stringify({
+        type: "make-offer",
+        args: {
+          metadataId: formattedData.metadataId,
+        },
+      }),
+    };
+    console.log(transactions, options);
+    wallet.executeMultipleTransactions({ transactions, options });
+  
+    // Old Market Script, deprecated
+    // const meta = JSON.stringify({
+    //   type: 'accept_and_transfer',
+    //   args: {
+    //     tokenId: `${listings?.[0]?.token_id}:${formattedData?.storeId}`,
+    //     marketAddress: process.env.MINTBASE_MARKET_ADDRESS
+    //   },
+    // });
+    // wallet.acceptAndTransfer(`${listings[0].token_id}:${formattedData.storeId}`, {
+    //   callbackUrl: `${window.location.origin}`,
+    //   meta,
+    //   marketAddress: process.env.MINTBASE_MARKET_ADDRESS
+    // });
 
   }, [formattedData, wallet]);
-
-
-  async function dab() {
-    console.log(wallet);
-    const res = await fetch(`${process.env.BACKEND_URL}/redemption/redeemMirror`, {
-      method: "POST",
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        id: 5,
-        nftID: 5
-      })
-    });
-    console.log(await res.json());
-  }
 
   async function login() {
     const accountId = wallet.activeAccount.accountId;
@@ -213,9 +233,6 @@ function ThingPage(props) {
           </Button>
           <Button onClick={login}>
             Login
-          </Button>
-          <Button onClick={dab}>
-            Redemption
           </Button>
           <div style={{ float: 'right' }}>
             <UnstyledConnectButton />
