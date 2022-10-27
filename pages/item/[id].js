@@ -159,56 +159,21 @@ function ThingPage(props) {
 
   async function login() {
     const accountId = wallet.activeAccount.accountId;
-    console.log(accountId, wallet);
-    // const signed = await wallet.activeWallet._near.connection.signer.signMessage(
-    //   new Uint8Array(sha256.array("MESSAGE")), accountId, process.env.NEAR_NETWORK
-    // );
+    const sameMsgObj = new Uint8Array(sha256.array("123456789 wrong message")); // TODO: replace with nonce
+    const keyStore = new keyStores.BrowserLocalStorageKeyStore();
+    const keyPair = await keyStore.getKey(process.env.NEAR_NETWORK, accountId);
+    const signed = keyPair.sign(sameMsgObj);
 
-    // Sign with Dorian's Link
-    const sameMsgObj = new Uint8Array(sha256.array("MESSAGE"));
-    // const keyStore = new keyStores.BrowserLocalStorageKeyStore();
-    // const keyPair = await keyStore.getKey('testnet', accountId);
-    const privateKey = wallet.keyStore.localStorage["near-api-js:keystore:deluxeshop.testnet:testnet"].substring(8);
-    const keyPair = new utils.key_pair.KeyPairEd25519(privateKey);
-    const { signature } = keyPair.sign(sameMsgObj);
-    console.log(signature);
-
-    // This is supposed to be the right public key:
-    const connected_public_key = wallet.activeWallet._authData.allKeys[0]; //"ed25519:Hpf9NUCsAQYW9UadGptKobvKZDjf5d7YMa7DA34NZEV1";
-    //console.log(connected_public_key);
-    console.log(wallet.activeWallet._authData.allKeys[0]); // These are definitely the same
-
-    // Attempt local verification
-    const rpcPublicKey = utils.key_pair.PublicKey.from(connected_public_key);
-    const verification = rpcPublicKey.verify(
-      sameMsgObj, 
-      signature);
-    console.log("VERIFICATION:", verification);
-    //console.log(signature);
-
-    // const res = await fetch(`${process.env.BACKEND_URL}/redemption/redeemMirror`, {
-    //   method: "POST",
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({
-    //     "id": "634cd9934e57a674636020e4",
-    //     "nftID": 5,
-    //     "accountId": accountId,
-    //     password: signed
-    //   })
-    // });
-
-    //console.log(JSON.stringify(signed));
-    /*
-    const res = await fetch(`${process.env.BACKEND_URL}/redemption/login`, {
+    const res = await fetch(`${process.env.BACKEND_URL}/redemption/redeemMirror`, {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        username: accountId,
-        password: JSON.stringify(signed)
+        "id": "634cd9934e57a674636020e4",
+        "nftID": 5,
+        "accountId": accountId,
+        password: signed
       })
     });
-    */
-    //console.log(await res.json());
   }
 
   console.log(listings);
