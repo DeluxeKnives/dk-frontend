@@ -75,7 +75,7 @@ function Landing(props) {
         </title>
       </Head>
       <CssBaseline />
-      <section id="home" />
+      {/* <section id="home" /> */}
       <div className={classes.mainWrap}>
         <Header
           onToggleDark={onToggleDark}
@@ -89,12 +89,12 @@ function Landing(props) {
         </section>
         <div className={classes.parallaxWrap}>
           <div className={classes.bottomDeco}>
-            <Decoration />
+            {/* <Decoration /> */}
           </div>
           <section id="available" className={classes.spaceTop}>
             <Available />
           </section>
-          <section id="howitworks" className={classes.spaceTop}>
+          <section id="howitworks" className={classes.spaceTop} style={{textAlign: "center"}}>
             <HowItWorks />
           </section>
           <section id="faq" className={classes.spaceTop}>
