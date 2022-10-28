@@ -179,7 +179,7 @@ function ThingPage(props) {
   console.log(listings);
 
   return (
-    <Grid container spacing={3} style={{ padding: "1rem" }}>
+    <Grid container style={{ padding: "1rem" }}>
       <Hidden smDown>
         <Grid item md={1}>
           <SideNavigationIcon isNotTranslated />
@@ -222,7 +222,7 @@ function ThingPage(props) {
         </div>
       </Grid>
       <Hidden smDown>
-        <Grid item md={4} sm={12}>
+        <Grid item md={4} sm={12} style={{margin: "auto 0 auto 0", padding: "1rem"}}>
           <SimpleImage {...formattedData} />
         </Grid>
       </Hidden>

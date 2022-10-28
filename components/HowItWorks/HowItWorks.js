@@ -27,10 +27,9 @@ function Testimonials() {
         <div className={classes.root}>
           <Title dark>
             {t('home.hiw_title')}
-            &nbsp;
-            <strong>
-              {t('home.hiw_titleBold')}
-            </strong>
+            {/* <strong> */}
+            {t('home.hiw_titleBold')}
+            {/* </strong> */}
           </Title>
           <Grid container spacing={3}>
             <Grid item md={4} xs={12}>
@@ -60,13 +59,13 @@ function Testimonials() {
                     variant="h3"
                     className={text.title2}
                   >
-                    2. Redeem Knife
+                    2. Receive a code
                   </Typography>
                 </FadeUpScrollAnimation>
                 <FadeUpScrollAnimation delay={400}>
                   <div>
                     <Typography component="p" className={text.paragraph}>
-                      Redeem your new knife NFT to receive a code for a free physical NFT on our main site. You still own your NFT!
+                      Your NFT comes with a code for a <strong>real, physical knife</strong> on our main site.
                     </Typography>
                   </div>
                 </FadeUpScrollAnimation>
@@ -80,7 +79,7 @@ function Testimonials() {
                     variant="h3"
                     className={text.title2}
                   >
-                    3. Use Our Shop
+                    3. Redeem your knife
                   </Typography>
                 </FadeUpScrollAnimation>
                 <FadeUpScrollAnimation delay={600}>
