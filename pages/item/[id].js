@@ -171,7 +171,7 @@ function ThingPage(props) {
         "id": "634cd9934e57a674636020e4",
         "nftID": 5,
         "accountId": accountId,
-        password: signed
+        signature: signed.signature
       })
     });
   }
