@@ -96,8 +96,11 @@ function BannerNav(props) {
         </Grid>
       </Grid>
       {/* temporarily remove big 3d knife until we can find a better place for it 
-            since it seems a little out of place floating around */}
-      {/* <ThreeDKnife /> */}
+            since it seems a little out of place floating around 
+            
+            yeah but empty makes me sad. we can make it smaller
+            */}
+      <ThreeDKnife />
     </div>
   );
 }

@@ -8,12 +8,9 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 import { useText } from '~/theme/common';
 import useStyles from './cards-style';
 
-export default function ImageThumb(props) {
+export default function SimpleImage(props) {
   const classes = useStyles();
-  const {
-    img,
-    onClick
-  } = props;
+  const { img } = props;
 
   return (
     <Paper className={clsx(classes.simpleImg, 'long')} >
@@ -24,14 +21,6 @@ export default function ImageThumb(props) {
   );
 }
 
-ImageThumb.propTypes = {
-  img: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  link: PropTypes.string.isRequired,
-  size: PropTypes.string.isRequired,
-  openPopup: PropTypes.func,
-};
-
-ImageThumb.defaultProps = {
-  openPopup: () => {}
+SimpleImage.propTypes = {
+  img: PropTypes.string.isRequired
 };

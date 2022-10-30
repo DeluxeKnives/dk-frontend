@@ -29,8 +29,8 @@ function Partners() {
               delay={300}
               duration={0.3}
             >
-              <img src={nearImg} className={classes.logo}  />
-              <img src={mintbaseImg} className={classes.logo}  />
+              <img src={nearImg} className={classes.logo} />
+              <img src={mintbaseImg} className={classes.logo} />
             </ScrollAnimation>
           </div>
         </Grid>

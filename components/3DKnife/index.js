@@ -14,7 +14,8 @@ const useStyles = makeStyles(theme => ({
 
     [theme.breakpoints.up('lg')]: {
       top: -60,
-      right: "0%"
+      right: "5%",
+      transform: "scale(0.9)"
     },
 
     [theme.breakpoints.only('md')]: {

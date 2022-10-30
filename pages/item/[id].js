@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import Head from 'next/head';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import brand from '~/public/text/brand';
-import { Button, Grid, Hidden, Chip } from '@material-ui/core';
+import { Button, Grid, Hidden, Chip, Typography, IconButton, CircularProgress } from '@material-ui/core';
 import SimpleImage from '../../components/Cards/SimpleImage';
 import { useQuery, gql } from '@apollo/client';
 import { useRouter } from 'next/router'
@@ -10,8 +7,8 @@ import { useWallet, nearNumToHuman } from '../../lib/NearWalletProvider';
 import ReactMarkdown from 'react-markdown';
 import SideNavigationIcon from '../../components/SideNavigation/SideNavigationIcon';
 import { UnstyledConnectButton } from "../../components/ConnectButton";
-import { sha256 } from "js-sha256";
-import { utils, keyStores } from "near-api-js";
+import RedeemModal, { RedemptionLine } from '../../components/Redeem/RedeemModal';
+import { useText } from '~/theme/common';
 
 const STORE_NFTS = gql`
 query GetNFTListings( 
@@ -59,6 +56,7 @@ query GetNFTListings(
 function ThingPage(props) {
   const router = useRouter();
   const pid = router.query.id;
+  const text = useText();
 
   // Query for the store
   const { loading, error, data } = useQuery(STORE_NFTS, {
@@ -80,31 +78,35 @@ function ThingPage(props) {
   // Correctly store the queried data
   useEffect(() => {
     try {
-      const nft = data.mb_views_nft_tokens[0];
+      const nft = data?.mb_views_nft_tokens?.[0];
+      if(nft == null) return;
+
       const fnft = {
         img: nft.media,
-        link: `/${nft.title}`,
         size: 'long',
-        category: nft.reference_blob?.extra?.[0]?.value ?? "",
+        link: nft.reference_blob?.extra?.find(x => x.trait_type == "website")?.value ?? "",
         description: nft.reference_blob?.description,
         ...nft
       };
       setFormattedData(fnft);
-      setListings(data.mb_views_active_listings);
-      setNFTOwners(data.nft_tokens);
+      setListings(data?.mb_views_active_listings);
+      setNFTOwners(data?.nft_tokens);
+
+      console.log(fnft)
     }
     catch (e) {
       console.log("ERROR AHH", e)
     }
   }, [data, error]);
-  const [formattedData, setFormattedData] = useState();
+  const [formattedData, setFormattedData] = useState({ img: "" });
   const [listings, setListings] = useState();
-  const [nftOwners, setNFTOwners] = useState();
+  const [nftOwners, setNFTOwners] = useState([]);
   const isSoldOut = listings == null || listings.length == 0;
 
   // Wallet interaction
   const { wallet } = useWallet();
 
+  // Purchase an NFT via Mintbase
   const buyNFT = useCallback(async () => {
     if (!pid) return;
 
@@ -140,7 +142,7 @@ function ThingPage(props) {
     };
     console.log(transactions, options);
     wallet.executeMultipleTransactions({ transactions, options });
-  
+
     // Old Market Script, deprecated
     // const meta = JSON.stringify({
     //   type: 'accept_and_transfer',
@@ -157,76 +159,104 @@ function ThingPage(props) {
 
   }, [formattedData, wallet]);
 
-  async function login() {
-    const accountId = wallet.activeAccount.accountId;
-    const sameMsgObj = new Uint8Array(sha256.array("123456789 wrong message")); // TODO: replace with nonce
-    const keyStore = new keyStores.BrowserLocalStorageKeyStore();
-    const keyPair = await keyStore.getKey(process.env.NEAR_NETWORK, accountId);
-    const signed = keyPair.sign(sameMsgObj);
+  const userOwned = nftOwners?.filter(x => x.owner == wallet?.activeAccount?.accountId);
 
-    const res = await fetch(`${process.env.BACKEND_URL}/redemption/redeemMirror`, {
-      method: "POST",
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        "id": "634cd9934e57a674636020e4",
-        "nftID": 5,
-        "accountId": accountId,
-        signature: signed.signature
-      })
-    });
+  // Redeem Modal
+  const [redeemModalIsOpen, setRedeemModalIsOpen] = useState(false);
+  const [redemptionStatus, setRedemptionStatus] = useState([]);
+  async function openRedeemModal() {
+    setRedeemModalIsOpen(true);
   }
 
-  console.log(listings);
+  // Fetch for redemption status of tokens
+  useEffect(() => {
+    let queryStr = "";
+    for (const nft of userOwned) {
+      queryStr += nft.token_id + ","
+    };
+    console.log("QUERYSTR:", queryStr);
+
+    if (queryStr.length > 0) queryStr = queryStr.substring(0, queryStr.length - 1);
+    else {
+      setRedemptionStatus([]);
+      return;
+    }
+
+    fetch(`${process.env.BACKEND_URL}/redemption/checkBatch/${queryStr}`, {
+      method: "GET",
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then(res => res.json())
+      .then(res => { setRedemptionStatus(res); console.log(res)});
+  }, [nftOwners, wallet, redeemModalIsOpen]);
 
   return (
-    <Grid container style={{ padding: "1rem" }}>
-      <Hidden smDown>
-        <Grid item md={1}>
-          <SideNavigationIcon isNotTranslated />
-        </Grid>
-      </Hidden>
-      <Grid item md={7} sm={12}>
-        <div>
-          <Hidden mdUp>
-            <SimpleImage {...formattedData} />
-          </Hidden>
-          <Button onClick={buyNFT} disabled={listings == null || listings.length == 0}>
-            Buy
-          </Button>
-          <Button component="a" href={`https://${process.env.NEAR_NETWORK}.mintbase.io/meta/${pid}`}>
-            Transfer
-          </Button>
-          <Button onClick={login}>
-            Login
-          </Button>
-          <div style={{ float: 'right' }}>
-            <UnstyledConnectButton />
-          </div>
-          <div style={{ marginTop: '1rem' }}>
-            {!isSoldOut &&
+    <React.Fragment>
+      <RedeemModal isOpen={redeemModalIsOpen} contentLabel="Redeem Modal">
+        <Typography component="h3" className={text.title}>Redeem for Code</Typography>
+        {
+          userOwned == null || userOwned.length <= 0 ?
+            <div>You own no NFTs of this knife! Buy one to get a code.</div> :
+            userOwned?.map((x, i) => (
+              <RedemptionLine key={i} {...x} redemptionStatus={redemptionStatus[x.token_id]} />
+            ))
+        }
+        <Button onClick={() => setRedeemModalIsOpen(false)} style={{ marginTop: '1rem' }}>
+          Close
+        </Button>
+      </RedeemModal>
+      <Grid container style={{ padding: "1rem" }}>
+        <Hidden smDown>
+          <Grid item md={1}>
+            <SideNavigationIcon isNotTranslated />
+          </Grid>
+        </Hidden>
+        <Grid item md={7} sm={12}>
+          <div>
+            <Hidden mdUp>
+              <SimpleImage {...formattedData} />
+            </Hidden>
+            <Button onClick={buyNFT} disabled={listings == null || listings.length == 0}>
+              Buy
+            </Button>
+            <Button component="a" href={`https://${process.env.NEAR_NETWORK}.mintbase.io/meta/${pid}`}>
+              Manage
+            </Button>
+            <Button onClick={openRedeemModal}>
+              Redeem
+            </Button>
+            <Button component="a" href={formattedData?.link} target="_blank">
+              View Physical
+            </Button>
+            <div style={{ float: 'right' }}>
+              <UnstyledConnectButton />
+            </div>
+            <div style={{ marginTop: '1rem' }}>
+              {!isSoldOut &&
+                <Chip
+                  color={'primary'} style={{ marginRight: '1rem' }}
+                  label={`${nearNumToHuman(listings[0].price)} NEAR`}
+                />
+              }
               <Chip
-                color={'primary'} style={{ marginRight: '1rem' }}
-                label={`${nearNumToHuman(listings[0].price)} NEAR`}
+                color={isSoldOut ? 'default' : 'primary'} style={{ marginRight: '1rem' }}
+                label={isSoldOut ? "SOLD OUT!" : `${listings.length} NFT${listings.length > 1 ? "s" : ""} remaining`}
               />
-            }
-            <Chip
-              color={isSoldOut ? 'default' : 'primary'} style={{ marginRight: '1rem' }}
-              label={isSoldOut ? "SOLD OUT!" : `${listings.length} NFT${listings.length > 1 ? "s" : ""} remaining`}
-            />
-            <Chip
-              style={{ marginRight: '1rem' }}
-              label={`Owns ${nftOwners?.filter(x => x.owner == wallet?.activeAccount?.accountId).length} of ${nftOwners?.length}`}
-            />
+              <Chip
+                style={{ marginRight: '1rem' }}
+                label={`Owns ${nftOwners?.filter(x => x.owner == wallet?.activeAccount?.accountId).length} of ${nftOwners?.length}`}
+              />
+            </div>
+            <ReactMarkdown>{formattedData?.description}</ReactMarkdown>
           </div>
-          <ReactMarkdown>{formattedData?.description}</ReactMarkdown>
-        </div>
-      </Grid>
-      <Hidden smDown>
-        <Grid item md={4} sm={12} style={{margin: "auto 0 auto 0", padding: "1rem"}}>
-          <SimpleImage {...formattedData} />
         </Grid>
-      </Hidden>
-    </Grid>
+        <Hidden smDown>
+          <Grid item md={4} sm={12} style={{ margin: "auto 0 auto 0", padding: "1rem" }}>
+            <SimpleImage {...formattedData} />
+          </Grid>
+        </Hidden>
+      </Grid>
+    </React.Fragment>
   );
 }
 
