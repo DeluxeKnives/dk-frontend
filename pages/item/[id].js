@@ -205,55 +205,112 @@ function ThingPage(props) {
         </Button>
       </RedeemModal>
       <Grid container style={{ padding: "1rem" }}>
+        {/* sidebar */}
         <Hidden smDown>
           <Grid item md={1}>
             <SideNavigationIcon isNotTranslated />
           </Grid>
         </Hidden>
-        <Grid item md={7} sm={12}>
-          <div>
+
+        {/* main blob */}
+        <Grid item md={11} sm={12}>
+            {/* top bar */}
+            <div>
+                <UnstyledConnectButton/>
+            </div>
+            {/* knife image mobile*/}
             <Hidden mdUp>
+                {/* stats */}
+                <div>
+                    {!isSoldOut &&
+                        <Chip
+                        color={'primary'} style={{ marginRight: '1rem' }}
+                        label={`${nearNumToHuman(listings[0].price)} NEAR`}
+                        />
+                    }
+                    <Chip
+                        color={isSoldOut ? 'default' : 'primary'} style={{ marginRight: '1rem' }}
+                        label={isSoldOut ? "SOLD OUT!" : `${listings.length} NFT${listings.length > 1 ? "s" : ""} remaining`}
+                    />
+                    <Chip
+                        style={{ marginRight: '1rem' }}
+                        label={`Owns ${nftOwners?.filter(x => x.owner == wallet?.activeAccount?.accountId).length} of ${nftOwners?.length}`}
+                    />
+                </div>
               <SimpleImage {...formattedData} />
             </Hidden>
-            <Button onClick={buyNFT} disabled={listings == null || listings.length == 0}>
-              Buy
-            </Button>
-            <Button component="a" href={`https://${process.env.NEAR_NETWORK}.mintbase.io/meta/${pid}`}>
-              Manage
-            </Button>
-            <Button onClick={openRedeemModal}>
-              Redeem
-            </Button>
-            <Button component="a" href={formattedData?.link} target="_blank">
-              View Physical
-            </Button>
-            <div style={{ float: 'right' }}>
-              <UnstyledConnectButton />
+
+            {/* image and text */}
+            <div style={{display:"flex", flexDirection:"row", margin:"0.5rem", gap:"3rem"}}>
+                {/* desktop image */}
+                <Hidden smDown>
+                    <Grid item md={4} sm={12}>
+                    {/* stats */}
+                    <div>
+                        {!isSoldOut &&
+                            <Chip
+                            color={'primary'} style={{ marginRight: '1rem' }}
+                            label={`${nearNumToHuman(listings[0].price)} NEAR`}
+                            />
+                        }
+                        <Chip
+                            color={isSoldOut ? 'default' : 'primary'} style={{ marginRight: '1rem' }}
+                            label={isSoldOut ? "SOLD OUT!" : `${listings.length} NFT${listings.length > 1 ? "s" : ""} remaining`}
+                        />
+                        <Chip
+                            style={{ marginRight: '1rem' }}
+                            label={`Owns ${nftOwners?.filter(x => x.owner == wallet?.activeAccount?.accountId).length} of ${nftOwners?.length}`}
+                        />
+                    </div>
+                        <SimpleImage {...formattedData} />
+                    </Grid>
+                </Hidden>
+                {/* text blob */}
+                <Grid item md={7} sm={12}>
+                    {/* <h1> {formattedData?.title} </h1> */}
+                    {/* buttons */}
+                    <div style={{display:"flex", flexWrap:"wrap", gap:"1rem", margin:"1rem 0 1rem 0"}}>
+                        <Button variant='contained' color='primary' onClick={buyNFT} disabled={listings == null || listings.length == 0}>
+                        Buy
+                        </Button>
+                        <Button variant='contained' color='primary' component="a" href={`https://${process.env.NEAR_NETWORK}.mintbase.io/meta/${pid}`}>
+                        Manage
+                        </Button>
+                        <Button variant='contained' color='primary' onClick={openRedeemModal}>
+                        Redeem
+                        </Button>
+                        <Button variant='contained' color='primary' component="a" href={formattedData?.link} target="_blank">
+                        View Physical
+                        </Button>
+                    </div>
+                  
+                    <ReactMarkdown
+                        components={{
+                            h1: ({node, ...props}) => <div><h1 {...props} style={{marginBottom:"0"}}/>
+                                                        <h1 style={{color:"#EF5923", margin:"0 0 0.5rem 0", lineHeight:"1rem"}}>⎯⎯⎯⎯⎯</h1>
+                                                        </div>
+                        }}
+                    >
+                        {formattedData?.description}
+                    </ReactMarkdown>
+                    
+                    
+                </Grid>
+
+                
             </div>
-            <div style={{ marginTop: '1rem' }}>
-              {!isSoldOut &&
-                <Chip
-                  color={'primary'} style={{ marginRight: '1rem' }}
-                  label={`${nearNumToHuman(listings[0].price)} NEAR`}
-                />
-              }
-              <Chip
-                color={isSoldOut ? 'default' : 'primary'} style={{ marginRight: '1rem' }}
-                label={isSoldOut ? "SOLD OUT!" : `${listings.length} NFT${listings.length > 1 ? "s" : ""} remaining`}
-              />
-              <Chip
-                style={{ marginRight: '1rem' }}
-                label={`Owns ${userOwned.length} of ${nftOwners?.length}`}
-              />
-            </div>
-            <ReactMarkdown>{formattedData?.description}</ReactMarkdown>
+
+          <div>
+
+            
+        
+
+            
+
+
           </div>
         </Grid>
-        <Hidden smDown>
-          <Grid item md={4} sm={12} style={{ margin: "auto 0 auto 0", padding: "1rem" }}>
-            <SimpleImage {...formattedData} />
-          </Grid>
-        </Hidden>
+
       </Grid>
     </React.Fragment>
   );
