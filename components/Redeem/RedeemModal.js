@@ -19,24 +19,26 @@ function RedeemModal(props) {
     }
 
     return (
-        <Modal {...props} style={{
-            overlay: {
-                backgroundColor: "rgba(30, 30, 30, 0.75)"
-            },
-            content: {
-                background: "#303030",
-                display: "block",
-                marginLeft: "auto",
-                marginRight: "auto",
-                marginTop: "auto",
-                marginBottom: "auto",
-                width: "fit-content",
-                height: "fit-content",
-                borderRadius: '20px',
-                border: 'none',
-                boxShadow: '0px 1px 10px 3px #ef5923, 0px 1px 1px 0px #ef5923, 0px 2px 1px -1px #ef5923'
-            }
-        }}
+        <Modal {...props}
+            shouldCloseOnOverlayClick={false}
+            style={{
+                overlay: {
+                    backgroundColor: "rgba(30, 30, 30, 0.75)"
+                },
+                content: {
+                    background: "#303030",
+                    display: "block",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    marginTop: "auto",
+                    marginBottom: "auto",
+                    width: "fit-content",
+                    height: "fit-content",
+                    borderRadius: '20px',
+                    border: 'none',
+                    boxShadow: '0px 1px 10px 3px #ef5923, 0px 1px 1px 0px #ef5923, 0px 2px 1px -1px #ef5923'
+                }
+            }}
         />
     );
 }
@@ -96,12 +98,12 @@ export function RedemptionLine(props) {
 
     async function onClickGenerate() {
         if (code == null)
-            if(await queryForData('generate')) 
+            if (await queryForData('generate'))
                 setIsRevealed(true);
     }
 
     async function onClickReveal() {
-        if(code) 
+        if (code)
             setIsRevealed(!isRevealed);
         else if (await queryForData('reveal'))
             setIsRevealed(!isRevealed);
@@ -115,12 +117,12 @@ export function RedemptionLine(props) {
         // Otherwise we have to query first first
         else {
             const res = await queryForData('checkout');
-            if(res != null && res.checkoutLink != null) 
+            if (res != null && res.checkoutLink != null)
                 window.open(res.checkoutLink, "_blank");
         }
     }
 
-    const divFlexbox = { display: 'flex', justifyContent: 'space-around', minWidth: '500px', marginBottom: '8px' };
+    const divFlexbox = { display: 'flex', justifyContent: 'space-around', minWidth: '50vmin', marginBottom: '8px' };
     const trueRedemptionStatus = props.redemptionStatus || code != null;
 
     return (
