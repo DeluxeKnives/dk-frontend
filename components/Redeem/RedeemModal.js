@@ -31,7 +31,10 @@ function RedeemModal(props) {
                 marginTop: "auto",
                 marginBottom: "auto",
                 width: "fit-content",
-                height: "fit-content"
+                height: "fit-content",
+                borderRadius: '20px',
+                border: 'none',
+                boxShadow: '0px 1px 10px 3px #ef5923, 0px 1px 1px 0px #ef5923, 0px 2px 1px -1px #ef5923'
             }
         }}
         />
@@ -48,71 +51,99 @@ export function RedemptionLine(props) {
 
     const c = `ion-md-eye${isRevealed ? "-off" : ""}`;
 
-    async function onClickReveal() {
-        // If it isn't revealed, you'll have to set it to be revealed.
-        if(!isRevealed) {
-            if(code == null) {
-                setIsRequesting(true);
+    async function queryForData(queryParty) {
+        // 0. Set is requesting to true
+        setIsRequesting(queryParty);
 
-                // 1. Request for nonce & nonce id
-                const accountId = wallet.details.accountId;
-                const { id: nonceId, nonce } = await (await fetch(`${process.env.BACKEND_URL}/redemption/getNonce/${accountId}`)).json();
-                console.log("NONCE", nonceId, nonce);
+        // 1. Request for nonce & nonce id
+        const accountId = wallet.details.accountId;
+        const { id: nonceId, nonce } = await (await fetch(`${process.env.BACKEND_URL}/redemption/getNonce/${accountId}`)).json();
+        console.log("NONCE", nonceId, nonce);
 
-                // 2. Sign nonce
-                const sameMsgObj = new Uint8Array(sha256.array(nonce));
-                const keyStore = new keyStores.BrowserLocalStorageKeyStore();
-                const keyPair = await keyStore.getKey(process.env.NEAR_NETWORK, accountId);
-                const signed = keyPair.sign(sameMsgObj);
-            
-                // 3. Redemption request
-                let reedemData;
-                try {
-                    const redeemRes = await fetch(`${process.env.BACKEND_URL}/redemption/redeemMirror`, {
-                        method: "POST",
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                          id: nonceId,
-                          nftID: props.token_id,
-                          accountId,
-                          password: signed
-                        })
-                      });
-                    reedemData = await redeemRes.json();
-                }
-                catch (e) {
-                    console.log("ERROR!", e);
-                    setIsRequesting(false);
-                    setIsRevealed(false);
-                    return;
-                }
+        // 2. Sign nonce
+        const sameMsgObj = new Uint8Array(sha256.array(nonce));
+        const keyStore = new keyStores.BrowserLocalStorageKeyStore();
+        const keyPair = await keyStore.getKey(process.env.NEAR_NETWORK, accountId);
+        const signed = keyPair.sign(sameMsgObj);
 
-                // 4. Set data
-                setCode(reedemData.redemptionCode);
-                setCheckoutLink(reedemData.checkoutLink);
-                setIsRequesting(false);
-                setIsRevealed(true);
-            }
+        // 3. Redemption request
+        let reedemData;
+        try {
+            const redeemRes = await fetch(`${process.env.BACKEND_URL}/redemption/redeemMirror`, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id: nonceId,
+                    nftID: props.token_id,
+                    accountId,
+                    password: signed
+                })
+            });
+            reedemData = await redeemRes.json();
+        }
+        catch (e) {
+            console.log("ERROR!", e);
+            setIsRequesting(false);
+            return false;
         }
 
-        setIsRevealed(!isRevealed);
+        // 4. Set data
+        setCode(reedemData.redemptionCode);
+        setCheckoutLink(reedemData.checkoutLink);
+        setIsRequesting(false);
+        return reedemData;
     }
 
+    async function onClickGenerate() {
+        if (code == null)
+            if(await queryForData('generate')) 
+                setIsRevealed(true);
+    }
+
+    async function onClickReveal() {
+        if(code) 
+            setIsRevealed(!isRevealed);
+        else if (await queryForData('reveal'))
+            setIsRevealed(!isRevealed);
+    }
+
+    async function onClickCheckout() {
+        // If the checkout link exists, then we already queried for the code
+        if (checkoutLink)
+            window.open(checkoutLink, "_blank");
+
+        // Otherwise we have to query first first
+        else {
+            const res = await queryForData('checkout');
+            if(res != null && res.checkoutLink != null) 
+                window.open(res.checkoutLink, "_blank");
+        }
+    }
+
+    const divFlexbox = { display: 'flex', justifyContent: 'space-around', minWidth: '500px', marginBottom: '8px' };
+    const trueRedemptionStatus = props.redemptionStatus || code != null;
+
     return (
-        <div style={{ display: 'flex', justifyContent: 'space-around', minWidth: '500px' }}>
-            <span style={{ marginTop: "16px" }}>{props.token_id}</span>
-            <span style={{ marginTop: "16px", minWidth: '110px' }}>
-                {props.redemptionStatus || code != null ? 'Code Generated' : 'Not Redeemed'}
-            </span>
-            <IconButton onClick={onClickReveal} disabled={isRequesting}>
-                {isRequesting ? <CircularProgress size='26px' /> : <i className={c} />}
-            </IconButton>
-            <span style={{ marginTop: "16px", minWidth: '170px' }}>
-                {!isRequesting && isRevealed ? code : "XXX-XXXXXXXX-XXXX-XX"}
-            </span>
-            <Button component="a" href={checkoutLink} disabled={checkoutLink == null || checkoutLink == ""} target="_blank">
-                Checkout
-            </Button>
+        <div style={{ marginTop: '3rem' }}>
+            <div style={divFlexbox}>
+                <span style={{ marginTop: "16px" }}>NFT #{props.token_id}</span>
+                <span style={{ marginTop: "16px", minWidth: '170px' }}>
+                    {!isRequesting && isRevealed ? code : "XXX-XXXXXXXX-XXXX-XX"}
+                </span>
+                <IconButton onClick={onClickReveal} disabled={isRequesting || !trueRedemptionStatus}>
+                    {isRequesting == 'reveal' ? <CircularProgress size='26px' /> : <i className={c} />}
+                </IconButton>
+            </div>
+            <div style={divFlexbox}>
+                {!trueRedemptionStatus &&
+                    <Button variant='outlined' onClick={onClickGenerate}>
+                        {isRequesting == 'generate' ? <CircularProgress size='26px' /> : 'Generate'}
+                    </Button>
+                }
+                <Button variant='outlined' disabled={!trueRedemptionStatus || isRequesting} onClick={onClickCheckout}>
+                    {isRequesting == 'checkout' ? <CircularProgress size='26px' /> : 'Checkout'}
+                </Button>
+            </div>
         </div>
     );
 }

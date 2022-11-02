@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Button, Grid, Hidden, Chip, Typography, IconButton, CircularProgress } from '@material-ui/core';
 import SimpleImage from '../../components/Cards/SimpleImage';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, useSubscription, gql } from '@apollo/client';
 import { useRouter } from 'next/router'
 import { useWallet, nearNumToHuman } from '../../lib/NearWalletProvider';
 import ReactMarkdown from 'react-markdown';
@@ -9,24 +9,24 @@ import SideNavigationIcon from '../../components/SideNavigation/SideNavigationIc
 import { UnstyledConnectButton } from "../../components/ConnectButton";
 import RedeemModal, { RedemptionLine } from '../../components/Redeem/RedeemModal';
 import { useText } from '~/theme/common';
+import Title from '../../components/Title';
 
 const STORE_NFTS = gql`
 query GetNFTListings( 
   $offset: Int = 0 $tok_cond: mb_views_nft_tokens_bool_exp $list_cond: mb_views_active_listings_bool_exp $user_cond: nft_tokens_bool_exp) 
-  @cached 
   { 
    mb_views_nft_tokens(
      where: $tok_cond
      offset: $offset
      distinct_on: metadata_id
    )
-   {
-    media 
-    storeId: nft_contract_id 
-    metadataId: metadata_id 
-    title 
-    reference_blob
-   }
+    {
+      media 
+      storeId: nft_contract_id 
+      metadataId: metadata_id 
+      title 
+      reference_blob
+    }
    mb_views_active_listings( 
      where: $list_cond
      offset: $offset 
@@ -39,7 +39,7 @@ query GetNFTListings(
      token_id
      market_id
    }
-   nft_tokens(
+  nft_tokens(
     where: $user_cond
     offset: $offset
   )
@@ -49,7 +49,6 @@ query GetNFTListings(
   }
  }
 `;
-
 
 // TODO: add a top bar
 
@@ -106,6 +105,7 @@ function ThingPage(props) {
   // Wallet interaction
   const { wallet } = useWallet();
 
+
   // Purchase an NFT via Mintbase
   const buyNFT = useCallback(async () => {
     if (!pid) return;
@@ -122,9 +122,7 @@ function ThingPage(props) {
             receiverId: listing.market_id,
             gas: "200000000000000",
             args: {
-              // eslint-disable-next-line camelcase
               nft_contract_id: shopId,
-              // eslint-disable-next-line camelcase
               token_id: listing.token_id,
             },
             deposit: BigInt(listing.price).toString(),
@@ -133,6 +131,7 @@ function ThingPage(props) {
       },
     ];
     const options = {
+      callbackUrl: `${window.location.href}?success=true&prev=${userOwned.length}`,
       meta: JSON.stringify({
         type: "make-offer",
         args: {
@@ -140,8 +139,8 @@ function ThingPage(props) {
         },
       }),
     };
-    console.log(transactions, options);
-    wallet.executeMultipleTransactions({ transactions, options });
+    console.log(options);
+    //wallet.executeMultipleTransactions({ transactions, options });
 
     // Old Market Script, deprecated
     // const meta = JSON.stringify({
@@ -193,7 +192,7 @@ function ThingPage(props) {
   return (
     <React.Fragment>
       <RedeemModal isOpen={redeemModalIsOpen} contentLabel="Redeem Modal">
-        <Typography component="h3" className={text.title}>Redeem for Code</Typography>
+        <Title>Redeem for Code</Title>
         {
           userOwned == null || userOwned.length <= 0 ?
             <div>You own no NFTs of this knife! Buy one to get a code.</div> :
@@ -244,7 +243,7 @@ function ThingPage(props) {
               />
               <Chip
                 style={{ marginRight: '1rem' }}
-                label={`Owns ${nftOwners?.filter(x => x.owner == wallet?.activeAccount?.accountId).length} of ${nftOwners?.length}`}
+                label={`Owns ${userOwned.length} of ${nftOwners?.length}`}
               />
             </div>
             <ReactMarkdown>{formattedData?.description}</ReactMarkdown>
