@@ -30,7 +30,7 @@ const faqData = [
   },
   {
     q: 'What about copyright?',
-    a: 'CSGO skins are protected by copyright. These knives are definitely inspired by popular skins, but are not exact copies. We do not claim for them to be copies or endorsed by their original creators, as cool as their originals are. '
+    a: 'CSGO skins are protected by copyright. These knives are definitely inspired by popular skins, but are not exact copies. We do not claim for them to be exact copies or endorsed by their original creators, as cool as their originals are. '
   },
   {
     q: 'Why NFTs?',
