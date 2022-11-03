@@ -78,7 +78,7 @@ function ThingPage(props) {
   useEffect(() => {
     try {
       const nft = data?.mb_views_nft_tokens?.[0];
-      if(nft == null) return;
+      if (nft == null) return;
 
       const fnft = {
         img: nft.media,
@@ -186,8 +186,26 @@ function ThingPage(props) {
       headers: { 'Content-Type': 'application/json' }
     })
       .then(res => res.json())
-      .then(res => { setRedemptionStatus(res); console.log(res)});
+      .then(res => { setRedemptionStatus(res); console.log(res) });
   }, [nftOwners, wallet, redeemModalIsOpen]);
+
+  const SimpleImageWithChips =
+    <SimpleImage {...formattedData}>
+      <div style={{ display: 'flex', width: 'fit-content', paddingLeft: '8px', paddingTop: '8px' }}>
+        {!isSoldOut &&
+          <Hidden mdDown>
+            <Chip
+              color={'primary'} style={{ marginRight: '1rem' }}
+              label={`${nearNumToHuman(listings[0].price)} NEAR`} />
+          </Hidden>}
+        <Chip
+          color={isSoldOut ? 'default' : 'primary'} style={{ marginRight: '1rem' }}
+          label={isSoldOut ? "SOLD OUT!" : `${listings.length} NFT${listings.length > 1 ? "s" : ""} remaining`} />
+        <Chip
+          style={{ marginRight: '1rem' }}
+          label={`Owns ${nftOwners?.filter(x => x.owner == wallet?.activeAccount?.accountId).length} of ${nftOwners?.length}`} />
+      </div>
+    </SimpleImage>;
 
   return (
     <React.Fragment>
@@ -214,100 +232,55 @@ function ThingPage(props) {
 
         {/* main blob */}
         <Grid item md={11} sm={12}>
-            {/* top bar */}
-            <div>
-                <UnstyledConnectButton/>
-            </div>
-            {/* knife image mobile*/}
-            <Hidden mdUp>
-                {/* stats */}
-                <div>
-                    {!isSoldOut &&
-                        <Chip
-                        color={'primary'} style={{ marginRight: '1rem' }}
-                        label={`${nearNumToHuman(listings[0].price)} NEAR`}
-                        />
-                    }
-                    <Chip
-                        color={isSoldOut ? 'default' : 'primary'} style={{ marginRight: '1rem' }}
-                        label={isSoldOut ? "SOLD OUT!" : `${listings.length} NFT${listings.length > 1 ? "s" : ""} remaining`}
-                    />
-                    <Chip
-                        style={{ marginRight: '1rem' }}
-                        label={`Owns ${nftOwners?.filter(x => x.owner == wallet?.activeAccount?.accountId).length} of ${nftOwners?.length}`}
-                    />
-                </div>
-              <SimpleImage {...formattedData} />
-            </Hidden>
-
-            {/* image and text */}
-            <div style={{display:"flex", flexDirection:"row", margin:"0.5rem", gap:"3rem"}}>
-                {/* desktop image */}
-                <Hidden smDown>
-                    <Grid item md={4} sm={12}>
-                    {/* stats */}
-                    <div>
-                        {!isSoldOut &&
-                            <Chip
-                            color={'primary'} style={{ marginRight: '1rem' }}
-                            label={`${nearNumToHuman(listings[0].price)} NEAR`}
-                            />
-                        }
-                        <Chip
-                            color={isSoldOut ? 'default' : 'primary'} style={{ marginRight: '1rem' }}
-                            label={isSoldOut ? "SOLD OUT!" : `${listings.length} NFT${listings.length > 1 ? "s" : ""} remaining`}
-                        />
-                        <Chip
-                            style={{ marginRight: '1rem' }}
-                            label={`Owns ${nftOwners?.filter(x => x.owner == wallet?.activeAccount?.accountId).length} of ${nftOwners?.length}`}
-                        />
-                    </div>
-                        <SimpleImage {...formattedData} />
-                    </Grid>
-                </Hidden>
-                {/* text blob */}
-                <Grid item md={7} sm={12}>
-                    {/* <h1> {formattedData?.title} </h1> */}
-                    {/* buttons */}
-                    <div style={{display:"flex", flexWrap:"wrap", gap:"1rem", margin:"1rem 0 1rem 0"}}>
-                        <Button variant='contained' color='primary' onClick={buyNFT} disabled={listings == null || listings.length == 0}>
-                        Buy
-                        </Button>
-                        <Button variant='contained' color='primary' component="a" href={`https://${process.env.NEAR_NETWORK}.mintbase.io/meta/${pid}`}>
-                        Manage
-                        </Button>
-                        <Button variant='contained' color='primary' onClick={openRedeemModal}>
-                        Redeem
-                        </Button>
-                        <Button variant='contained' color='primary' component="a" href={formattedData?.link} target="_blank">
-                        View Physical
-                        </Button>
-                    </div>
-                  
-                    <ReactMarkdown
-                        components={{
-                            h1: ({node, ...props}) => <div><h1 {...props} style={{marginBottom:"0"}}/>
-                                                        <h1 style={{color:"#EF5923", margin:"0 0 0.5rem 0", lineHeight:"1rem"}}>⎯⎯⎯⎯⎯</h1>
-                                                        </div>
-                        }}
-                    >
-                        {formattedData?.description}
-                    </ReactMarkdown>
-                    
-                    
-                </Grid>
-
-                
-            </div>
-
+          {/* top bar */}
           <div>
+            <UnstyledConnectButton />
+          </div>
+          
+          {/* knife image mobile*/}
+          <Hidden mdUp>
+            {/* stats & image */ SimpleImageWithChips}
+          </Hidden>
+          
+          {/* image and text */}
+          <div style={{ display: "flex", flexDirection: "row", margin: "0.5rem", gap: "3rem" }}>
+            {/* desktop image */}
+            <Hidden smDown>
+              <Grid item md={4} sm={12}>
+                {/* stats & image */ SimpleImageWithChips}
+              </Grid>
+            </Hidden>
+            {/* text blob */}
+            <Grid item md={7} sm={12}>
+              {/* <h1> {formattedData?.title} </h1> */}
+              {/* buttons */}
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem", margin: "1rem 0 1rem 0" }}>
+                <Button variant='contained' color='primary' onClick={buyNFT} disabled={listings == null || listings.length == 0}>
+                  {listings?.length > 0 ? `Buy for ${nearNumToHuman(listings[0].price)} NEAR` : 'Buy'}
+                </Button>
+                <Button variant='contained' color='primary' onClick={openRedeemModal} disabled={userOwned.length <= 0}>
+                  Redeem
+                </Button>
+                <Button variant='outlined' component="a" href={`https://${process.env.NEAR_NETWORK}.mintbase.io/meta/${pid}`}>
+                  Manage
+                </Button>
+                <Button variant='outlined' component="a" href={formattedData?.link} target="_blank">
+                  View Physical
+                </Button>
+              </div>
 
-            
-        
-
-            
-
-
+              <ReactMarkdown
+                components={{
+                  h1: ({ node, ...props }) => <div><h1 {...props} style={{ marginBottom: "0" }} />
+                    <h1 style={{ color: "#EF5923", margin: "0 0 0.5rem 0", lineHeight: "1rem" }}>⎯⎯⎯⎯⎯</h1>
+                  </div>
+                }}
+              >
+                {formattedData?.description}
+              </ReactMarkdown>
+            </Grid>
+          </div>
+          <div>
           </div>
         </Grid>
 

@@ -297,6 +297,13 @@ const cardsStyles = makeStyles(theme => ({
   textReadmore: {
     color: theme.palette.type === 'dark' ? theme.palette.primary.light : theme.palette.primary.main,
     padding: '0px!important',
+  },
+  topLeft: {
+    left: 0,
+    position: 'relative',
+    width: '0px',
+    height: '0px',
+    zIndex: 5
   }
 }));
 
