@@ -28,7 +28,7 @@ export function UnstyledConnectButton(props) {
     const buttonAction = isConnected ? signOut : signIn;
 
     return (
-        <Button {...props} onClick={buttonAction}>
+        <Button {...props} variant="outlined" style={{margin:"0.5rem"}} onClick={buttonAction}>
             {buttonLabel}
         </Button>
     );

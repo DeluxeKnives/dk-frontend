@@ -233,9 +233,16 @@ function ThingPage(props) {
         {/* main blob */}
         <Grid item md={11} sm={12}>
           {/* top bar */}
-          <div>
-            <UnstyledConnectButton />
-          </div>
+          <Hidden smDown>
+            <div style={{display:"flex", flexDirection:"row", justifyContent:"flex-end", padding:"0 5%"}}>
+                    <UnstyledConnectButton />
+            </div>
+          </Hidden>
+          <Hidden mdUp>
+            <div style={{display:"flex", flexDirection:"row", justifyContent:"center", padding:"0 5%"}}>
+                <UnstyledConnectButton />
+            </div>
+          </Hidden>
           
           {/* knife image mobile*/}
           <Hidden mdUp>
@@ -273,7 +280,9 @@ function ThingPage(props) {
                 components={{
                   h1: ({ node, ...props }) => <div><h1 {...props} style={{ marginBottom: "0" }} />
                     <h1 style={{ color: "#EF5923", margin: "0 0 0.5rem 0", lineHeight: "1rem" }}>⎯⎯⎯⎯⎯</h1>
-                  </div>
+                  </div>,
+                  li: ({ node, ...props }) => <li {...props} style={{ margin: "1rem 0" }} />,
+                //   p: ({ node, ...props }) => <p {...props} style={{ fontSize: "1rem" }} />
                 }}
               >
                 {formattedData?.description}
