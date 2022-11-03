@@ -11,13 +11,12 @@ import RedeemModal, { RedemptionLine } from '../../components/Redeem/RedeemModal
 import { useText } from '~/theme/common';
 import Title from '../../components/Title';
 
-const STORE_NFTS = gql`
-query GetNFTListings( 
-  $offset: Int = 0 $tok_cond: mb_views_nft_tokens_bool_exp $list_cond: mb_views_active_listings_bool_exp $user_cond: nft_tokens_bool_exp) 
+const STORE_METADATA_QUERY = gql`
+query GetNFTMetadata($tok_cond: mb_views_nft_tokens_bool_exp) 
   { 
    mb_views_nft_tokens(
      where: $tok_cond
-     offset: $offset
+     offset: 0
      distinct_on: metadata_id
    )
     {
@@ -27,27 +26,37 @@ query GetNFTListings(
       title 
       reference_blob
     }
-   mb_views_active_listings( 
-     where: $list_cond
-     offset: $offset 
-   ) 
-   {       
-     price
-     receipt_id
-     currency
-     kind
-     token_id
-     market_id
-   }
-  nft_tokens(
-    where: $user_cond
-    offset: $offset
-  )
-  {
-   token_id
-   owner
-  }
  }
+`;
+
+const NFT_LISTINGS_SUBSCRIPTION = gql`
+subscription GetNFTListings($list_cond: mb_views_active_listings_bool_exp) {
+  mb_views_active_listings( 
+    where: $list_cond
+    offset: 0 
+  ) 
+  {       
+    price
+    receipt_id
+    currency
+    kind
+    token_id
+    market_id
+  }
+}
+`
+
+const NFT_OWNER_SUBSCRIPTION = gql`
+subscription GetNFTOwners($owner_cond: nft_tokens_bool_exp) {
+ nft_tokens(
+   where: $owner_cond
+   offset: $offset
+ )
+ {
+  token_id
+  owner
+ }
+}
 `;
 
 // TODO: add a top bar
@@ -57,8 +66,21 @@ function ThingPage(props) {
   const pid = router.query.id;
   const text = useText();
 
-  // Query for the store
-  const { loading, error, data } = useQuery(STORE_NFTS, {
+  //#region Queries & Subscriptions
+
+  // Query for the metadata
+  const { loading: metaLoading, error: metaError, data: rawmetaData } = useQuery(STORE_METADATA_QUERY, {
+    variables: {
+      "tok_cond": {
+        "metadata_id": { "_eq": pid }
+      }
+    }
+  });
+
+  console.log("METADATA", metaLoading, metaError, rawmetaData);
+
+  // Subscribe for the listings
+  const { loading: listingLoading, error: listingError, data: listingData } = useSubscription(NFT_LISTINGS_SUBSCRIPTION, {
     variables: {
       "tok_cond": {
         "metadata_id": { "_eq": pid }
@@ -74,10 +96,25 @@ function ThingPage(props) {
     }
   });
 
-  // Correctly store the queried data
+  console.log("LISTING", listingLoading, listingError, listingData);
+
+  // Subscribe for the owners
+  const { loading: ownerLoading, error: ownerError, data: ownerData } = useSubscription(NFT_OWNER_SUBSCRIPTION, {
+    variables: {
+      "owner_cond": {
+        "metadata_id": { "_eq": pid }
+      }
+    }
+  });
+
+  console.log("OWNERS", ownerLoading, ownerError, ownerData);
+
+  //#endregion
+
+  //#region Format queried/subscribed data
   useEffect(() => {
     try {
-      const nft = data?.mb_views_nft_tokens?.[0];
+      const nft = rawmetaData?.mb_views_nft_tokens?.[0];
       if (nft == null) return;
 
       const fnft = {
@@ -88,23 +125,29 @@ function ThingPage(props) {
         ...nft
       };
       setFormattedData(fnft);
-      setListings(data?.mb_views_active_listings);
-      setNFTOwners(data?.nft_tokens);
-
       console.log(fnft)
     }
     catch (e) {
       console.log("ERROR AHH", e)
     }
-  }, [data, error]);
-  const [formattedData, setFormattedData] = useState({ img: "" });
-  const [listings, setListings] = useState();
+  }, [rawmetaData, metaError]);
+  /*
+
+  useEffect(() => { setListings(listingData?.mb_views_active_listings) }, [listingData, listingError]);
+  useEffect(() => { setNFTOwners(ownerData?.nft_tokens) }, [ownerData, ownerError]);
+  */
+
+  //#endregion
+
+  // State variables to store queried/subscribed data
+  const [nftMetadata, setFormattedData] = useState({ img: "" });
+  const [listings, setListings] = useState([]);
   const [nftOwners, setNFTOwners] = useState([]);
   const isSoldOut = listings == null || listings.length == 0;
 
+
   // Wallet interaction
   const { wallet } = useWallet();
-
 
   // Purchase an NFT via Mintbase
   const buyNFT = useCallback(async () => {
@@ -135,7 +178,7 @@ function ThingPage(props) {
       meta: JSON.stringify({
         type: "make-offer",
         args: {
-          metadataId: formattedData.metadataId,
+          metadataId: nftMetadata.metadataId,
         },
       }),
     };
@@ -156,7 +199,7 @@ function ThingPage(props) {
     //   marketAddress: process.env.MINTBASE_MARKET_ADDRESS
     // });
 
-  }, [formattedData, wallet]);
+  }, [nftMetadata, wallet]);
 
   const userOwned = nftOwners?.filter(x => x.owner == wallet?.activeAccount?.accountId);
 
@@ -173,7 +216,6 @@ function ThingPage(props) {
     for (const nft of userOwned) {
       queryStr += nft.token_id + ","
     };
-    console.log("QUERYSTR:", queryStr);
 
     if (queryStr.length > 0) queryStr = queryStr.substring(0, queryStr.length - 1);
     else {
@@ -190,7 +232,7 @@ function ThingPage(props) {
   }, [nftOwners, wallet, redeemModalIsOpen]);
 
   const SimpleImageWithChips =
-    <SimpleImage {...formattedData}>
+    <SimpleImage {...nftMetadata}>
       <div style={{ display: 'flex', width: 'fit-content', paddingLeft: '8px', paddingTop: '8px' }}>
         {!isSoldOut &&
           <Hidden mdDown>
@@ -234,21 +276,21 @@ function ThingPage(props) {
         <Grid item md={11} sm={12}>
           {/* top bar */}
           <Hidden smDown>
-            <div style={{display:"flex", flexDirection:"row", justifyContent:"flex-end", padding:"0 5%"}}>
-                    <UnstyledConnectButton />
+            <div style={{ display: "flex", flexDirection: "row", justifyContent: "flex-end", padding: "0 5%" }}>
+              <UnstyledConnectButton />
             </div>
           </Hidden>
           <Hidden mdUp>
-            <div style={{display:"flex", flexDirection:"row", justifyContent:"center", padding:"0 5%"}}>
-                <UnstyledConnectButton />
+            <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", padding: "0 5%" }}>
+              <UnstyledConnectButton />
             </div>
           </Hidden>
-          
+
           {/* knife image mobile*/}
           <Hidden mdUp>
             {/* stats & image */ SimpleImageWithChips}
           </Hidden>
-          
+
           {/* image and text */}
           <div style={{ display: "flex", flexDirection: "row", margin: "0.5rem", gap: "3rem" }}>
             {/* desktop image */}
@@ -261,17 +303,17 @@ function ThingPage(props) {
             <Grid item md={7} sm={12}>
               {/* <h1> {formattedData?.title} </h1> */}
               {/* buttons */}
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem", margin: "1rem 0 1rem 0" }}>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem", margin: "0rem 0 1rem 0" }}>
                 <Button variant='contained' color='primary' onClick={buyNFT} disabled={listings == null || listings.length == 0}>
                   {listings?.length > 0 ? `Buy for ${nearNumToHuman(listings[0].price)} NEAR` : 'Buy'}
                 </Button>
-                <Button variant='contained' color='primary' onClick={openRedeemModal} disabled={userOwned.length <= 0}>
+                <Button variant='contained' color='primary' onClick={openRedeemModal} disabled={userOwned?.length <= 0}>
                   Redeem
                 </Button>
                 <Button variant='outlined' component="a" href={`https://${process.env.NEAR_NETWORK}.mintbase.io/meta/${pid}`}>
                   Manage
                 </Button>
-                <Button variant='outlined' component="a" href={formattedData?.link} target="_blank">
+                <Button variant='outlined' component="a" href={nftMetadata?.link} target="_blank">
                   View Physical
                 </Button>
               </div>
@@ -282,10 +324,10 @@ function ThingPage(props) {
                     <h1 style={{ color: "#EF5923", margin: "0 0 0.5rem 0", lineHeight: "1rem" }}>⎯⎯⎯⎯⎯</h1>
                   </div>,
                   li: ({ node, ...props }) => <li {...props} style={{ margin: "1rem 0" }} />,
-                //   p: ({ node, ...props }) => <p {...props} style={{ fontSize: "1rem" }} />
+                  //   p: ({ node, ...props }) => <p {...props} style={{ fontSize: "1rem" }} />
                 }}
               >
-                {formattedData?.description}
+                {nftMetadata?.description}
               </ReactMarkdown>
             </Grid>
           </div>
