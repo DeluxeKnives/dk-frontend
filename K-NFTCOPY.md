@@ -1,5 +1,5 @@
 # Doppler \[G\] Karambit Knife
-The Karambit (Kerambit) is a small Indonesian curved knife that resembles a tiger’s claw. Its unique curve structure and finger ring design makes it easy to maneuver without losing grip. This knife is crafted and inspired by the Gamma Doppler Karambit Knife, which is considered rare and represents a symbol of prestige for players who collect them. The addition of an actual and near replica of the game knife to your setup will make your gear look awesome enough to show it off to your friends.
+The Karambit (Kerambit) is a small Indonesian curved knife that resembles a tiger’s claw. Its unique curve structure and finger ring design makes it easy to maneuver without losing grip. This knife is crafted and inspired by the Gamma Doppler Karambit Knife, which is considered rare and represents a symbol of prestige for players who collect them. 
 
 Purchase this NFT to access its metaverse related features and unlock a physical knife through DeluxeKnive's digital twin offering.
 

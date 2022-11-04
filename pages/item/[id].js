@@ -120,10 +120,13 @@ function ThingPage(props) {
       console.log("ERROR AHH", e)
     }
   }, [rawmetaData, metaError]);
-  useEffect(() => { if(!listingLoading) { 
-    setListings(listingData?.mb_views_active_listings); 
-    console.log("SETTING", listingData?.mb_views_active_listings) } }, [listingData, listingError]);
-  useEffect(() => { if(!ownerLoading) setNFTOwners(ownerData?.nft_tokens) }, [ownerData, ownerError]);
+  useEffect(() => {
+    if (!listingLoading) {
+      setListings(listingData?.mb_views_active_listings);
+      console.log("SETTING", listingData?.mb_views_active_listings)
+    }
+  }, [listingData, listingError]);
+  useEffect(() => { if (!ownerLoading) setNFTOwners(ownerData?.nft_tokens) }, [ownerData, ownerError]);
 
   //#endregion
 
@@ -140,7 +143,7 @@ function ThingPage(props) {
   // Purchase an NFT via Mintbase
   const buyNFT = async () => {
     if (!pid) return;
-    if(wallet.activeAccount == undefined) {
+    if (wallet.activeAccount == undefined) {
       signIn();
       return;
     }
@@ -315,6 +318,9 @@ function ThingPage(props) {
                 components={{
                   h1: ({ node, ...props }) => <div><h1 {...props} style={{ marginBottom: "0" }} />
                     <h1 style={{ color: "#EF5923", margin: "0 0 0.5rem 0", lineHeight: "1rem" }}>⎯⎯⎯⎯⎯</h1>
+                  </div>,
+                  h2: ({ node, ...props }) => <div><h2 {...props} style={{ marginBottom: "0" }} />
+                    <h2 style={{ color: "#EF5923", margin: "0 0 0.5rem 0", lineHeight: "1rem" }}>⎯⎯⎯⎯⎯</h2>
                   </div>,
                   li: ({ node, ...props }) => <li {...props} ordered="false" style={{ margin: "1rem 0" }} />,
                   //   p: ({ node, ...props }) => <p {...props} style={{ fontSize: "1rem" }} />

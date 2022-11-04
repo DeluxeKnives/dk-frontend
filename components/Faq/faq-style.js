@@ -76,6 +76,11 @@ const faqStyles = makeStyles(theme => ({
   },
   icon: {
     color: theme.palette.type === 'dark' ? theme.palette.primary.light : theme.palette.primary.main
+  },
+  w100SM: {
+    [theme.breakpoints.down('sm')]: {
+      width: "100%"
+    }
   }
 }));
 

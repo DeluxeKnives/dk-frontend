@@ -52,7 +52,7 @@ function Faq() {
     <div className={classes.root}>
       <Container>
         <Grid container spacing={6}>
-          <Grid item md={6} sm={12}>
+          <Grid item md={6} sm={12} xs={12} className={classes.w100SM}>
             <ScrollAnimation
               animateOnce
               animateIn="fadeInLeftShort"
