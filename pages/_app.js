@@ -17,7 +17,11 @@ import { appWithTranslation } from 'next-i18next';
 import lngDetector from '../lib/languageDetector';
 import appTheme from '../theme/appTheme';
 import { NearWalletProvider } from '../lib/NearWalletProvider';
-import { ApolloClient, HttpLink, ApolloLink, InMemoryCache, ApolloProvider } from "@apollo/client";
+import { ApolloClient, HttpLink, InMemoryCache, ApolloProvider, split } from "@apollo/client";
+import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
+import { createClient } from "graphql-ws";
+import {WebSocket} from 'ws';
+import { getMainDefinition } from '@apollo/client/utilities';
 
 /* import css vendors */
 import 'react-image-lightbox/style.css';
@@ -34,14 +38,32 @@ if (typeof Storage !== 'undefined') { // eslint-disable-line
   themeType = localStorage.getItem('luxiTheme') || 'dark';
 }
 
-// GraphQL stuff
+// GraphQL setup
 const httpLink = new HttpLink({
-  uri: `https://interop-${process.env.NEAR_NETWORK}.hasura.app/v1/graphql
-  `,
+  uri: `https://interop-${process.env.NEAR_NETWORK}.hasura.app/v1/graphql`
 });
+const wsLink = typeof window === 'undefined' ? null : new GraphQLWsLink(createClient({
+  url: `wss://interop-${process.env.NEAR_NETWORK}.hasura.app/v1/graphql`,
+  options: { reconnect: true },
+  webSocketImpl: WebSocket
+}));
+const link =
+  typeof window !== "undefined" && wsLink != null
+    ? split(
+      ({ query }) => {
+        const def = getMainDefinition(query);
+        return (
+          def.kind === "OperationDefinition" &&
+          def.operation === "subscription"
+        );
+      },
+      wsLink,
+      httpLink
+    )
+    : httpLink;
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link: ApolloLink.from([httpLink]),
+  link,
 });
 
 function MyApp(props) {

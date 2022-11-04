@@ -50,7 +50,7 @@ const NFT_OWNER_SUBSCRIPTION = gql`
 subscription GetNFTOwners($owner_cond: nft_tokens_bool_exp) {
  nft_tokens(
    where: $owner_cond
-   offset: $offset
+   offset: 0
  )
  {
   token_id
@@ -77,26 +77,16 @@ function ThingPage(props) {
     }
   });
 
-  console.log("METADATA", metaLoading, metaError, rawmetaData);
-
   // Subscribe for the listings
   const { loading: listingLoading, error: listingError, data: listingData } = useSubscription(NFT_LISTINGS_SUBSCRIPTION, {
     variables: {
-      "tok_cond": {
-        "metadata_id": { "_eq": pid }
-      },
       "list_cond": {
         "metadata_id": { "_eq": pid },
         "listed_by": { "_eq": `deluxeshop.${process.env.NEAR_NETWORK}` },
         "kind": { "_eq": "simple" }
-      },
-      "user_cond": {
-        "metadata_id": { "_eq": pid }
       }
     }
   });
-
-  console.log("LISTING", listingLoading, listingError, listingData);
 
   // Subscribe for the owners
   const { loading: ownerLoading, error: ownerError, data: ownerData } = useSubscription(NFT_OWNER_SUBSCRIPTION, {
@@ -107,11 +97,10 @@ function ThingPage(props) {
     }
   });
 
-  console.log("OWNERS", ownerLoading, ownerError, ownerData);
-
   //#endregion
 
   //#region Format queried/subscribed data
+
   useEffect(() => {
     try {
       const nft = rawmetaData?.mb_views_nft_tokens?.[0];
@@ -131,11 +120,10 @@ function ThingPage(props) {
       console.log("ERROR AHH", e)
     }
   }, [rawmetaData, metaError]);
-  /*
-
-  useEffect(() => { setListings(listingData?.mb_views_active_listings) }, [listingData, listingError]);
-  useEffect(() => { setNFTOwners(ownerData?.nft_tokens) }, [ownerData, ownerError]);
-  */
+  useEffect(() => { if(!listingLoading) { 
+    setListings(listingData?.mb_views_active_listings); 
+    console.log("SETTING", listingData?.mb_views_active_listings) } }, [listingData, listingError]);
+  useEffect(() => { if(!ownerLoading) setNFTOwners(ownerData?.nft_tokens) }, [ownerData, ownerError]);
 
   //#endregion
 
@@ -145,16 +133,21 @@ function ThingPage(props) {
   const [nftOwners, setNFTOwners] = useState([]);
   const isSoldOut = listings == null || listings.length == 0;
 
-
   // Wallet interaction
-  const { wallet } = useWallet();
+  const { wallet, signIn } = useWallet();
+  console.log(wallet);
 
   // Purchase an NFT via Mintbase
-  const buyNFT = useCallback(async () => {
+  const buyNFT = async () => {
     if (!pid) return;
+    if(wallet.activeAccount == undefined) {
+      signIn();
+      return;
+    }
 
     const [shopId, metaId] = pid.split(":")
     const listing = listings[0];
+    console.log(listings, listing)
 
     const transactions = [
       {
@@ -183,7 +176,7 @@ function ThingPage(props) {
       }),
     };
     console.log(options);
-    //wallet.executeMultipleTransactions({ transactions, options });
+    wallet.executeMultipleTransactions({ transactions, options });
 
     // Old Market Script, deprecated
     // const meta = JSON.stringify({
@@ -199,7 +192,7 @@ function ThingPage(props) {
     //   marketAddress: process.env.MINTBASE_MARKET_ADDRESS
     // });
 
-  }, [nftMetadata, wallet]);
+  };
 
   const userOwned = nftOwners?.filter(x => x.owner == wallet?.activeAccount?.accountId);
 
@@ -304,7 +297,7 @@ function ThingPage(props) {
               {/* <h1> {formattedData?.title} </h1> */}
               {/* buttons */}
               <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem", margin: "0rem 0 1rem 0" }}>
-                <Button variant='contained' color='primary' onClick={buyNFT} disabled={listings == null || listings.length == 0}>
+                <Button variant='contained' color='primary' onClick={buyNFT} disabled={isSoldOut}>
                   {listings?.length > 0 ? `Buy for ${nearNumToHuman(listings[0].price)} NEAR` : 'Buy'}
                 </Button>
                 <Button variant='contained' color='primary' onClick={openRedeemModal} disabled={userOwned?.length <= 0}>
@@ -323,7 +316,7 @@ function ThingPage(props) {
                   h1: ({ node, ...props }) => <div><h1 {...props} style={{ marginBottom: "0" }} />
                     <h1 style={{ color: "#EF5923", margin: "0 0 0.5rem 0", lineHeight: "1rem" }}>⎯⎯⎯⎯⎯</h1>
                   </div>,
-                  li: ({ node, ...props }) => <li {...props} style={{ margin: "1rem 0" }} />,
+                  li: ({ node, ...props }) => <li {...props} ordered="false" style={{ margin: "1rem 0" }} />,
                   //   p: ({ node, ...props }) => <p {...props} style={{ fontSize: "1rem" }} />
                 }}
               >
