@@ -107,9 +107,6 @@ function Landing(props) {
             <Footer />
           </section>
         </div>
-        <Hidden mdDown>
-          <Notification />
-        </Hidden>
         <Hidden smDown>
           <PageNav />
         </Hidden>
