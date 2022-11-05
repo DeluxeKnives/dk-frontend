@@ -2,7 +2,6 @@ import React, { useRef, useEffect, useState } from 'react';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import Carousel from 'react-slick';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import clsx from 'clsx';
@@ -10,6 +9,7 @@ import { useTranslation } from 'next-i18next';
 import { useText } from '~/theme/common';
 import Title from '../Title';
 import BlogPostCard from '../Cards/BlogPost';
+import ComingSoonCard from '../Cards/ComingSoon';
 import useStyle from './blog-style';
 import { useQuery, gql } from "@apollo/client";
 
@@ -81,15 +81,15 @@ function Available() {
       for (const nft of data.mb_views_nft_metadata_unburned) {
         let category = "";
         nft.reference_blob?.extra?.forEach(x => {
-          if(x?.trait_type == "type") category = x.value;
+          if (x?.trait_type == "type") category = x.value;
         });
         const priceStr =
           (parseInt(
             (BigInt(nft.listed ?? 0) / BigInt(100000000000000000000000))
               .toString()
-            ) / 10
+          ) / 10
           )
-          .toString();
+            .toString();
         let price = priceStr;
 
         nftsFormatted.push({
@@ -157,6 +157,11 @@ function Available() {
                 />
               </div>
             ))}
+            {[0, 0, 0].map((item, index) =>
+              <div key={(1000-index).toString()} className={classes.item}>
+                <ComingSoonCard />
+              </div>
+            )}
             {isDesktop && (
               <div className={clsx(classes.item, classes.itemPropsLast)}>
                 <div />

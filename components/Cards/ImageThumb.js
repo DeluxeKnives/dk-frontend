@@ -14,7 +14,6 @@ export default function ImageThumb(props) {
     img,
     title,
     price,
-    remaining,
     size,
     onClick
   } = props;
@@ -37,14 +36,10 @@ export default function ImageThumb(props) {
           <div className={classes.img} style={{ backgroundImage: `url(${img})` }} />
         </div>
         <div className={classes.detail}>
-          <Typography variant="h6" className={text.subtitle}>{title}</Typography>
+          <Typography variant="h6" className={text.subtitle} style={{ marginBottom: '12px' }}>{title}</Typography>
           <div>
             <span>Price:</span>
             <span style={{ float: "right" }}>{price} NEAR</span>
-          </div>
-          <div>
-            <span>Remaining:</span>
-            <span style={{ float: "right" }}>{remaining} Units</span>
           </div>
         </div>
       </ButtonBase>
