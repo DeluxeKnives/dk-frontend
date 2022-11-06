@@ -29,5 +29,10 @@ module.exports = withImages({
     MINTBASE_MARKET_ADDRESS: "market-v2-beta.mintspace2.testnet",
     MINTBASE_SHOP_ID: "shopifyteststore.mintspace2.testnet",
     BACKEND_URL: "http://52.90.177.47"
+  },
+  eslint: {
+    // Warning: This allows production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: true,
   }
 });
