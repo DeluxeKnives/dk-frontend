@@ -13,13 +13,22 @@ module.exports = withImages({
       ? process.env.LOCALE_SUBPATHS
       : 'none',
   },
-  webpack: (config, options) => {
+  webpack: (config, { isServer }) => {
     cssModules: true,
-    config.plugins.push(
-      //      new ESLintPlugin({
-      //        exclude: ['node_modules']
-      //      })
-    );
+      config.plugins.push(
+        //      new ESLintPlugin({
+        //        exclude: ['node_modules']
+        //      })
+      );
+
+    // if (!isServer) {
+    //   // don't resolve 'fs' module on the client to prevent this error on build --> Error: Can't resolve 'fs'
+    //   config.resolve.fallback = {
+    //     ws: false,
+    //     '@splinetool/runtime': false
+    //   }
+    // }
+
     config.node = {}
     return config;
   },
