@@ -4,7 +4,6 @@ import Head from 'next/head';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Hidden from '@material-ui/core/Hidden';
-import clsx from 'clsx';
 import brand from '~/public/text/brand';
 import { getStaticPaths, makeStaticProps } from '../../lib/getStatic';
 import Header from '../../components/Header';
@@ -14,7 +13,6 @@ import Available from '../../components/Available';
 import Footer from '../../components/Footer';
 import PageNav from '../../components/PageNav';
 import Decoration from '../../components/Parallax/Decoration';
-import Notification from '../../components/Notification';
 import Partners from '../../components/Partners/Partners';
 import Faq from '../../components/Faq';
 
@@ -89,7 +87,7 @@ function Landing(props) {
         </section>
         <div className={classes.parallaxWrap}>
           <div className={classes.bottomDeco}>
-            {/* <Decoration /> */}
+            <Decoration />
           </div>
           <section id="available" className={classes.spaceTop}>
             <Available />

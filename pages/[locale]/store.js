@@ -48,7 +48,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Store(props) {
-  const { t } = useTranslation('common');
   const { onToggleDark, onToggleDir } = props;
   const classes = useStyles();
 

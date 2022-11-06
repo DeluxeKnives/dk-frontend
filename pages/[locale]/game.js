@@ -26,8 +26,7 @@ const useStyles = makeStyles(theme => ({
 
 function Game(props) {
   const classes = useStyles();
-  const { errorCode, stars } = props;
-  const { t } = useTranslation('common');
+  const { errorCode } = props;
 
   if (errorCode) {
     return (
