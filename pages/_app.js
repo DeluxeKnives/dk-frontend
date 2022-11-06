@@ -14,14 +14,16 @@ import rtl from 'jss-rtl';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import LoadingBar from 'react-top-loading-bar';
 import { appWithTranslation } from 'next-i18next';
-import lngDetector from '../lib/languageDetector';
-import appTheme from '../theme/appTheme';
-import { NearWalletProvider } from '../lib/NearWalletProvider';
-import { ApolloClient, HttpLink, InMemoryCache, ApolloProvider, split } from "@apollo/client";
-import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
-import { createClient } from "graphql-ws";
-import {WebSocket} from 'ws';
+import {
+ ApolloClient, HttpLink, InMemoryCache, ApolloProvider, split
+} from '@apollo/client';
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { createClient } from 'graphql-ws';
+import { WebSocket } from 'ws';
 import { getMainDefinition } from '@apollo/client/utilities';
+import { NearWalletProvider } from '../lib/NearWalletProvider';
+import appTheme from '../theme/appTheme';
+import lngDetector from '../lib/languageDetector';
 
 /* import css vendors */
 import 'react-image-lightbox/style.css';
@@ -47,14 +49,13 @@ const wsLink = typeof window === 'undefined' ? null : new GraphQLWsLink(createCl
   options: { reconnect: true },
   webSocketImpl: WebSocket
 }));
-const link =
-  typeof window !== "undefined" && wsLink != null
+const link = typeof window !== 'undefined' && wsLink != null
     ? split(
       ({ query }) => {
         const def = getMainDefinition(query);
         return (
-          def.kind === "OperationDefinition" &&
-          def.operation === "subscription"
+          def.kind === 'OperationDefinition'
+          && def.operation === 'subscription'
         );
       },
       wsLink,

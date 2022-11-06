@@ -4,30 +4,30 @@ import Hidden from '@material-ui/core/Hidden';
 
 const useStyles = makeStyles(theme => ({
   knife: {
-    position: "absolute",
+    position: 'absolute',
     zIndex: 5,
 
     [theme.breakpoints.up('xl')]: {
       top: -60,
-      right: "10%"
+      right: '10%'
     },
 
     [theme.breakpoints.up('lg')]: {
       top: -60,
-      right: "5%",
-      transform: "scale(0.9)"
+      right: '5%',
+      transform: 'scale(0.9)'
     },
 
     [theme.breakpoints.only('md')]: {
       top: -60,
-      right: "-10%",
-      transform: "scale(0.8)"
+      right: '-10%',
+      transform: 'scale(0.8)'
     },
 
     [theme.breakpoints.down('sm')]: {
       top: -100,
       right: -150,
-      transform: "scale(0.6)"
+      transform: 'scale(0.6)'
     },
 
   }
@@ -42,4 +42,3 @@ export default function App() {
     </Hidden>
   );
 }
-

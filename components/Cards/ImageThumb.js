@@ -28,7 +28,7 @@ export default function ImageThumb(props) {
         return classes.medium;
     }
   };
-  
+
   return (
     <Paper className={clsx(classes.imgThumb, setSize(size))}>
       <ButtonBase onClick={onClick}>
@@ -39,7 +39,11 @@ export default function ImageThumb(props) {
           <Typography variant="h6" className={text.subtitle} style={{ marginBottom: '12px' }}>{title}</Typography>
           <div>
             <span>Price:</span>
-            <span style={{ float: "right" }}>{price} NEAR</span>
+            <span style={{ float: 'right' }}>
+              {price}
+              {' '}
+              NEAR
+            </span>
           </div>
         </div>
       </ButtonBase>

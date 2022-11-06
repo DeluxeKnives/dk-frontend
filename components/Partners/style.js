@@ -5,7 +5,7 @@ const testiStyles = makeStyles(theme => ({
     color: theme.palette.text.secondary,
   },
   logo: {
-    maxWidth: "350px",
+    maxWidth: '350px',
     marginRight: '2rem',
     marginLeft: '2rem'
   },

@@ -94,7 +94,7 @@ function Landing(props) {
           <section id="available" className={classes.spaceTop}>
             <Available />
           </section>
-          <section id="howitworks" className={classes.spaceTop} style={{textAlign: "center"}}>
+          <section id="howitworks" className={classes.spaceTop} style={{ textAlign: 'center' }}>
             <HowItWorks />
           </section>
           <section id="faq" className={classes.spaceTop}>

@@ -18,7 +18,7 @@ import Slideshow from './Hero/Slideshow';
 import VideoHero from './Hero/Video';
 import useStyles from './banner-style';
 import ConnectButton from '../ConnectButton';
-import ThreeDKnife from "../3DKnife";
+import ThreeDKnife from '../3DKnife';
 
 function BannerNav(props) {
   const text = useText();
@@ -73,20 +73,36 @@ function BannerNav(props) {
                   <Button variant="outlined" className={classes.download} component="a" href="store">
                     {t('home.cta')}
                   </Button>
-                  <IconButton aria-label="Delete" className={classes.margin} size="small"
-                    onClick={() => location.href = 'https://www.facebook.com/DeluxeKnives'}>
+                  <IconButton
+                    aria-label="Delete"
+                    className={classes.margin}
+                    size="small"
+                    onClick={() => location.href = 'https://www.facebook.com/DeluxeKnives'}
+                  >
                     <i className="ion-logo-facebook" />
                   </IconButton>
-                  <IconButton aria-label="Delete" className={classes.margin} size="small"
-                    onClick={() => location.href = 'https://twitter.com/DeluxeKnives'}>
+                  <IconButton
+                    aria-label="Delete"
+                    className={classes.margin}
+                    size="small"
+                    onClick={() => location.href = 'https://twitter.com/DeluxeKnives'}
+                  >
                     <i className="ion-logo-twitter" />
                   </IconButton>
-                  <IconButton aria-label="Delete" className={classes.margin} size="small"
-                    onClick={() => location.href = 'https://www.instagram.com/DeluxeKnives/'}>
+                  <IconButton
+                    aria-label="Delete"
+                    className={classes.margin}
+                    size="small"
+                    onClick={() => location.href = 'https://www.instagram.com/DeluxeKnives/'}
+                  >
                     <i className="ion-logo-instagram" />
                   </IconButton>
-                  <IconButton aria-label="Delete" className={classes.margin} size="small"
-                    onClick={() => location.href = 'https://www.youtube.com/channel/UCdPUX9Ixi7jccSej8LsTG0g'}>
+                  <IconButton
+                    aria-label="Delete"
+                    className={classes.margin}
+                    size="small"
+                    onClick={() => location.href = 'https://www.youtube.com/channel/UCdPUX9Ixi7jccSej8LsTG0g'}
+                  >
                     <i className="ion-logo-youtube" />
                   </IconButton>
                 </div>
@@ -95,9 +111,9 @@ function BannerNav(props) {
           </div>
         </Grid>
       </Grid>
-      {/* temporarily remove big 3d knife until we can find a better place for it 
-            since it seems a little out of place floating around 
-            
+      {/* temporarily remove big 3d knife until we can find a better place for it
+            since it seems a little out of place floating around
+
             yeah but empty makes me sad. we can make it smaller
             */}
       <ThreeDKnife />

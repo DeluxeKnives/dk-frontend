@@ -5,11 +5,11 @@ import { lighten, darken } from '@material-ui/core/styles/colorManipulator';
 
 const faqStyles = makeStyles(theme => ({
   root: {
-    //position: 'relative',
-    //background: `url(${theme.palette.type === 'dark' ? decoFaqDark : decoFaqLight}) top center no-repeat`,
-    //backgroundColor: theme.palette.type === 'dark' ? darken(theme.palette.primary.dark, 0.6) : lighten(theme.palette.primary.main, 0.84),
-    //backgroundSize: '100%',
-    //marginTop: theme.spacing(-20),
+    // position: 'relative',
+    // background: `url(${theme.palette.type === 'dark' ? decoFaqDark : decoFaqLight}) top center no-repeat`,
+    // backgroundColor: theme.palette.type === 'dark' ? darken(theme.palette.primary.dark, 0.6) : lighten(theme.palette.primary.main, 0.84),
+    // backgroundSize: '100%',
+    // marginTop: theme.spacing(-20),
 
   },
   content: {
@@ -79,7 +79,7 @@ const faqStyles = makeStyles(theme => ({
   },
   w100SM: {
     [theme.breakpoints.down('sm')]: {
-      width: "100%"
+      width: '100%'
     }
   }
 }));

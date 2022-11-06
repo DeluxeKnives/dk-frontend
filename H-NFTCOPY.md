@@ -8,7 +8,7 @@ Every knife NFT from Deluxe Knives comes with a free physical knife replica! The
 
 Be careful when purchasing the NFT second hand, as every NFT can be redeemed for a physical twin only once. Check if your NFT has been redeemed here:
 
-https://meta.deluxeknives.com/redeemcheck
+https://digitaltwin.deluxeknives.com/redeemcheck
 
 Purchasing an NFT that has already been redeemed will not entitle you to a new physical knife, but you will still be able to access any metaverse components that come with it.
 

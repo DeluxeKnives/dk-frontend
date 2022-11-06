@@ -4,10 +4,12 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import { useTranslation } from 'next-i18next';
+import Link from '@material-ui/core/Link';
+import {
+ IoLogoDiscord, IoHomeSharp, IoGameController, IoStorefront
+} from 'react-icons/io5';
 import logo from '~/public/images/dk-logo-white.svg';
 import useStyles from './sidenav-icon-style';
-import Link from '@material-ui/core/Link';
-import { IoLogoDiscord, IoHomeSharp, IoGameController, IoStorefront } from "react-icons/io5";
 
 let counter = 0;
 function createData(name, url, icon, offset = 0, placeholder) {
@@ -27,9 +29,9 @@ function SideNavigation({ isMain, isNotTranslated }) {
   const { t } = useTranslation('common');
   const [menuList] = useState([
     // createData("main", "https://deluxeknives.com/", <IoHomeSharp size={36} />),
-    createData("store", "/store", <IoStorefront size={36} />),
-    createData("game", "/game", <IoGameController size={36} />),
-    createData("discord", "https://discord.gg/sf4FzDTFb4", <IoLogoDiscord size={36} />),
+    createData('store', '/store', <IoStorefront size={36} />),
+    createData('game', '/game', <IoGameController size={36} />),
+    createData('discord', 'https://discord.gg/sf4FzDTFb4', <IoLogoDiscord size={36} />),
   ]);
 
   return (

@@ -3,13 +3,13 @@
 
 import React from 'react';
 import { useTranslation } from 'next-i18next';
-import { getStaticPaths, makeStaticProps } from '../../lib/getStatic';
 import Head from 'next/head';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { makeStyles } from '@material-ui/core/styles';
+import { getStaticPaths, makeStaticProps } from '../../lib/getStatic';
 import brand from '~/public/text/brand';
 import Header from '../../components/Header';
 import Gallery from '../../components/Gallery';
-import { makeStyles } from '@material-ui/core/styles';
 import Decoration from '../../components/Parallax/Decoration';
 import StoreBanner from '../../components/BannerNav/StoreBanner';
 import Footer from '../../components/Footer';
@@ -47,7 +47,6 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-
 export default function Store(props) {
   const { t } = useTranslation('common');
   const { onToggleDark, onToggleDir } = props;
@@ -69,7 +68,7 @@ export default function Store(props) {
         <StoreBanner
           onToggleDark={onToggleDark}
           onToggleDir={onToggleDir}
-          bannerHero='video'
+          bannerHero="video"
         />
       </section>
       <div className={classes.parallaxWrap}>

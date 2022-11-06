@@ -6,12 +6,12 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import clsx from 'clsx';
 import { useTranslation } from 'next-i18next';
+import { useQuery, gql } from '@apollo/client';
 import { useText } from '~/theme/common';
 import Title from '../Title';
 import BlogPostCard from '../Cards/BlogPost';
 import ComingSoonCard from '../Cards/ComingSoon';
 import useStyle from './blog-style';
-import { useQuery, gql } from "@apollo/client";
 
 const STORE_NFTS = gql`
 query GetStoreNfts( 
@@ -70,8 +70,8 @@ function Available() {
   const [formattedData, setFormattedData] = useState([{}, {}, {}, {}, {}, {}]);
   const { loading, error, data } = useQuery(STORE_NFTS, {
     variables: {
-      "condition": {
-        "nft_contract_id": { "_eq": "shopifyteststore.mintspace2.testnet" }
+      condition: {
+        nft_contract_id: { _eq: 'shopifyteststore.mintspace2.testnet' }
       }
     }
   });
@@ -79,18 +79,17 @@ function Available() {
     const nftsFormatted = [];
     try {
       for (const nft of data.mb_views_nft_metadata_unburned) {
-        let category = "";
+        let category = '';
         nft.reference_blob?.extra?.forEach(x => {
-          if (x?.trait_type == "type") category = x.value;
+          if (x?.trait_type == 'type') category = x.value;
         });
-        const priceStr =
-          (parseInt(
+        const priceStr = (parseInt(
             (BigInt(nft.listed ?? 0) / BigInt(100000000000000000000000))
               .toString()
           ) / 10
           )
             .toString();
-        let price = priceStr;
+        const price = priceStr;
 
         nftsFormatted.push({
           img: nft.media,
@@ -99,9 +98,8 @@ function Available() {
           link: `/item/${nft.metadata_id}`
         });
       }
-    }
-    catch (e) {
-      console.log("ERROR AHH", e)
+    } catch (e) {
+      console.log('ERROR AHH', e);
     }
     setFormattedData(nftsFormatted);
   }, [data]);
@@ -114,7 +112,7 @@ function Available() {
     }
   }, []);
 
-  const sectionTitle =
+  const sectionTitle = (
     <div className={classes.floatingTitle}>
       <Title>
         {t('available.title')}
@@ -126,7 +124,8 @@ function Available() {
       <Button variant="outlined" color="primary" className={classes.tostore} component="a" href="/store">
         {t('available.button')}
       </Button>
-    </div>;
+    </div>
+);
 
   return (
     <div className={classes.root}>
@@ -157,10 +156,11 @@ function Available() {
                 />
               </div>
             ))}
-            {[0, 0, 0].map((item, index) =>
-              <div key={(1000-index).toString()} className={classes.item}>
+            {[0, 0, 0].map((item, index) => (
+              <div key={(1000 - index).toString()} className={classes.item}>
                 <ComingSoonCard />
               </div>
+            )
             )}
             {isDesktop && (
               <div className={clsx(classes.item, classes.itemPropsLast)}>

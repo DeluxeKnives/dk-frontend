@@ -9,12 +9,12 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
 import { useTranslation } from 'next-i18next';
+import Link from 'next/dist/client/link';
 import logo from '~/public/images/dk-logo-long.avif';
 import brand from '~/public/text/brand';
 import { useText } from '~/theme/common';
 import useStyles from './footer-style';
 import ContactForm from '../Contact/Form';
-import Link from 'next/dist/client/link';
 
 function Footer() {
   const classes = useStyles();
@@ -44,20 +44,36 @@ function Footer() {
                   Main Site
                 </Button>
                 <div className={classes.socmed}>
-                  <IconButton aria-label="Delete" className={classes.margin} size="small"
-                    onClick={() => location.href = 'https://www.facebook.com/DeluxeKnives'}>
+                  <IconButton
+                    aria-label="Delete"
+                    className={classes.margin}
+                    size="small"
+                    onClick={() => location.href = 'https://www.facebook.com/DeluxeKnives'}
+                  >
                     <i className="ion-logo-facebook" />
                   </IconButton>
-                  <IconButton aria-label="Delete" className={classes.margin} size="small"
-                    onClick={() => location.href = 'https://twitter.com/DeluxeKnives'}>
+                  <IconButton
+                    aria-label="Delete"
+                    className={classes.margin}
+                    size="small"
+                    onClick={() => location.href = 'https://twitter.com/DeluxeKnives'}
+                  >
                     <i className="ion-logo-instagram" />
                   </IconButton>
-                  <IconButton aria-label="Delete" className={classes.margin} size="small"
-                    onClick={() => location.href = 'https://www.instagram.com/DeluxeKnives/'}>
+                  <IconButton
+                    aria-label="Delete"
+                    className={classes.margin}
+                    size="small"
+                    onClick={() => location.href = 'https://www.instagram.com/DeluxeKnives/'}
+                  >
                     <i className="ion-logo-twitter" />
                   </IconButton>
-                  <IconButton aria-label="Delete" className={classes.margin} size="small"
-                    onClick={() => location.href = 'https://www.youtube.com/channel/UCdPUX9Ixi7jccSej8LsTG0g'}>
+                  <IconButton
+                    aria-label="Delete"
+                    className={classes.margin}
+                    size="small"
+                    onClick={() => location.href = 'https://www.youtube.com/channel/UCdPUX9Ixi7jccSej8LsTG0g'}
+                  >
                     <i className="ion-logo-youtube" />
                   </IconButton>
                 </div>

@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Button, Grid, Hidden, Chip, Typography, IconButton, CircularProgress } from '@material-ui/core';
-import SimpleImage from '../../components/Cards/SimpleImage';
+import {
+ Button, Grid, Hidden, Chip, Typography, IconButton, CircularProgress
+} from '@material-ui/core';
 import { useQuery, useSubscription, gql } from '@apollo/client';
-import { useRouter } from 'next/router'
-import { useWallet, nearNumToHuman } from '../../lib/NearWalletProvider';
+import { useRouter } from 'next/router';
 import ReactMarkdown from 'react-markdown';
+import { useWallet, nearNumToHuman } from '../../lib/NearWalletProvider';
+import SimpleImage from '../../components/Cards/SimpleImage';
 import SideNavigationIcon from '../../components/SideNavigation/SideNavigationIcon';
-import { UnstyledConnectButton } from "../../components/ConnectButton";
+import { UnstyledConnectButton } from '../../components/ConnectButton';
 import RedeemModal, { RedemptionLine } from '../../components/Redeem/RedeemModal';
 import { useText } from '~/theme/common';
 import Title from '../../components/Title';
@@ -44,7 +46,7 @@ subscription GetNFTListings($list_cond: mb_views_active_listings_bool_exp) {
     market_id
   }
 }
-`
+`;
 
 const NFT_OWNER_SUBSCRIPTION = gql`
 subscription GetNFTOwners($owner_cond: nft_tokens_bool_exp) {
@@ -66,13 +68,13 @@ function ThingPage(props) {
   const pid = router.query.id;
   const text = useText();
 
-  //#region Queries & Subscriptions
+  // #region Queries & Subscriptions
 
   // Query for the metadata
   const { loading: metaLoading, error: metaError, data: rawmetaData } = useQuery(STORE_METADATA_QUERY, {
     variables: {
-      "tok_cond": {
-        "metadata_id": { "_eq": pid }
+      tok_cond: {
+        metadata_id: { _eq: pid }
       }
     }
   });
@@ -80,10 +82,10 @@ function ThingPage(props) {
   // Subscribe for the listings
   const { loading: listingLoading, error: listingError, data: listingData } = useSubscription(NFT_LISTINGS_SUBSCRIPTION, {
     variables: {
-      "list_cond": {
-        "metadata_id": { "_eq": pid },
-        "listed_by": { "_eq": `deluxeshop.${process.env.NEAR_NETWORK}` },
-        "kind": { "_eq": "simple" }
+      list_cond: {
+        metadata_id: { _eq: pid },
+        listed_by: { _eq: `deluxeshop.${process.env.NEAR_NETWORK}` },
+        kind: { _eq: 'simple' }
       }
     }
   });
@@ -91,15 +93,15 @@ function ThingPage(props) {
   // Subscribe for the owners
   const { loading: ownerLoading, error: ownerError, data: ownerData } = useSubscription(NFT_OWNER_SUBSCRIPTION, {
     variables: {
-      "owner_cond": {
-        "metadata_id": { "_eq": pid }
+      owner_cond: {
+        metadata_id: { _eq: pid }
       }
     }
   });
 
-  //#endregion
+  // #endregion
 
-  //#region Format queried/subscribed data
+  // #region Format queried/subscribed data
 
   useEffect(() => {
     try {
@@ -109,29 +111,28 @@ function ThingPage(props) {
       const fnft = {
         img: nft.media,
         size: 'long',
-        link: nft.reference_blob?.extra?.find(x => x.trait_type == "website")?.value ?? "",
+        link: nft.reference_blob?.extra?.find(x => x.trait_type == 'website')?.value ?? '',
         description: nft.reference_blob?.description,
         ...nft
       };
       setFormattedData(fnft);
-      console.log(fnft)
-    }
-    catch (e) {
-      console.log("ERROR AHH", e)
+      console.log(fnft);
+    } catch (e) {
+      console.log('ERROR AHH', e);
     }
   }, [rawmetaData, metaError]);
   useEffect(() => {
     if (!listingLoading) {
       setListings(listingData?.mb_views_active_listings);
-      console.log("SETTING", listingData?.mb_views_active_listings)
+      console.log('SETTING', listingData?.mb_views_active_listings);
     }
   }, [listingData, listingError]);
-  useEffect(() => { if (!ownerLoading) setNFTOwners(ownerData?.nft_tokens) }, [ownerData, ownerError]);
+  useEffect(() => { if (!ownerLoading) setNFTOwners(ownerData?.nft_tokens); }, [ownerData, ownerError]);
 
-  //#endregion
+  // #endregion
 
   // State variables to store queried/subscribed data
-  const [nftMetadata, setFormattedData] = useState({ img: "" });
+  const [nftMetadata, setFormattedData] = useState({ img: '' });
   const [listings, setListings] = useState([]);
   const [nftOwners, setNFTOwners] = useState([]);
   const isSoldOut = listings == null || listings.length == 0;
@@ -148,18 +149,18 @@ function ThingPage(props) {
       return;
     }
 
-    const [shopId, metaId] = pid.split(":")
+    const [shopId, metaId] = pid.split(':');
     const listing = listings[0];
-    console.log(listings, listing)
+    console.log(listings, listing);
 
     const transactions = [
       {
         receiverId: listing.market_id,
         functionCalls: [
           {
-            methodName: "buy",
+            methodName: 'buy',
             receiverId: listing.market_id,
-            gas: "200000000000000",
+            gas: '200000000000000',
             args: {
               nft_contract_id: shopId,
               token_id: listing.token_id,
@@ -172,7 +173,7 @@ function ThingPage(props) {
     const options = {
       callbackUrl: `${window.location.href}?success=true&prev=${userOwned.length}`,
       meta: JSON.stringify({
-        type: "make-offer",
+        type: 'make-offer',
         args: {
           metadataId: nftMetadata.metadataId,
         },
@@ -194,7 +195,6 @@ function ThingPage(props) {
     //   meta,
     //   marketAddress: process.env.MINTBASE_MARKET_ADDRESS
     // });
-
   };
 
   const userOwned = nftOwners?.filter(x => x.owner == wallet?.activeAccount?.accountId);
@@ -208,10 +208,10 @@ function ThingPage(props) {
 
   // Fetch for redemption status of tokens
   useEffect(() => {
-    let queryStr = "";
+    let queryStr = '';
     for (const nft of userOwned) {
-      queryStr += nft.token_id + ","
-    };
+      queryStr += nft.token_id + ',';
+    }
 
     if (queryStr.length > 0) queryStr = queryStr.substring(0, queryStr.length - 1);
     else {
@@ -220,39 +220,50 @@ function ThingPage(props) {
     }
 
     fetch(`${process.env.BACKEND_URL}/redemption/checkBatch/${queryStr}`, {
-      method: "GET",
+      method: 'GET',
       headers: { 'Content-Type': 'application/json' }
     })
       .then(res => res.json())
-      .then(res => { setRedemptionStatus(res); console.log(res) });
+      .then(res => { setRedemptionStatus(res); console.log(res); });
   }, [nftOwners, wallet, redeemModalIsOpen]);
 
-  const SimpleImageWithChips =
+  const SimpleImageWithChips = (
     <SimpleImage {...nftMetadata}>
-      <div style={{ display: 'flex', width: 'fit-content', paddingLeft: '8px', paddingTop: '8px' }}>
-        {!isSoldOut &&
+      <div style={{
+ display: 'flex', width: 'fit-content', paddingLeft: '8px', paddingTop: '8px'
+}}
+      >
+        {!isSoldOut
+          && (
           <Hidden mdDown>
             <Chip
-              color={'primary'} style={{ marginRight: '1rem' }}
-              label={`${nearNumToHuman(listings[0].price)} NEAR`} />
-          </Hidden>}
+              color="primary"
+              style={{ marginRight: '1rem' }}
+              label={`${nearNumToHuman(listings[0].price)} NEAR`}
+            />
+          </Hidden>
+)}
         <Chip
-          color={isSoldOut ? 'default' : 'primary'} style={{ marginRight: '1rem' }}
-          label={isSoldOut ? "SOLD OUT!" : `${listings.length} NFT${listings.length > 1 ? "s" : ""} remaining`} />
+          color={isSoldOut ? 'default' : 'primary'}
+          style={{ marginRight: '1rem' }}
+          label={isSoldOut ? 'SOLD OUT!' : `${listings.length} NFT${listings.length > 1 ? 's' : ''} remaining`}
+        />
         <Chip
           style={{ marginRight: '1rem' }}
-          label={`Owns ${nftOwners?.filter(x => x.owner == wallet?.activeAccount?.accountId).length} of ${nftOwners?.length}`} />
+          label={`Owns ${nftOwners?.filter(x => x.owner == wallet?.activeAccount?.accountId).length} of ${nftOwners?.length}`}
+        />
       </div>
-    </SimpleImage>;
+    </SimpleImage>
+);
 
   return (
     <React.Fragment>
       <RedeemModal isOpen={redeemModalIsOpen} contentLabel="Redeem Modal">
         <Title>Redeem for Code</Title>
         {
-          userOwned == null || userOwned.length <= 0 ?
-            <div>You own no NFTs of this knife! Buy one to get a code.</div> :
-            userOwned?.map((x, i) => (
+          userOwned == null || userOwned.length <= 0
+            ? <div>You own no NFTs of this knife! Buy one to get a code.</div>
+            : userOwned?.map((x, i) => (
               <RedemptionLine key={i} {...x} redemptionStatus={redemptionStatus[x.token_id]} />
             ))
         }
@@ -260,7 +271,7 @@ function ThingPage(props) {
           Close
         </Button>
       </RedeemModal>
-      <Grid container style={{ padding: "1rem" }}>
+      <Grid container style={{ padding: '1rem' }}>
         {/* sidebar */}
         <Hidden smDown>
           <Grid item md={1}>
@@ -272,23 +283,32 @@ function ThingPage(props) {
         <Grid item md={11} sm={12}>
           {/* top bar */}
           <Hidden smDown>
-            <div style={{ display: "flex", flexDirection: "row", justifyContent: "flex-end", padding: "0 5%" }}>
+            <div style={{
+ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', padding: '0 5%'
+}}
+            >
               <UnstyledConnectButton />
             </div>
           </Hidden>
           <Hidden mdUp>
-            <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", padding: "0 5%" }}>
+            <div style={{
+ display: 'flex', flexDirection: 'row', justifyContent: 'center', padding: '0 5%'
+}}
+            >
               <UnstyledConnectButton />
             </div>
           </Hidden>
 
-          {/* knife image mobile*/}
+          {/* knife image mobile */}
           <Hidden mdUp>
             {/* stats & image */ SimpleImageWithChips}
           </Hidden>
 
           {/* image and text */}
-          <div style={{ display: "flex", flexDirection: "row", margin: "0.5rem", gap: "3rem" }}>
+          <div style={{
+ display: 'flex', flexDirection: 'row', margin: '0.5rem', gap: '3rem'
+}}
+          >
             {/* desktop image */}
             <Hidden smDown>
               <Grid item md={4} sm={12}>
@@ -299,30 +319,39 @@ function ThingPage(props) {
             <Grid item md={7} sm={12}>
               {/* <h1> {formattedData?.title} </h1> */}
               {/* buttons */}
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem", margin: "0rem 0 1rem 0" }}>
-                <Button variant='contained' color='primary' onClick={buyNFT} disabled={isSoldOut}>
+              <div style={{
+ display: 'flex', flexWrap: 'wrap', gap: '1rem', margin: '0rem 0 1rem 0'
+}}
+              >
+                <Button variant="contained" color="primary" onClick={buyNFT} disabled={isSoldOut}>
                   {listings?.length > 0 ? `Buy for ${nearNumToHuman(listings[0].price)} NEAR` : 'Buy'}
                 </Button>
-                <Button variant='contained' color='primary' onClick={openRedeemModal} disabled={userOwned?.length <= 0}>
+                <Button variant="contained" color="primary" onClick={openRedeemModal} disabled={userOwned?.length <= 0}>
                   Redeem
                 </Button>
-                <Button variant='outlined' component="a" href={`https://${process.env.NEAR_NETWORK}.mintbase.io/meta/${pid}`}>
+                <Button variant="outlined" component="a" href={`https://${process.env.NEAR_NETWORK}.mintbase.io/meta/${pid}`}>
                   Manage
                 </Button>
-                <Button variant='outlined' component="a" href={nftMetadata?.link} target="_blank">
+                <Button variant="outlined" component="a" href={nftMetadata?.link} target="_blank">
                   View Physical
                 </Button>
               </div>
 
               <ReactMarkdown
                 components={{
-                  h1: ({ node, ...props }) => <div><h1 {...props} style={{ marginBottom: "0" }} />
-                    <h1 style={{ color: "#EF5923", margin: "0 0 0.5rem 0", lineHeight: "1rem" }}>⎯⎯⎯⎯⎯</h1>
-                  </div>,
-                  h2: ({ node, ...props }) => <div><h2 {...props} style={{ marginBottom: "0" }} />
-                    <h2 style={{ color: "#EF5923", margin: "0 0 0.5rem 0", lineHeight: "1rem" }}>⎯⎯⎯⎯⎯</h2>
-                  </div>,
-                  li: ({ node, ...props }) => <li {...props} ordered="false" style={{ margin: "1rem 0" }} />,
+                  h1: ({ node, ...props }) => (
+                    <div>
+                      <h1 {...props} style={{ marginBottom: '0' }} />
+                      <h1 style={{ color: '#EF5923', margin: '0 0 0.5rem 0', lineHeight: '1rem' }}>⎯⎯⎯⎯⎯</h1>
+                    </div>
+),
+                  h2: ({ node, ...props }) => (
+                    <div>
+                      <h2 {...props} style={{ marginBottom: '0' }} />
+                      <h2 style={{ color: '#EF5923', margin: '0 0 0.5rem 0', lineHeight: '1rem' }}>⎯⎯⎯⎯⎯</h2>
+                    </div>
+),
+                  li: ({ node, ...props }) => <li {...props} ordered="false" style={{ margin: '1rem 0' }} />,
                   //   p: ({ node, ...props }) => <p {...props} style={{ fontSize: "1rem" }} />
                 }}
               >
@@ -330,8 +359,7 @@ function ThingPage(props) {
               </ReactMarkdown>
             </Grid>
           </div>
-          <div>
-          </div>
+          <div />
         </Grid>
 
       </Grid>

@@ -15,7 +15,8 @@ class MyDocument extends Document {
             // https://www.toptal.com/designers/subtlepatterns/tactile-noise/
             backgroundImage: 'url("https://cdn.discordapp.com/attachments/916989584620015619/1030368761091477514/tactile_noise.webp")',
             backgroundRepeat: 'repeat',
-        }}>
+        }}
+        >
           <div
             id="preloader"
             style={{

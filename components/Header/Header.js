@@ -67,11 +67,11 @@ function Header(props) {
   const { t } = useTranslation('common');
 
   const [menuList] = useState([
-    createData("home", "/"),
-    createData("store", "/store"),
-    createData("game", "/game"),
-    createData("main", "https://deluxeknives.com/"),
-    createData("discord", "https://discord.gg/sf4FzDTFb4"),
+    createData('home', '/'),
+    createData('store', '/store'),
+    createData('game', '/game'),
+    createData('main', 'https://deluxeknives.com/'),
+    createData('discord', 'https://discord.gg/sf4FzDTFb4'),
   ]);
   const [openDrawer, setOpenDrawer] = useState(false);
   const handleOpenDrawer = () => {
@@ -114,7 +114,7 @@ function Header(props) {
                 </span>
               </IconButton>
               <div className={classes.logo}>
-                <a href={"/"}>
+                <a href="/">
                   <img src={logo} alt="logo" />
                 </a>
               </div>
@@ -165,22 +165,38 @@ function Header(props) {
                       {t('unisex-landing.main_site')}
                     </Button>
                     <div className={classes.socmed}>
-                    <IconButton aria-label="Delete" className={classes.margin} size="small"
-                        onClick={() => location.href = 'https://www.facebook.com/DeluxeKnives'}>
+                      <IconButton
+                        aria-label="Delete"
+                        className={classes.margin}
+                        size="small"
+                        onClick={() => location.href = 'https://www.facebook.com/DeluxeKnives'}
+                      >
                         <i className="ion-logo-facebook" />
-                    </IconButton>
-                    <IconButton aria-label="Delete" className={classes.margin} size="small"
-                        onClick={() => location.href = 'https://twitter.com/DeluxeKnives'}>
+                      </IconButton>
+                      <IconButton
+                        aria-label="Delete"
+                        className={classes.margin}
+                        size="small"
+                        onClick={() => location.href = 'https://twitter.com/DeluxeKnives'}
+                      >
                         <i className="ion-logo-instagram" />
-                    </IconButton>
-                    <IconButton aria-label="Delete" className={classes.margin} size="small"
-                        onClick={() => location.href = 'https://www.instagram.com/DeluxeKnives/'}>
+                      </IconButton>
+                      <IconButton
+                        aria-label="Delete"
+                        className={classes.margin}
+                        size="small"
+                        onClick={() => location.href = 'https://www.instagram.com/DeluxeKnives/'}
+                      >
                         <i className="ion-logo-twitter" />
-                    </IconButton>
-                    <IconButton aria-label="Delete" className={classes.margin} size="small"
-                        onClick={() => location.href = 'https://www.youtube.com/channel/UCdPUX9Ixi7jccSej8LsTG0g'}>
+                      </IconButton>
+                      <IconButton
+                        aria-label="Delete"
+                        className={classes.margin}
+                        size="small"
+                        onClick={() => location.href = 'https://www.youtube.com/channel/UCdPUX9Ixi7jccSej8LsTG0g'}
+                      >
                         <i className="ion-logo-youtube" />
-                    </IconButton>
+                      </IconButton>
                     </div>
                   </div>
                 </Grid>

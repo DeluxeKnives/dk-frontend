@@ -10,10 +10,10 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Typography from '@material-ui/core/Typography';
 import { useTranslation } from 'next-i18next';
+import ScrollAnimation from 'react-scroll-animation-wrapper';
 import { useText } from '~/theme/common';
 import Title from '../Title';
 import useStyles from './faq-style';
-import ScrollAnimation from 'react-scroll-animation-wrapper';
 
 const faqData = [
   {

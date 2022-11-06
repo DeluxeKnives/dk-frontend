@@ -35,7 +35,7 @@ const bannerStyles = makeStyles(theme => ({
     left: 0
   },
   banner: {
-    maxWidth:"1600px",
+    maxWidth: '1600px',
     position: 'relative',
     padding: theme.spacing(10, 3, 0),
     color: theme.palette.common.white,
@@ -60,7 +60,7 @@ const bannerStyles = makeStyles(theme => ({
     overflow: 'hidden',
     borderRadius: theme.rounded.big,
     padding: theme.spacing(5),
-    background: theme.palette.primary.main,//`linear-gradient(120deg, ${alpha(theme.palette.secondary.main, 0.5)}, ${alpha(theme.palette.primary.main, 0.5)})`,
+    background: theme.palette.primary.main, // `linear-gradient(120deg, ${alpha(theme.palette.secondary.main, 0.5)}, ${alpha(theme.palette.primary.main, 0.5)})`,
     backdropFilter: 'saturate(180%) blur(10px)',
     '& > *': {
       position: 'relative',

@@ -19,7 +19,10 @@ function BlogPost(props) {
 
   return (
     <Paper className={classes.post}>
-      <div style={{ height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div style={{
+ height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'
+}}
+      >
         <div style={{ textAlign: 'center' }}>
           <Typography variant="h5" className={text.title2}>
             COMING SOON

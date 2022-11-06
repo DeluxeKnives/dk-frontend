@@ -65,7 +65,11 @@ function Testimonials() {
                 <FadeUpScrollAnimation delay={400}>
                   <div>
                     <Typography component="p" className={text.paragraph}>
-                      Your NFT comes with a code for a <strong>real, physical knife</strong> on our main site.
+                      Your NFT comes with a code for a
+                      {' '}
+                      <strong>real, physical knife</strong>
+                      {' '}
+                      on our main site.
                     </Typography>
                   </div>
                 </FadeUpScrollAnimation>
@@ -85,7 +89,11 @@ function Testimonials() {
                 <FadeUpScrollAnimation delay={600}>
                   <div>
                     <Typography component="p" className={text.paragraph}>
-                      Go to <a href="https://www.deluxeknives.com/">our main site</a> to redeem your code. Enjoy your physical knife and its metaverse component together.
+                      Go to
+                      {' '}
+                      <a href="https://www.deluxeknives.com/">our main site</a>
+                      {' '}
+                      to redeem your code. Enjoy your physical knife and its metaverse component together.
                     </Typography>
                   </div>
                 </FadeUpScrollAnimation>

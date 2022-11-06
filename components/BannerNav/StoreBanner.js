@@ -57,8 +57,7 @@ function BannerNav(props) {
             </div>
           </div>
         </Grid>
-        <Grid item lg={ui.navigation === 'icon' ? 1 : 2} xs={12}>
-        </Grid>
+        <Grid item lg={ui.navigation === 'icon' ? 1 : 2} xs={12} />
       </Grid>
     </div>
   );

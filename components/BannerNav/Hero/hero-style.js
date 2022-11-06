@@ -13,20 +13,20 @@ const heroStyles = makeStyles(theme => ({
     },
     [theme.breakpoints.up('lg')]: {
       height: 650,
-      transform: "scale(1.5)",
+      transform: 'scale(1.5)',
       marginTop: -90
     },
     [theme.breakpoints.only('md')]: {
       height: 650,
-      transform: "scale(1.3)",
+      transform: 'scale(1.3)',
       marginTop: -60,
     },
     [theme.breakpoints.only('sm')]: {
-      transform: "scale(1.2)",
+      transform: 'scale(1.2)',
       marginTop: -50,
     },
     [theme.breakpoints.only('xs')]: {
-      transform: "scale(1.5)",
+      transform: 'scale(1.5)',
       marginTop: -30,
     },
     background: theme.palette.common.black,

@@ -19,7 +19,7 @@ const blogStyles = makeStyles(theme => ({
   },
   floatingTitle: {
     textAlign: 'center',
-    //padding: theme.spacing(0, 2),
+    // padding: theme.spacing(0, 2),
     [theme.breakpoints.up('md')]: {
       position: 'absolute',
       left: theme.spacing(4),

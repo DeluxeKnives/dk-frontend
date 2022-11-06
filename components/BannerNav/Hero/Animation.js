@@ -14,16 +14,14 @@ function Animation() {
         minHeight: 400.00,
         minWidth: 400.00,
         size: 3.00,
-        backgroundColor: "#EF5925",
-        baseColor: "#05021A"
+        backgroundColor: '#EF5925',
+        baseColor: '#05021A'
       });
     }
   }, []);
 
   return (
-    <>
-      <div className={classes.illustration} id="vanta_art" />
-    </>
+    <div className={classes.illustration} id="vanta_art" />
   );
 }
 

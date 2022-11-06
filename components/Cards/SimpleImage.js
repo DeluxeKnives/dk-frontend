@@ -13,16 +13,14 @@ export default function SimpleImage(props) {
   const { img } = props;
 
   return (
-    <React.Fragment>
-      <Paper className={clsx(classes.simpleImg, 'long')}>
-        <div className={classes.topLeft}>
-          {props.children}
-        </div>
-        <div className={classes.figure}>
-          <img className={classes.img} src={img} />
-        </div>
-      </Paper>
-    </React.Fragment>
+    <Paper className={clsx(classes.simpleImg, 'long')}>
+      <div className={classes.topLeft}>
+        {props.children}
+      </div>
+      <div className={classes.figure}>
+        <img className={classes.img} src={img} />
+      </div>
+    </Paper>
   );
 }
 

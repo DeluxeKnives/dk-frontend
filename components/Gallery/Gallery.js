@@ -6,15 +6,13 @@ import Button from '@material-ui/core/Button';
 import Hidden from '@material-ui/core/Hidden';
 import Carousel from 'react-slick';
 import { useTranslation } from 'next-i18next';
+import { useQuery, gql } from '@apollo/client';
+import Link from 'next/dist/client/link';
 import imgAPI from '~/public/images/imgAPI';
 import ImageThumbCard from '../Cards/ImageThumb';
 import Title from '../Title';
 import useStyle from './gallery-style';
-import { useQuery, gql } from "@apollo/client";
-import Link from 'next/dist/client/link';
 import { nearNumToHuman } from '../../lib/NearWalletProvider';
-
-
 
 export const STORE_NFTS = gql`
 query GetStoreNfts( 
@@ -47,8 +45,8 @@ function Gallery() {
   // Query for the store
   const { loading, error, data } = useQuery(STORE_NFTS, {
     variables: {
-      "condition": {
-        "nft_contract_id": { "_eq": "shopifyteststore.mintspace2.testnet" }
+      condition: {
+        nft_contract_id: { _eq: 'shopifyteststore.mintspace2.testnet' }
       }
     }
   });
@@ -58,12 +56,12 @@ function Gallery() {
     console.log(data);
     try {
       for (const nft of data?.mb_views_nft_metadata_unburned) {
-        let category = "";
+        let category = '';
         nft.reference_blob?.extra?.forEach(x => {
-          if(x?.trait_type == "type") category = x.value;
+          if (x?.trait_type == 'type') category = x.value;
         });
         const priceStr = nearNumToHuman(nft.listed);
-        let price = priceStr;
+        const price = priceStr;
 
         nftsFormatted.push({
           img: nft.media,
@@ -75,9 +73,8 @@ function Gallery() {
           price
         });
       }
-    }
-    catch (e) {
-      //console.log("ERROR AHH", e)
+    } catch (e) {
+      // console.log("ERROR AHH", e)
     }
 
     setFormattedData(nftsFormatted);
@@ -141,14 +138,14 @@ function Gallery() {
                   delay={200 + (100 * index)}
                   duration={0.3}
                 >
-                  <Link href={"../item/" + item.metadataId}>
+                  <Link href={'../item/' + item.metadataId}>
                     <ImageThumbCard
                       img={item.img}
                       title={item.title}
                       link={item.link}
                       size={item.size}
                       price={item.price} // This might be a problem. How do we know it's the correct listing price?
-                      remaining={"0"}
+                      remaining="0"
                       onClick={() => { }}
                     />
                   </Link>
@@ -170,8 +167,8 @@ function Gallery() {
                   title={item.title}
                   link={item.link}
                   size={item.size}
-                  price={"21"}
-                  remaining={"0"}
+                  price="21"
+                  remaining="0"
                   onClick={() => showPopup(index)}
                 />
               </div>
@@ -184,4 +181,3 @@ function Gallery() {
 }
 
 export default Gallery;
-

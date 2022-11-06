@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import Head from 'next/head';
 import { makeStyles } from '@material-ui/core/styles';
 import { useTranslation } from 'next-i18next';
-import brand from '~/public/text/brand';
-import { getStaticPaths, makeStaticProps } from '../../lib/getStatic';
 import clsx from 'clsx';
+import { getStaticPaths, makeStaticProps } from '../../lib/getStatic';
 import SideNavigationIcon from '../../components/SideNavigation/SideNavigationIcon';
+import brand from '~/public/text/brand';
 
 const useStyles = makeStyles(theme => ({
   dedicatedPage: {
@@ -37,9 +37,12 @@ function Game(props) {
             {brand.unisex.name}
           </title>
         </Head>
-        <div className={clsx( classes.dedicatedPage, classes.wrap)}>
+        <div className={clsx(classes.dedicatedPage, classes.wrap)}>
           <SideNavigationIcon />
-          <h2 style={{ position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
+          <h2 style={{
+ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)'
+}}
+          >
             COMING SOON
           </h2>
         </div>
@@ -51,7 +54,7 @@ function Game(props) {
     <div className={classes.dedicatedPage}>
       <h3 className={classes.wrap}>
         COMING SOON
-      </h3>    
+      </h3>
     </div>
   );
 }

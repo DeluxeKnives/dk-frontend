@@ -38,9 +38,9 @@ const sideNavIconStyles = makeStyles(theme => ({
     }
   },
   iconComponent: {
-    height: "36px",
-    width: "36px",
-    //marginTop: '1rem'
+    height: '36px',
+    width: '36px',
+    // marginTop: '1rem'
   },
   text: {
     transition: 'all 0.3s cubic-bezier(0, 1.73, 1, 1.02)',
