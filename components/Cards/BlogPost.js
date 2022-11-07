@@ -6,6 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import { useTranslation } from 'next-i18next';
 import { useText } from '~/theme/common';
 import useStyles from './cards-style';
+import Link from 'next/dist/client/link';
 
 function BlogPost(props) {
   const classes = useStyles();
@@ -25,17 +26,18 @@ function BlogPost(props) {
       <div className={classes.textNoMargin}>
         <Typography variant="h5" className={text.subtitle2}>{title}</Typography>
       </div>
-      <Button
-        href={link}
-        color="primary"
-        className={classes.readmore}
-        classes={{
-          root: classes.rootReadmore,
-          text: classes.textReadmore
-        }}
-      >
-        {t('view_listing')}
-      </Button>
+      <Link href={link}> 
+        <Button
+          color="primary"
+          className={classes.readmore}
+          classes={{
+            root: classes.rootReadmore,
+            text: classes.textReadmore
+          }}
+        >
+          {t('view_listing')}
+        </Button>
+      </Link>
     </Paper>
   );
 }

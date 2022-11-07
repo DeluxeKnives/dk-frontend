@@ -95,7 +95,7 @@ function Available() {
           img: nft.media,
           title: nft.title,
           price,
-          link: `/item/${nft.metadata_id}`
+          link: `../item/${nft.metadata_id}`
         });
       }
     } catch (e) {

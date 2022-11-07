@@ -35,14 +35,14 @@ const HeadComponent = () => (
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <link href="https://unpkg.com/ionicons@3.0.0/dist/css/ionicons.min.css" rel="stylesheet" />
     {/*  Facebook */}
-    <meta property="author" content="iluxi" />
-    <meta property="og:site_name" content="iluxi.ux-maestro.com" />
+    <meta property="author" content="Deluxe Knives" />
+    <meta property="og:site_name" content="digitaltwin.deluxeknives.com" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     {/*  Twitter */}
-    <meta property="twitter:site" content="iluxi.ux-maestro.com" />
-    <meta property="twitter:domain" content="iluxi.ux-maestro.com" />
-    <meta property="twitter:creator" content="iluxi" />
+    <meta property="twitter:site" content="digitaltwin.deluxeknives.com" />
+    <meta property="twitter:domain" content="digitaltwin.deluxeknives.com" />
+    <meta property="twitter:creator" content="Deluxe Knives" />
     <meta property="twitter:card" content="summary" />
     <meta property="twitter:image:src" content="/images/unisex-logo.png" />
     <meta property="og:url" content={brand.unisex.url} />
