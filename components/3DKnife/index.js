@@ -1,6 +1,7 @@
-import Spline from '@splinetool/react-spline';
+
+// import Spline from '@splinetool/react-spline';
 import { makeStyles } from '@material-ui/core';
-import Hidden from '@material-ui/core/Hidden';
+// import Hidden from '@material-ui/core/Hidden';
 
 const useStyles = makeStyles(theme => ({
   knife: {
@@ -36,9 +37,12 @@ const useStyles = makeStyles(theme => ({
 export default function App() {
   const classes = useStyles();
 
-  return (
-    <Hidden xsDown>
-      <Spline className={classes.knife} scene="https://prod.spline.design/KjTUr0Xoj48vIbON/scene.splinecode" />
-    </Hidden>
-  );
+  // return (
+  //   <Hidden xsDown>
+  //     <Spline className={classes.knife} scene="https://prod.spline.design/KjTUr0Xoj48vIbON/scene.splinecode" />
+  //   </Hidden>
+  // );
+  
+  return <div />;
+
 }
