@@ -19,7 +19,7 @@ import {
 } from '@apollo/client';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
-import WebSocket from 'isomorphic-ws';
+// import WebSocket from 'isomorphic-ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { NearWalletProvider } from '../lib/NearWalletProvider';
 import appTheme from '../theme/appTheme';
@@ -47,7 +47,7 @@ const httpLink = new HttpLink({
 const wsLink = typeof window === 'undefined' ? null : new GraphQLWsLink(createClient({
   url: `wss://interop-${process.env.NEAR_NETWORK}.hasura.app/v1/graphql`,
   options: { reconnect: true },
-  webSocketImpl: WebSocket
+  //webSocketImpl: WebSocket
 }));
 const link = typeof window !== 'undefined' && wsLink != null
     ? split(
