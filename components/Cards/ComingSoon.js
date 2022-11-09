@@ -27,7 +27,7 @@ function BlogPost(props) {
           <Typography variant="h5" className={text.title2}>
             COMING SOON
           </Typography>
-          <Typography variant="p" className={text.paragraph}>
+          <Typography variant="text" className={text.paragraph}>
             New knives every month.
           </Typography>
         </div>
