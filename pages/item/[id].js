@@ -355,7 +355,9 @@ function ThingPage({ nftMetadata }) {
                 <Button variant="contained" color="primary" onClick={openRedeemModal} disabled={userOwned?.length <= 0}>
                   Redeem
                 </Button>
-                <Button variant="outlined" component="a" href={`https://${process.env.NEAR_NETWORK}.mintbase.io/meta/${pid}`}>
+                <Button 
+                  variant="outlined" component="a" 
+                  href={`https://${process.env.NEAR_NETWORK == 'mainnet' ? '' : (process.env.NEAR_NETWORK + '.')}mintbase.io/meta/${pid}`}>
                   Manage
                 </Button>
                 <Button variant="outlined" component="a" href={nftMetadata?.link} target="_blank">
