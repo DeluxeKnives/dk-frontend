@@ -101,7 +101,7 @@ export const getStaticPaths = async () => {
         query:
           `query { 
             mb_views_nft_metadata_unburned(
-               where: { nft_contract_id: { _eq: "shopifyteststore.mintspace2.testnet" } }
+               where: { nft_contract_id: { _eq: "${process.env.MINTBASE_SHOP_ID}" } }
                offset: 0
                distinct_on: metadata_id
             )

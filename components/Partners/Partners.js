@@ -19,7 +19,7 @@ function Partners() {
       <Title dark>
         {t('home.partners')}
       </Title>
-      <Grid container center className={classes.topMargin} alignItems="center" justifyContent="center">
+      <Grid container className={classes.topMargin} alignItems="center" justifyContent="center">
         <Grid item>
           <div className={classes.text}>
             <ScrollAnimation

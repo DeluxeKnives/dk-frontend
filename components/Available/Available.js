@@ -71,7 +71,7 @@ function Available() {
   const { loading, error, data } = useQuery(STORE_NFTS, {
     variables: {
       condition: {
-        nft_contract_id: { _eq: 'shopifyteststore.mintspace2.testnet' }
+        nft_contract_id: { _eq: process.env.MINTBASE_SHOP_ID }
       }
     }
   });
