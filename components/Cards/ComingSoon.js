@@ -7,7 +7,7 @@ import { useTranslation } from 'next-i18next';
 import { useText } from '~/theme/common';
 import useStyles from './cards-style';
 
-function BlogPost(props) {
+function ComingSoon(props) {
   const classes = useStyles();
   const text = useText();
   const {
@@ -27,7 +27,7 @@ function BlogPost(props) {
           <Typography variant="h5" className={text.title2}>
             COMING SOON
           </Typography>
-          <Typography variant="p" className={text.paragraph}>
+          <Typography className={text.paragraph}>
             New knives every month.
           </Typography>
         </div>
@@ -36,4 +36,4 @@ function BlogPost(props) {
   );
 }
 
-export default BlogPost;
+export default ComingSoon;
