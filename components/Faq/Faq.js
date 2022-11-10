@@ -22,7 +22,7 @@ const faqData = [
   },
   {
     q: 'How do I receive the knife after purchasing my NFT?',
-    a: 'When you purchase an NFT that has not been redeemed yet, you will be able to redeem it. Our backend will generate you a discount code for you to use on our Shopify store to receive a free knife (shipping applies).'
+    a: 'When you purchase an NFT that has not been redeemed yet, you will be able to redeem it. Our backend will generate you a discount code for you to use on our Shopify store to receive a free knife (shipping is FREE for most countries).'
   },
   {
     q: 'Is the NFT burnt after redeeming it?',
@@ -35,6 +35,10 @@ const faqData = [
   {
     q: 'Why NFTs?',
     a: 'Selling knives are cool, but we want to sell an experience with these knives too. NFTs allow us to introduce digital twins for our product, opening the door for potential collaboration with the rest of Web3. '
+  },
+  {
+    q: 'Is the price higher than the traditional store?',
+    a: 'Prices aim to be about the same as the price on the main site. Prices in NEAR may be updated over time to better reflect current market conditions.'
   },
 ];
 
