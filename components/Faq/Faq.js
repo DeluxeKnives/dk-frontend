@@ -18,7 +18,7 @@ import useStyles from './faq-style';
 const faqData = [
   {
     q: 'What do you mean by a real knife?',
-    a: 'We mean that they are real, as in you can hold them in your hand. Chop carrots if you would like. '
+    a: 'We mean that they are real, shipped to your door. As in you can hold them in your hand. Chop carrots if you would like.'
   },
   {
     q: 'How do I receive the knife after purchasing my NFT?',
@@ -26,7 +26,7 @@ const faqData = [
   },
   {
     q: 'Is the NFT burnt after redeeming it?',
-    a: 'No. You can still transfer it and access any metaverse components that come with it. It cannot be used for another discount code. '
+    a: 'No. You can still transfer it and access any metaverse components that come with it. It cannot be used for another discount code.'
   },
   {
     q: 'What about copyright?',
