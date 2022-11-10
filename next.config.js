@@ -37,7 +37,12 @@ module.exports = withImages({
     NEXT_PUBLIC_DEVELOPER_KEY: "0da4bb5e-3666-467a-a98a-f4adfdf81ae6",
     MINTBASE_MARKET_ADDRESS: "simple.market.mintbase1.near",
     MINTBASE_SHOP_ID: "deluxeknives.mintbase1.near",
-    BACKEND_URL: "http://52.90.177.47"
+    BACKEND_URL: "http://52.90.177.47",
+    // NEAR_NETWORK: "testnet",
+    // NEXT_PUBLIC_DEVELOPER_KEY: "0da4bb5e-3666-467a-a98a-f4adfdf81ae6",
+    // MINTBASE_MARKET_ADDRESS: "market-v2-beta.mintspace2.testnet",
+    // MINTBASE_SHOP_ID: "shopifyteststore.mintspace2.testnet",
+    // BACKEND_URL: "http://localhost:8080"
   },
   eslint: {
     // Warning: This allows production builds to successfully complete even if
