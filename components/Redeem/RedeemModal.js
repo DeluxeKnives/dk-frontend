@@ -37,7 +37,9 @@ function RedeemModal(props) {
                     height: 'fit-content',
                     borderRadius: '20px',
                     border: 'none',
-                    boxShadow: '0px 1px 10px 3px #ef5923, 0px 1px 1px 0px #ef5923, 0px 2px 1px -1px #ef5923'
+                    boxShadow: '0px 1px 10px 3px #ef5923, 0px 1px 1px 0px #ef5923, 0px 2px 1px -1px #ef5923',
+                    maxHeight: '500px',
+                    overflow: 'scroll'
                 }
             }}
       />
