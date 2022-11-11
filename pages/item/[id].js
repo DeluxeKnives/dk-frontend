@@ -133,7 +133,7 @@ function ThingPage({ nftMetadata }) {
     variables: {
       list_cond: {
         metadata_id: { _eq: pid },
-        listed_by: { _eq: `deluxeshop.${process.env.NEAR_NETWORK}` },
+        listed_by: { _eq: `deluxeshop.${process.env.NEAR_NETWORK == 'mainnet' ? 'near' : process.env.NEAR_NETWORK}` },
         kind: { _eq: 'simple' }
       }
     }
