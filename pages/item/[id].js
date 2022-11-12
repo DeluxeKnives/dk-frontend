@@ -247,7 +247,7 @@ function ThingPage({ nftMetadata }) {
 
     fetch(`${process.env.BACKEND_URL}/redemption/checkBatch/${queryStr}`, {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' }
+      headers: { } //'Content-Type': 'application/json' }
     })
       .then(res => res.json())
       .then(res => { setRedemptionStatus(res); });
