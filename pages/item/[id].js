@@ -12,6 +12,7 @@ import { UnstyledConnectButton } from '../../components/ConnectButton';
 import RedeemModal, { RedemptionLine } from '../../components/Redeem/RedeemModal';
 import { useText } from '~/theme/common';
 import Title from '../../components/Title';
+import Head from 'next/head';
 
 const NFT_LISTINGS_SUBSCRIPTION = gql`
 subscription GetNFTListings($list_cond: mb_views_active_listings_bool_exp) {
@@ -75,7 +76,7 @@ export const getStaticProps = async (context) => {
   const rawmetaData = await (mintbaseRes.json());
 
   const nft = rawmetaData?.data?.mb_views_nft_tokens?.[0];
-  if (nft == null) return { props: { nftMetadata: {} }};
+  if (nft == null) return { props: { nftMetadata: {} } };
 
   const fnft = {
     img: nft.media,
@@ -247,7 +248,7 @@ function ThingPage({ nftMetadata }) {
 
     fetch(`${process.env.BACKEND_URL}/redemption/checkBatch/${queryStr}`, {
       method: 'GET',
-      headers: { } //'Content-Type': 'application/json' }
+      headers: {} //'Content-Type': 'application/json' }
     })
       .then(res => res.json())
       .then(res => { setRedemptionStatus(res); });
@@ -284,6 +285,11 @@ function ThingPage({ nftMetadata }) {
 
   return (
     <React.Fragment>
+      <Head>
+        <title>
+          {nftMetadata?.title ?? "Deluxe Knives"}
+        </title>
+      </Head>
       <RedeemModal isOpen={redeemModalIsOpen} contentLabel="Redeem Modal">
         <Title>Redeem for Code</Title>
         {
@@ -355,8 +361,8 @@ function ThingPage({ nftMetadata }) {
                 <Button variant="contained" color="primary" onClick={openRedeemModal} disabled={userOwned?.length <= 0}>
                   Redeem
                 </Button>
-                <Button 
-                  variant="outlined" component="a" 
+                <Button
+                  variant="outlined" component="a"
                   href={`https://${process.env.NEAR_NETWORK == 'mainnet' ? '' : (process.env.NEAR_NETWORK + '.')}mintbase.io/meta/${pid}`}>
                   Manage
                 </Button>
