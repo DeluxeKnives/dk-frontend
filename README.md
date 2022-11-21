@@ -1,6 +1,4 @@
-# `unisex-theme`
-
-> TODO: description
+# Deluxe Knives Frontend
 
 ## Installation
 
